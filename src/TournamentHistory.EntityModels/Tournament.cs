@@ -9,9 +9,14 @@ namespace TournamentHistory.EntityModels
     public class Tournament
     {
         /// <summary>
-        /// Gets or sets the tournament Id. This is given by tennis.com.au
+        /// Gets or sets the tournament Id.
         /// </summary>
         public Guid TournamentId { get; set; }
+
+        /// <summary>
+        /// Gets or sets the tournament Key. This is given by tennis.com.au.
+        /// </summary>
+        public Guid TournamentKey { get; set; }
 
         /// <summary>
         /// Gets or sets the title of the tournament.

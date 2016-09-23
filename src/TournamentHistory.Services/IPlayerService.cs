@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 using TournamentHistory.Models;
 
@@ -11,10 +12,23 @@ namespace TournamentHistory.Services
     public interface IPlayerService : IDisposable
     {
         /// <summary>
+        /// Gets the list of players.
+        /// </summary>
+        /// <returns>Returns the list of players.</returns>
+        Task<List<PlayerModel>> GetPlayersAsync();
+
+        /// <summary>
+        /// Gets the player details.
+        /// </summary>
+        /// <param name="memberId">Member Id at tennis.com.au.</param>
+        /// <returns>Returns the player details.</returns>
+        Task<PlayerModel> GetPlayerAsync(long memberId);
+
+        /// <summary>
         /// Gets the list of <see cref="TournamentFeedModel"/> instances from RSS feed.
         /// </summary>
-        /// <param name="playerId">Player Id.</param>
+        /// <param name="memberId">Member Id at tennis.com.au.</param>
         /// <returns>Returns the list of <see cref="TournamentFeedModel"/> instances.</returns>
-        List<TournamentFeedModel> GetTournamentsFromFeed(long playerId);
+        Task<List<TournamentFeedModel>> GetTournamentsFromFeedAsync(long memberId);
     }
 }

@@ -1,8 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.ServiceModel.Syndication;
-using System.Xml;
+using System.Threading.Tasks;
 
 using TournamentHistory.Mappers;
 using TournamentHistory.Models;
@@ -14,8 +13,7 @@ namespace TournamentHistory.Services
     /// </summary>
     public class PlayerService : IPlayerService
     {
-        private const string FeedUrl = "http://tournaments.tennis.com.au/feed/player.aspx?memberid={0}";
-
+        private readonly ISyndicationFeedWrapper _syndication;
         private readonly IMapper _mapper;
 
         private bool _disposed;
@@ -23,10 +21,19 @@ namespace TournamentHistory.Services
         /// <summary>
         /// Initialises a new instance of the <see cref="PlayerService"/> class.
         /// </summary>
+        /// <param name="syndication"><see cref="IMapper"/> instance.</param>
         /// <param name="mapper"><see cref="IMapper"/> instance.</param>
+        /// <exception cref="ArgumentNullException"><paramref name="syndication"/> is <see langword="null" />.</exception>
         /// <exception cref="ArgumentNullException"><paramref name="mapper"/> is <see langword="null" />.</exception>
-        public PlayerService(IMapper mapper)
+        public PlayerService(ISyndicationFeedWrapper syndication, IMapper mapper)
         {
+            if (syndication == null)
+            {
+                throw new ArgumentNullException(nameof(syndication));
+            }
+
+            this._syndication = syndication;
+
             if (mapper == null)
             {
                 throw new ArgumentNullException(nameof(mapper));
@@ -36,18 +43,32 @@ namespace TournamentHistory.Services
         }
 
         /// <summary>
+        /// Gets the list of players.
+        /// </summary>
+        /// <returns>Returns the list of players.</returns>
+        public async Task<List<PlayerModel>> GetPlayersAsync()
+        {
+            throw new NotImplementedException();
+        }
+
+        /// <summary>
+        /// Gets the player details.
+        /// </summary>
+        /// <param name="memberId">Member Id at tennis.com.au.</param>
+        /// <returns>Returns the player details.</returns>
+        public async Task<PlayerModel> GetPlayerAsync(long memberId)
+        {
+            throw new NotImplementedException();
+        }
+
+        /// <summary>
         /// Gets the list of <see cref="TournamentFeedModel"/> instances from RSS feed.
         /// </summary>
-        /// <param name="playerId">Player Id.</param>
+        /// <param name="memberId">Member Id at tennis.com.au.</param>
         /// <returns>Returns the list of <see cref="TournamentFeedModel"/> instances.</returns>
-        public List<TournamentFeedModel> GetTournamentsFromFeed(long playerId)
+        public async Task<List<TournamentFeedModel>> GetTournamentsFromFeedAsync(long memberId)
         {
-            SyndicationFeed feed;
-            using (var reader = XmlReader.Create(string.Format(FeedUrl, playerId)))
-            {
-                feed = SyndicationFeed.Load(reader);
-            }
-
+            var feed = await this._syndication.LoadAsync(memberId).ConfigureAwait(false);
             var items = feed.Items.ToList();
             var tournaments = this._mapper.Map<List<TournamentFeedModel>>(items);
 

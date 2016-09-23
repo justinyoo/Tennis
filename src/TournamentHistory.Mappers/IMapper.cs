@@ -1,9 +1,11 @@
-﻿namespace TournamentHistory.Mappers
+﻿using System;
+
+namespace TournamentHistory.Mappers
 {
     /// <summary>
     /// This provides interfaces to the mapper classes.
     /// </summary>
-    public interface IMapper
+    public interface IMapper : IDisposable
     {
         /// <summary>
         /// Converts the source object to the destination object.

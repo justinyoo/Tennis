@@ -1,4 +1,6 @@
-﻿using AutoMapper;
+﻿using System;
+
+using AutoMapper;
 
 namespace TournamentHistory.Mappers
 {
@@ -9,6 +11,8 @@ namespace TournamentHistory.Mappers
     {
         private readonly MapperConfiguration _configuration;
         private readonly AutoMapper.IMapper _mapper;
+
+        private bool _disposed;
 
         /// <summary>
         /// Initialises a new instance of the <see cref="BaseMapper"/> class.
@@ -47,6 +51,36 @@ namespace TournamentHistory.Mappers
         {
             var mapper = this._configuration.CreateMapper();
             return mapper;
+        }
+
+        /// <summary>
+        /// Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.
+        /// </summary>
+        public void Dispose()
+        {
+            this.Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+
+        /// <summary>
+        /// Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.
+        /// </summary>
+        /// <param name="disposing">Value that specifies whether to be disposing manages resources or not.</param>
+        protected virtual void Dispose(bool disposing)
+        {
+            if (this._disposed)
+            {
+                return;
+            }
+
+            if (disposing)
+            {
+                // Dispose managed/disposable resources.
+            }
+
+            // Dispose unmanaged resources.
+
+            this._disposed = true;
         }
     }
 }

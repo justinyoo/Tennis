@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading.Tasks;
 
 using Microsoft.AspNetCore.Mvc;
 
@@ -23,12 +24,13 @@ namespace TournamentHistory.WebApp.Controllers
 
         [Route("{id}")]
         [HttpGet]
-        public IActionResult GetPlayerFeed(long id)
+        public async Task<IActionResult> GetPlayerFeed(long id)
         {
-            var mapper = new FeedToTournamentFeedModelMapper();
-            using (var service = new PlayerService(mapper))
+            using (var syndication = new SyndicationFeedWrapper())
+            using (var mapper = new FeedToTournamentFeedModelMapper())
+            using (var service = new PlayerService(syndication, mapper))
             {
-                var items = service.GetTournamentsFromFeed(Convert.ToInt64(id));
+                var items = await service.GetTournamentsFromFeedAsync(Convert.ToInt64(id)).ConfigureAwait(false);
 
                 return new JsonResult(items);
             }
