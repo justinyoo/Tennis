@@ -1,6 +1,25 @@
 {
   "version": 2,
   "exports": {
+    "TournamentHistory.EntityModels/1.0.0": {
+      "type": "project",
+      "framework": ".NETFramework,Version=v4.6",
+      "compile": {
+        "bin/Debug/TournamentHistory.EntityModels.dll": {}
+      },
+      "runtime": {
+        "../../packages/EntityFramework.6.1.3/lib/net45/EntityFramework.SqlServer.dll": {},
+        "../../packages/EntityFramework.6.1.3/lib/net45/EntityFramework.dll": {},
+        "bin/Debug/TournamentHistory.EntityModels.dll": {}
+      },
+      "contentFiles": {
+        "bin/Debug/TournamentHistory.EntityModels.pdb": {
+          "buildAction": "None",
+          "codeLanguage": "any",
+          "copyToOutput": true
+        }
+      }
+    },
     "TournamentHistory.Models/1.0.0": {
       "type": "project",
       "framework": ".NETFramework,Version=v4.6",
@@ -25,6 +44,8 @@
         "bin/Debug/TournamentHistory.Services.dll": {}
       },
       "runtime": {
+        "../../packages/EntityFramework.6.1.3/lib/net45/EntityFramework.SqlServer.dll": {},
+        "../../packages/EntityFramework.6.1.3/lib/net45/EntityFramework.dll": {},
         "bin/Debug/TournamentHistory.Services.dll": {}
       },
       "contentFiles": {

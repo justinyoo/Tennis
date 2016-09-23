@@ -26,6 +26,15 @@ namespace TournamentHistory.EntityModels
         }
 
         /// <summary>
+        /// Initialises a new instance of the <see cref="TournamentDbContext"/> class.
+        /// </summary>
+        /// <param name="connectionString">DB connection string.</param>
+        public TournamentDbContext(string connectionString)
+            : base(connectionString)
+        {
+        }
+
+        /// <summary>
         /// Gets or sets the set of <see cref="Player"/> instances.
         /// </summary>
         public DbSet<Player> Players { get; set; }

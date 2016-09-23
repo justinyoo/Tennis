@@ -9,6 +9,9 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.IdentityModel.Protocols.OpenIdConnect;
+using TournamentHistory.EntityModels;
+using TournamentHistory.Mappers;
+using TournamentHistory.Services;
 
 namespace Tennis.WebApp
 {
@@ -38,8 +41,13 @@ namespace Tennis.WebApp
             // Add framework services.
             services.AddMvc();
 
-            services.AddAuthentication(
-                SharedOptions => SharedOptions.SignInScheme = CookieAuthenticationDefaults.AuthenticationScheme);
+            services.AddAuthentication(SharedOptions => SharedOptions.SignInScheme = CookieAuthenticationDefaults.AuthenticationScheme);
+
+            services.AddScoped<ITournamentDbContext, TournamentDbContext>(_ => new TournamentDbContext(Configuration.GetConnectionString("TournamentDbContext")));
+
+            services.AddTransient<IPlayerService, PlayerService>();
+            services.AddTransient<ISyndicationFeedWrapper, SyndicationFeedWrapper>();
+            services.AddTransient<IMapper, FeedToTournamentFeedModelMapper>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

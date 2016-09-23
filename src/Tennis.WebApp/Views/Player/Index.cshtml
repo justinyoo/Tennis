@@ -1,0 +1,15 @@
+﻿@model List<TournamentHistory.Models.PlayerModel>
+
+<div class="row">
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+        <ul>
+            @foreach (var player in Model)
+            {
+                <li><a href="/players/@player.MemberId">$"{@player.FirstName} {@player.LastName}"</a></li>
+            }
+            <li>
+                <a href="/players/add">Add New Player</a>
+            </li>
+        </ul>
+    </div>
+</div>

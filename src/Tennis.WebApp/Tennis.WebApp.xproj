@@ -21,6 +21,7 @@
     <DnxInvisibleContent Include=".bowerrc" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\TournamentHistory.EntityModels\TournamentHistory.EntityModels.csproj" />
     <ProjectReference Include="..\TournamentHistory.Models\TournamentHistory.Models.csproj" />
     <ProjectReference Include="..\TournamentHistory.Services\TournamentHistory.Services.csproj" />
   </ItemGroup>

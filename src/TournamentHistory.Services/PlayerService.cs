@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
+using TournamentHistory.EntityModels;
 using TournamentHistory.Mappers;
 using TournamentHistory.Models;
 
@@ -13,6 +14,7 @@ namespace TournamentHistory.Services
     /// </summary>
     public class PlayerService : IPlayerService
     {
+        private readonly ITournamentDbContext _context;
         private readonly ISyndicationFeedWrapper _syndication;
         private readonly IMapper _mapper;
 
@@ -21,12 +23,20 @@ namespace TournamentHistory.Services
         /// <summary>
         /// Initialises a new instance of the <see cref="PlayerService"/> class.
         /// </summary>
+        /// <param name="context"><see cref="ITournamentDbContext"/> instance.</param>
         /// <param name="syndication"><see cref="IMapper"/> instance.</param>
         /// <param name="mapper"><see cref="IMapper"/> instance.</param>
         /// <exception cref="ArgumentNullException"><paramref name="syndication"/> is <see langword="null" />.</exception>
         /// <exception cref="ArgumentNullException"><paramref name="mapper"/> is <see langword="null" />.</exception>
-        public PlayerService(ISyndicationFeedWrapper syndication, IMapper mapper)
+        public PlayerService(ITournamentDbContext context, ISyndicationFeedWrapper syndication, IMapper mapper)
         {
+            if (context == null)
+            {
+                throw new ArgumentNullException(nameof(context));
+            }
+
+            this._context = context;
+
             if (syndication == null)
             {
                 throw new ArgumentNullException(nameof(syndication));
@@ -48,7 +58,23 @@ namespace TournamentHistory.Services
         /// <returns>Returns the list of players.</returns>
         public async Task<List<PlayerModel>> GetPlayersAsync()
         {
-            throw new NotImplementedException();
+            Func<List<PlayerModel>> func =
+                () =>
+                    this._context.Players.Select(
+                                                 p =>
+                                                     new PlayerModel()
+                                                     {
+                                                         PlayerId = p.PlayerId,
+                                                         MemberId = p.MemberId,
+                                                         ProfileId = p.ProfileId,
+                                                         RankingId = p.RankingId,
+                                                         FirstName = p.FirstName,
+                                                         MiddleNames = p.MiddleNames,
+                                                         LastName = p.LastName
+                                                     }).ToList();
+            var players = await Task.Factory.StartNew(func).ConfigureAwait(false);
+
+            return players;
         }
 
         /// <summary>
@@ -58,7 +84,25 @@ namespace TournamentHistory.Services
         /// <returns>Returns the player details.</returns>
         public async Task<PlayerModel> GetPlayerAsync(long memberId)
         {
-            throw new NotImplementedException();
+            Func<PlayerModel> func =
+                () =>
+                    this._context.Players.Where(p => p.MemberId == memberId)
+                        .Select(
+                                p =>
+                                    new PlayerModel()
+                                    {
+                                        PlayerId = p.PlayerId,
+                                        MemberId = p.MemberId,
+                                        ProfileId = p.ProfileId,
+                                        RankingId = p.RankingId,
+                                        FirstName = p.FirstName,
+                                        MiddleNames = p.MiddleNames,
+                                        LastName = p.LastName
+                                    })
+                        .SingleOrDefault();
+            var players = await Task.Factory.StartNew(func).ConfigureAwait(false);
+
+            return players;
         }
 
         /// <summary>

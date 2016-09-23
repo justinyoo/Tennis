@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Threading.Tasks;
 
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 using TournamentHistory.Models;
@@ -13,6 +14,7 @@ namespace Tennis.WebApp.Controllers
     /// <summary>
     /// This represents the controller entity for players.
     /// </summary>
+    [Authorize]
     [Route("players")]
     public class PlayerController : Controller
     {
@@ -43,7 +45,7 @@ namespace Tennis.WebApp.Controllers
         {
             var players = await this._service.GetPlayersAsync().ConfigureAwait(false);
 
-            return View(players);
+            return View("Index", players);
         }
 
         /// <summary>
@@ -80,14 +82,14 @@ namespace Tennis.WebApp.Controllers
         {
             var model = new PlayerModel();
 
-            return View(model);
+            return View("AddPlayer", model);
         }
 
         [Route("add")]
         [HttpPost]
         public async Task<IActionResult> AddPlayer(PlayerModel model)
         {
-            return View(model);
+            return View("AddPlayer", model);
         }
     }
 }
