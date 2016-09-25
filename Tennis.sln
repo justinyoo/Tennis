@@ -24,6 +24,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Competition", "Competition"
 EndProject
 Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "Tennis.WebApp", "src\Tennis.WebApp\Tennis.WebApp.xproj", "{CFD600CE-B8B7-4E32-A500-C54E3DE07021}"
 EndProject
+Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "TournamentHistory.ViewModels", "src\TournamentHistory.ViewModels\TournamentHistory.ViewModels.xproj", "{B6B11313-DFB7-4757-B166-1B81CFCA3075}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -50,6 +52,10 @@ Global
 		{CFD600CE-B8B7-4E32-A500-C54E3DE07021}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{CFD600CE-B8B7-4E32-A500-C54E3DE07021}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{CFD600CE-B8B7-4E32-A500-C54E3DE07021}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B6B11313-DFB7-4757-B166-1B81CFCA3075}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B6B11313-DFB7-4757-B166-1B81CFCA3075}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B6B11313-DFB7-4757-B166-1B81CFCA3075}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B6B11313-DFB7-4757-B166-1B81CFCA3075}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -62,5 +68,6 @@ Global
 		{56913805-7412-4C77-9581-F7E58989EF08} = {B1C14642-C4CC-4E3F-B1E3-0FEDC165E92E}
 		{338E79E0-02BC-4592-A7B9-39E6C41989F8} = {B1C14642-C4CC-4E3F-B1E3-0FEDC165E92E}
 		{CFD600CE-B8B7-4E32-A500-C54E3DE07021} = {B1C14642-C4CC-4E3F-B1E3-0FEDC165E92E}
+		{B6B11313-DFB7-4757-B166-1B81CFCA3075} = {56913805-7412-4C77-9581-F7E58989EF08}
 	EndGlobalSection
 EndGlobal

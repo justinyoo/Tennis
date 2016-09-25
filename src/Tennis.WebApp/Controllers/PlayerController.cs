@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 
 using TournamentHistory.Models;
 using TournamentHistory.Services;
+using TournamentHistory.ViewModels;
 
 // For more information on enabling MVC for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -44,8 +45,9 @@ namespace Tennis.WebApp.Controllers
         public async Task<IActionResult> GetPlayers()
         {
             var players = await this._service.GetPlayersAsync().ConfigureAwait(false);
+            var vm = new PlayerCollectionViewModel() { Players = players };
 
-            return View("Index", players);
+            return View("Index", vm);
         }
 
         /// <summary>
@@ -76,13 +78,22 @@ namespace Tennis.WebApp.Controllers
             return View(tournaments);
         }
 
+        //[Route("add")]
+        //[HttpGet]
+        //public async Task<IActionResult> AddPlayer()
+        //{
+        //    var model = new PlayerModel();
+
+        //    return View("AddPlayer", model);
+        //}
+
         [Route("add")]
         [HttpGet]
-        public async Task<IActionResult> AddPlayer()
+        public async Task<IActionResult> GetTournamentsFeed([FromQuery] [Bind(Prefix = "TournamentFeedUrl")] string feed)
         {
-            var model = new PlayerModel();
-
-            return View("AddPlayer", model);
+            var tournament = await this._service.GetTournamentsFromFeedAsync(feed).ConfigureAwait(false);
+            var vm = new TournamentFeedViewModel() { Feed = tournament };
+            return View("TournamentFeed", vm);
         }
 
         [Route("add")]

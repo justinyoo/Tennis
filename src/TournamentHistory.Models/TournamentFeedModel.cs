@@ -1,4 +1,4 @@
-﻿using System;
+﻿using System.Collections.Generic;
 
 namespace TournamentHistory.Models
 {
@@ -8,28 +8,23 @@ namespace TournamentHistory.Models
     public class TournamentFeedModel
     {
         /// <summary>
-        /// Gets or sets the feed item Id for the tournament.
-        /// </summary>
-        public string ItemId { get; set; }
-
-        /// <summary>
-        /// Gets or sets the title of the tournament.
+        /// Gets or sets the title of the tournament feed.
         /// </summary>
         public string Title { get; set; }
 
         /// <summary>
-        /// Gets or sets the summary of the tournament.
+        /// Gets or sets the description of the tournament feed.
         /// </summary>
-        public string Summary { get; set; }
+        public string Description { get; set; }
 
         /// <summary>
-        /// Gets or sets the URL for the tournament.
+        /// Gets or sets the URL for the tournament feed.
         /// </summary>
         public string LinkUrl { get; set; }
 
         /// <summary>
-        /// Gets or sets the date when the feed was published.
+        /// Gets or sets the list of tournament feed items.
         /// </summary>
-        public DateTimeOffset DatePublished { get; set; }
+        public List<TournamentFeedItemModel> Items { get; set; }
     }
 }

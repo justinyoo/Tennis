@@ -1,4 +1,5 @@
-﻿using System.ServiceModel.Syndication;
+﻿using System;
+using System.ServiceModel.Syndication;
 using System.Threading.Tasks;
 using System.Xml;
 
@@ -16,11 +17,15 @@ namespace TournamentHistory.Services
         /// <summary>
         /// Loads the feed for the member Id of tennis.com.au
         /// </summary>
-        /// <param name="memberId">Member Id of tennis.com.au</param>
+        /// <param name="url">Feed URL at tennis.com.au.</param>
         /// <returns>Returns the <see cref="SyndicationFeed"/> instance.</returns>
-        public SyndicationFeed Load(long memberId)
+        /// <exception cref="ArgumentNullException"><paramref name="url"/> is <see langword="null" />.</exception>
+        public SyndicationFeed Load(string url)
         {
-            var url = string.Format(FeedUrl, memberId);
+            if (string.IsNullOrWhiteSpace(url))
+            {
+                throw new ArgumentNullException(nameof(url));
+            }
 
             using (var reader = XmlReader.Create(url))
             {
@@ -35,8 +40,51 @@ namespace TournamentHistory.Services
         /// </summary>
         /// <param name="memberId">Member Id of tennis.com.au</param>
         /// <returns>Returns the <see cref="SyndicationFeed"/> instance.</returns>
+        /// <exception cref="ArgumentOutOfRangeException">MemberId is less than or equal to zero.</exception>
+        public SyndicationFeed Load(long memberId)
+        {
+            if (memberId <= 0)
+            {
+                throw new ArgumentOutOfRangeException();
+            }
+
+            var url = string.Format(FeedUrl, memberId);
+            var feed = this.Load(url);
+
+            return feed;
+        }
+
+        /// <summary>
+        /// Loads the feed for the member Id of tennis.com.au
+        /// </summary>
+        /// <param name="url">Feed URL at tennis.com.au.</param>
+        /// <returns>Returns the <see cref="SyndicationFeed"/> instance.</returns>
+        /// <exception cref="ArgumentNullException"><paramref name="url"/> is <see langword="null" />.</exception>
+        public async Task<SyndicationFeed> LoadAsync(string url)
+        {
+            if (string.IsNullOrWhiteSpace(url))
+            {
+                throw new ArgumentNullException(nameof(url));
+            }
+
+            var feed = await Task.Factory.StartNew(() => this.Load(url)).ConfigureAwait(false);
+
+            return feed;
+        }
+
+        /// <summary>
+        /// Loads the feed for the member Id of tennis.com.au
+        /// </summary>
+        /// <param name="memberId">Member Id of tennis.com.au</param>
+        /// <returns>Returns the <see cref="SyndicationFeed"/> instance.</returns>
+        /// <exception cref="ArgumentOutOfRangeException">MemberId is less than or equal to zero.</exception>
         public async Task<SyndicationFeed> LoadAsync(long memberId)
         {
+            if (memberId <= 0)
+            {
+                throw new ArgumentOutOfRangeException();
+            }
+
             var feed = await Task.Factory.StartNew(() => this.Load(memberId)).ConfigureAwait(false);
 
             return feed;

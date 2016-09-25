@@ -1,0 +1,19 @@
+﻿@model TournamentHistory.ViewModels.TournamentFeedViewModel
+
+@{
+    var feed = Model.Feed;
+}
+
+
+<div class="row">
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+        <h1>@feed.Title</h1>
+
+        <ul>
+            @foreach (var item in feed.Items)
+            {
+                <li><a href="@item.LinkUrl" target="_blank">@item.Title</a></li>
+            }
+        </ul>
+    </div>
+</div>

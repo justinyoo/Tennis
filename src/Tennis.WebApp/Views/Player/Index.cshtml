@@ -1,9 +1,9 @@
-﻿@model List<TournamentHistory.Models.PlayerModel>
+﻿@model TournamentHistory.ViewModels.PlayerCollectionViewModel
 
 <div class="row">
     <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
         <ul>
-            @foreach (var player in Model)
+            @foreach (var player in Model.Players)
             {
                 <li><a href="/players/@player.MemberId">$"{@player.FirstName} {@player.LastName}"</a></li>
             }
@@ -11,5 +11,17 @@
                 <a href="/players/add">Add New Player</a>
             </li>
         </ul>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+        <form class="form-inline" asp-controller="Player" asp-action="GetTournamentsFeed" method="get">
+            <div class="form-group">
+                <label asp-for="TournamentFeedUrl"></label>
+                <input asp-for="TournamentFeedUrl" type="text" class="form-control" placeholder="Feed URL">
+            </div>
+            <button type="submit" class="btn btn-default">Add Player Feed</button>
+        </form>
     </div>
 </div>

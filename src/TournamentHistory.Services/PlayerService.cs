@@ -108,15 +108,28 @@ namespace TournamentHistory.Services
         /// <summary>
         /// Gets the list of <see cref="TournamentFeedModel"/> instances from RSS feed.
         /// </summary>
+        /// <param name="feedUrl">Feed URL at tennis.com.au.</param>
+        /// <returns>Returns the list of <see cref="TournamentFeedModel"/> instances.</returns>
+        public async Task<TournamentFeedModel> GetTournamentsFromFeedAsync(string feedUrl)
+        {
+            var feed = await this._syndication.LoadAsync(feedUrl).ConfigureAwait(false);
+            var tournament = this._mapper.Map<TournamentFeedModel>(feed);
+
+            return tournament;
+        }
+
+        /// <summary>
+        /// Gets the list of <see cref="TournamentFeedModel"/> instances from RSS feed.
+        /// </summary>
         /// <param name="memberId">Member Id at tennis.com.au.</param>
         /// <returns>Returns the list of <see cref="TournamentFeedModel"/> instances.</returns>
-        public async Task<List<TournamentFeedModel>> GetTournamentsFromFeedAsync(long memberId)
+        public async Task<TournamentFeedModel> GetTournamentsFromFeedAsync(long memberId)
         {
             var feed = await this._syndication.LoadAsync(memberId).ConfigureAwait(false);
             var items = feed.Items.ToList();
-            var tournaments = this._mapper.Map<List<TournamentFeedModel>>(items);
+            var tournament = this._mapper.Map<TournamentFeedModel>(items);
 
-            return tournaments;
+            return tournament;
         }
 
         /// <summary>

@@ -27,8 +27,15 @@ namespace TournamentHistory.Services
         /// <summary>
         /// Gets the list of <see cref="TournamentFeedModel"/> instances from RSS feed.
         /// </summary>
+        /// <param name="feedUrl">Feed URL at tennis.com.au.</param>
+        /// <returns>Returns the list of <see cref="TournamentFeedModel"/> instances.</returns>
+        Task<TournamentFeedModel> GetTournamentsFromFeedAsync(string feedUrl);
+
+        /// <summary>
+        /// Gets the list of <see cref="TournamentFeedModel"/> instances from RSS feed.
+        /// </summary>
         /// <param name="memberId">Member Id at tennis.com.au.</param>
         /// <returns>Returns the list of <see cref="TournamentFeedModel"/> instances.</returns>
-        Task<List<TournamentFeedModel>> GetTournamentsFromFeedAsync(long memberId);
+        Task<TournamentFeedModel> GetTournamentsFromFeedAsync(long memberId);
     }
 }

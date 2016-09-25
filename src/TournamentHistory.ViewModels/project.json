@@ -1,0 +1,19 @@
+{
+  "version": "1.0.0-*",
+
+  "dependencies": {
+  },
+
+  "frameworks": {
+    "net461": {
+      "dependencies": {
+        "TournamentHistory.Models": {
+          "target": "project"
+        }
+      },
+      "frameworkAssemblies": {
+        "System.ComponentModel.DataAnnotations": "4.0.0.0"
+      }
+    }
+  }
+}
