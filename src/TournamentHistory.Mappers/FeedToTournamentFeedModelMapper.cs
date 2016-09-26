@@ -8,7 +8,7 @@ using TournamentHistory.Models;
 namespace TournamentHistory.Mappers
 {
     /// <summary>
-    /// This represents the mapper entity between <see cref="SyndicationItem"/> and <see cref="TournamentFeedModel"/>.
+    /// This represents the mapper entity between <see cref="SyndicationFeed"/> and <see cref="TournamentFeedModel"/>.
     /// </summary>
     public class FeedToTournamentFeedModelMapper : BaseMapper
     {

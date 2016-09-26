@@ -11,5 +11,7 @@ namespace TournamentHistory.ViewModels
         /// Gets or sets the tournament feed details.
         /// </summary>
         public TournamentFeedModel Feed { get; set; }
+
+        public string FeedInJson { get; set; }
     }
 }

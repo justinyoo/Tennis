@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace TournamentHistory.Models
 {
@@ -41,5 +42,10 @@ namespace TournamentHistory.Models
         /// Gets or sets the last name.
         /// </summary>
         public string LastName { get; set; }
+
+        /// <summary>
+        /// Gets or sets the list of tournament details.
+        /// </summary>
+        public List<TournamentModel> Tournaments { get; set; }
     }
 }

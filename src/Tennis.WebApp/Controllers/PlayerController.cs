@@ -4,11 +4,8 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
-using TournamentHistory.Models;
 using TournamentHistory.Services;
 using TournamentHistory.ViewModels;
-
-// For more information on enabling MVC for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace Tennis.WebApp.Controllers
 {
@@ -53,15 +50,16 @@ namespace Tennis.WebApp.Controllers
         /// <summary>
         /// Gets the player details.
         /// </summary>
-        /// <param name="memberId">Member Id at tennis.com.au.</param>
+        /// <param name="playerId">Player Id.</param>
         /// <returns>Returns the player details.</returns>
-        [Route("{memberId}")]
+        [Route("{playerId}")]
         [HttpGet]
-        public async Task<IActionResult> GetPlayer(long memberId)
+        public async Task<IActionResult> GetPlayer(Guid playerId)
         {
-            var player = await this._service.GetPlayerAsync(memberId).ConfigureAwait(false);
+            var player = await this._service.GetPlayerAsync(playerId).ConfigureAwait(false);
+            var vm = new PlayerViewModel() { Player = player };
 
-            return View(player);
+            return View("GetPlayer", vm);
         }
 
         /// <summary>
@@ -78,29 +76,19 @@ namespace Tennis.WebApp.Controllers
             return View(tournaments);
         }
 
-        //[Route("add")]
-        //[HttpGet]
-        //public async Task<IActionResult> AddPlayer()
-        //{
-        //    var model = new PlayerModel();
-
-        //    return View("AddPlayer", model);
-        //}
-
-        [Route("add")]
-        [HttpGet]
-        public async Task<IActionResult> GetTournamentsFeed([FromQuery] [Bind(Prefix = "TournamentFeedUrl")] string feed)
-        {
-            var tournament = await this._service.GetTournamentsFromFeedAsync(feed).ConfigureAwait(false);
-            var vm = new TournamentFeedViewModel() { Feed = tournament };
-            return View("TournamentFeed", vm);
-        }
-
+        /// <summary>
+        /// Adds a new player.
+        /// </summary>
+        /// <param name="model"><see cref="PlayerCollectionViewModel"/> instance.</param>
+        /// <returns>Returns the <see cref="PlayerViewModel"/> instance.</returns>
         [Route("add")]
         [HttpPost]
-        public async Task<IActionResult> AddPlayer(PlayerModel model)
+        public async Task<IActionResult> AddPlayer(PlayerCollectionViewModel model)
         {
-            return View("AddPlayer", model);
+            var player = await this._service.SaveTournamentsFromFeedAsync(model.TournamentFeedUrl).ConfigureAwait(false);
+            var vm = new PlayerViewModel() { Player = player };
+
+            return View("AddPlayer", vm);
         }
     }
 }

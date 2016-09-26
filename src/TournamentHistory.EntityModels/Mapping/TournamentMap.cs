@@ -20,6 +20,7 @@ namespace TournamentHistory.EntityModels.Mapping
             this.Property(p => p.TournamentKey).IsRequired();
             this.Property(p => p.Title).IsRequired().HasMaxLength(256);
             this.Property(p => p.Summary).IsRequired().HasMaxLength(512);
+            this.Property(p => p.DatePublished).IsRequired();
             this.Property(p => p.DateCreated).IsRequired();
             this.Property(p => p.DateUpdated).IsRequired();
 
@@ -29,6 +30,7 @@ namespace TournamentHistory.EntityModels.Mapping
             this.Property(p => p.TournamentKey).HasColumnName("TournamentKey");
             this.Property(p => p.Title).HasColumnName("Title");
             this.Property(p => p.Summary).HasColumnName("Summary");
+            this.Property(p => p.DatePublished).HasColumnName("DatePublished");
             this.Property(p => p.DateCreated).HasColumnName("DateCreated");
             this.Property(p => p.DateUpdated).HasColumnName("DateUpdated");
 

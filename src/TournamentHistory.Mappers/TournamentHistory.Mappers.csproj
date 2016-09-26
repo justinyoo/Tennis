@@ -46,14 +46,22 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BaseMapper.cs" />
+    <Compile Include="PlayerTournamentToTournamentModelMapper.cs" />
+    <Compile Include="PlayerToPlayerModelMapper.cs" />
     <Compile Include="FeedToTournamentFeedModelMapper.cs" />
     <Compile Include="IMapper.cs" />
+    <Compile Include="IMapperFactory.cs" />
+    <Compile Include="MapperFactory.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\TournamentHistory.EntityModels\TournamentHistory.EntityModels.csproj">
+      <Project>{8b20ea03-0125-4e44-9fdb-dfdf6f08fa0f}</Project>
+      <Name>TournamentHistory.EntityModels</Name>
+    </ProjectReference>
     <ProjectReference Include="..\TournamentHistory.Models\TournamentHistory.Models.csproj">
       <Project>{e09e8557-40df-4622-8ca7-dc5126434e86}</Project>
       <Name>TournamentHistory.Models</Name>

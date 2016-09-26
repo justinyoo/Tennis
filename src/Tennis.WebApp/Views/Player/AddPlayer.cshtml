@@ -1,6 +1,13 @@
-﻿@model TournamentHistory.Models.PlayerModel
+﻿@model TournamentHistory.ViewModels.PlayerViewModel
+
+@{
+    var player = Model.Player;
+}
 
 <div class="row">
     <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+        <h1>Player @player.FirstName @player.LastName Added</h1>
+        
+        <a asp-controller="Player" asp-action="GetPlayer" asp-route-playerId="@player.PlayerId">Profile</a>
     </div>
 </div>

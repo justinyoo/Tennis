@@ -50,6 +50,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Extensions\EnumerableExtensions.cs" />
+    <Compile Include="FeedContext.cs" />
+    <Compile Include="IFeedContext.cs" />
     <Compile Include="IPlayerService.cs" />
     <Compile Include="ISyndicationFeedWrapper.cs" />
     <Compile Include="PlayerService.cs" />
@@ -60,6 +63,10 @@
     <ProjectReference Include="..\TournamentHistory.EntityModels\TournamentHistory.EntityModels.csproj">
       <Project>{8b20ea03-0125-4e44-9fdb-dfdf6f08fa0f}</Project>
       <Name>TournamentHistory.EntityModels</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\TournamentHistory.Helpers\TournamentHistory.Helpers.csproj">
+      <Project>{97c7f3fd-ed9e-45ab-b459-70125d5cf33c}</Project>
+      <Name>TournamentHistory.Helpers</Name>
     </ProjectReference>
     <ProjectReference Include="..\TournamentHistory.Mappers\TournamentHistory.Mappers.csproj">
       <Project>{433e827b-bec4-482b-ad12-2c57c796af5c}</Project>

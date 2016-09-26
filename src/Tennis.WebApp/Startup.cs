@@ -1,15 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Authentication.Cookies;
+﻿using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.IdentityModel.Protocols.OpenIdConnect;
+
 using TournamentHistory.EntityModels;
+using TournamentHistory.Helpers;
 using TournamentHistory.Mappers;
 using TournamentHistory.Services;
 
@@ -45,9 +43,13 @@ namespace Tennis.WebApp
 
             services.AddScoped<ITournamentDbContext, TournamentDbContext>(_ => new TournamentDbContext(Configuration.GetConnectionString("TournamentDbContext")));
 
-            services.AddTransient<IPlayerService, PlayerService>();
+            services.AddTransient<IFeedHelper, FeedHelper>();
             services.AddTransient<ISyndicationFeedWrapper, SyndicationFeedWrapper>();
-            services.AddTransient<IMapper, FeedToTournamentFeedModelMapper>();
+            services.AddTransient<IFeedContext, FeedContext>();
+
+            services.AddTransient<IMapperFactory, MapperFactory>();
+
+            services.AddTransient<IPlayerService, PlayerService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

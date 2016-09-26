@@ -39,6 +39,12 @@
         "TournamentHistory.EntityModels": {
           "target": "project"
         },
+        "TournamentHistory.Helpers": {
+          "target": "project"
+        },
+        "TournamentHistory.Mappers": {
+          "target": "project"
+        },
         "TournamentHistory.Services": {
           "target": "project"
         }

@@ -48,6 +48,7 @@ namespace TournamentHistory.EntityModels.Migrations
                         TournamentKey = c.Guid(nullable: false),
                         Title = c.String(nullable: false, maxLength: 256),
                         Summary = c.String(nullable: false, maxLength: 512),
+                        DatePublished = c.DateTimeOffset(nullable: false, precision: 7),
                         DateCreated = c.DateTimeOffset(nullable: false, precision: 7, defaultValueSql: "SYSDATETIMEOFFSET()"),
                         DateUpdated = c.DateTimeOffset(nullable: false, precision: 7, defaultValueSql: "SYSDATETIMEOFFSET()"),
                     })

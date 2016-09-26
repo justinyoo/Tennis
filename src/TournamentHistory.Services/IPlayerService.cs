@@ -20,22 +20,24 @@ namespace TournamentHistory.Services
         /// <summary>
         /// Gets the player details.
         /// </summary>
-        /// <param name="memberId">Member Id at tennis.com.au.</param>
+        /// <param name="playerId">Player Id.</param>
         /// <returns>Returns the player details.</returns>
-        Task<PlayerModel> GetPlayerAsync(long memberId);
+        /// <exception cref="ArgumentOutOfRangeException">Member Id is less than or equal to zero.</exception>
+        Task<PlayerModel> GetPlayerAsync(Guid playerId);
 
         /// <summary>
         /// Gets the list of <see cref="TournamentFeedModel"/> instances from RSS feed.
+        /// </summary>
+        /// <param name="memberId">Member Id at tennis.com.au.</param>
+        /// <returns>Returns the list of <see cref="TournamentFeedModel"/> instances.</returns>
+        /// <exception cref="ArgumentOutOfRangeException">Member Id is less than or equal to zero.</exception>
+        Task<TournamentFeedModel> GetTournamentsFromFeedAsync(long memberId);
+
+        /// <summary>
+        /// Saves the tournaments details from RSS feed to database.
         /// </summary>
         /// <param name="feedUrl">Feed URL at tennis.com.au.</param>
-        /// <returns>Returns the list of <see cref="TournamentFeedModel"/> instances.</returns>
-        Task<TournamentFeedModel> GetTournamentsFromFeedAsync(string feedUrl);
-
-        /// <summary>
-        /// Gets the list of <see cref="TournamentFeedModel"/> instances from RSS feed.
-        /// </summary>
-        /// <param name="memberId">Member Id at tennis.com.au.</param>
-        /// <returns>Returns the list of <see cref="TournamentFeedModel"/> instances.</returns>
-        Task<TournamentFeedModel> GetTournamentsFromFeedAsync(long memberId);
+        /// <exception cref="ArgumentNullException"><paramref name="feedUrl"/> is <see langword="null" />.</exception>
+        Task<PlayerModel> SaveTournamentsFromFeedAsync(string feedUrl);
     }
 }

@@ -24,6 +24,11 @@ namespace TournamentHistory.EntityModels
         DbSet<Tournament> Tournaments { get; set; }
 
         /// <summary>
+        /// Gets the <see cref="System.Data.Entity.Database"/> instance.
+        /// </summary>
+        Database Database { get; }
+
+        /// <summary>
         /// Saves all changes made in this context to the underlying database.
         /// </summary>
         /// <returns>

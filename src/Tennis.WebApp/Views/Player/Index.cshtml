@@ -2,21 +2,16 @@
 
 <div class="row">
     <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+        <h1>Players</h1>
+
         <ul>
             @foreach (var player in Model.Players)
             {
-                <li><a href="/players/@player.MemberId">$"{@player.FirstName} {@player.LastName}"</a></li>
+                <li><a asp-controller="Player" asp-action="GetPlayer" asp-route-playerId="@player.PlayerId">@player.FirstName @player.LastName</a></li>
             }
-            <li>
-                <a href="/players/add">Add New Player</a>
-            </li>
         </ul>
-    </div>
-</div>
 
-<div class="row">
-    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-        <form class="form-inline" asp-controller="Player" asp-action="GetTournamentsFeed" method="get">
+        <form class="form-inline" asp-controller="Player" asp-action="AddPlayer" method="post">
             <div class="form-group">
                 <label asp-for="TournamentFeedUrl"></label>
                 <input asp-for="TournamentFeedUrl" type="text" class="form-control" placeholder="Feed URL">

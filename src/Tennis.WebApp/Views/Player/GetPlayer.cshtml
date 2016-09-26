@@ -1,0 +1,29 @@
+﻿@model TournamentHistory.ViewModels.PlayerViewModel
+
+@{
+    var tournamentUrl = "http://tournaments.tennis.com.au/sport/player.aspx?id={0}&player={1}";
+    var profileUrl = "http://tournaments.tennis.com.au/profile/overview.aspx?id={0}";
+    var rankingUrl = "http://tournaments.tennis.com.au/ranking/player.aspx?rid=100&player={0}";
+
+    var player = Model.Player;
+}
+
+<div class="row">
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+        <h1>@player.FirstName @player.LastName</h1>
+        
+        <h2>Profile</h2>
+        @(player.ProfileId.HasValue ? string.Format(profileUrl, player.ProfileId.Value) : "N/A")
+
+        <h3>Australian Ranking</h3>
+        @(player.RankingId.HasValue ? string.Format(rankingUrl, player.RankingId.Value) : "N/A")
+
+        <h2>Tournaments</h2>
+        <ul>
+            @foreach (var tournament in player.Tournaments.OrderByDescending(p => p.DatePublished).ThenBy(p => p.Title))
+            {
+                <li><a href="@string.Format(tournamentUrl, tournament.TournamentKey, tournament.PlayerNumber)" target="_blank">@tournament.Title</a> (Updated: @string.Format("{0:dd/MM/yyyy}", tournament.DatePublished.ToLocalTime()))</li>
+            }
+        </ul>
+    </div>
+</div>

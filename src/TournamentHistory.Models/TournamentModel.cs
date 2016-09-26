@@ -1,12 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
 
-namespace TournamentHistory.EntityModels
+namespace TournamentHistory.Models
 {
     /// <summary>
     /// This represents the model entity for tournament.
     /// </summary>
-    public class Tournament
+    public class TournamentModel
     {
         /// <summary>
         /// Gets or sets the tournament Id.
@@ -34,18 +33,8 @@ namespace TournamentHistory.EntityModels
         public DateTimeOffset DatePublished { get; set; }
 
         /// <summary>
-        /// Gets or sets the date when the record was created.
+        /// Gets or sets the player number assigned in the tournament.
         /// </summary>
-        public DateTimeOffset DateCreated { get; set; }
-
-        /// <summary>
-        /// Gets or sets the date when the record was updated.
-        /// </summary>
-        public DateTimeOffset DateUpdated { get; set; }
-
-        /// <summary>
-        /// Gets or sets the list of the <see cref="PlayerTournament"/> instances.
-        /// </summary>
-        public virtual List<PlayerTournament> PlayerTournaments { get; set; }
+        public int PlayerNumber { get; set; }
     }
 }
