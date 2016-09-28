@@ -27,7 +27,7 @@ namespace Tennis.WebApp.Controllers
                                {
                                    new CompetitionModel() { Name = "Waverley District Summer Competition" }
                                };
-            var vm = new CompetitionCollectionViewModel() { Competions = competitions };
+            var vm = new CompetitionCollectionViewModel() { Competitions = competitions };
 
             return View("Index", vm);
         }

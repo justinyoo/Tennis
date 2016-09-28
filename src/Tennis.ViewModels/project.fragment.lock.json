@@ -1,17 +1,17 @@
 {
   "version": 2,
   "exports": {
-    "TournamentHistory.Models/1.0.0": {
+    "Tournaments.Models/1.0.0": {
       "type": "project",
       "framework": ".NETFramework,Version=v4.6",
       "compile": {
-        "bin/Debug/TournamentHistory.Models.dll": {}
+        "bin/Debug/Tournaments.Models.dll": {}
       },
       "runtime": {
-        "bin/Debug/TournamentHistory.Models.dll": {}
+        "bin/Debug/Tournaments.Models.dll": {}
       },
       "contentFiles": {
-        "bin/Debug/TournamentHistory.Models.pdb": {
+        "bin/Debug/Tournaments.Models.pdb": {
           "buildAction": "None",
           "codeLanguage": "any",
           "copyToOutput": true

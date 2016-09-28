@@ -37,16 +37,16 @@
   "frameworks": {
     "net461": {
       "dependencies": {
-        "TournamentHistory.EntityModels": {
+        "Tournaments.EntityModels": {
           "target": "project"
         },
-        "TournamentHistory.Helpers": {
+        "Tournaments.Helpers": {
           "target": "project"
         },
-        "TournamentHistory.Mappers": {
+        "Tournaments.Mappers": {
           "target": "project"
         },
-        "TournamentHistory.Services": {
+        "Tournaments.Services": {
           "target": "project"
         }
       }

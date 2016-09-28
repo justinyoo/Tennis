@@ -10,7 +10,7 @@ namespace Tennis.ViewModels
         /// <summary>
         /// Gets or sets the list of competitions.
         /// </summary>
-        public List<CompetitionModel> Competions { get; set; }
+        public List<CompetitionModel> Competitions { get; set; }
     }
 
     /// <summary>

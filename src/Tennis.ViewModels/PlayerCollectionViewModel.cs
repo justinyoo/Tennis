@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
-using TournamentHistory.Models;
+using Tournaments.Models;
 
 namespace Tennis.ViewModels
 {

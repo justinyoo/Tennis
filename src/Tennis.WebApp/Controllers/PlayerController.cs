@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 
 using Tennis.ViewModels;
 
-using TournamentHistory.Services;
+using Tournaments.Services;
 
 namespace Tennis.WebApp.Controllers
 {

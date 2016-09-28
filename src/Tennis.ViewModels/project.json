@@ -7,7 +7,7 @@
   "frameworks": {
     "net461": {
       "dependencies": {
-        "TournamentHistory.Models": {
+        "Tournaments.Models": {
           "target": "project"
         }
       },

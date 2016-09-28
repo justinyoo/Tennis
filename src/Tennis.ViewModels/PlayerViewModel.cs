@@ -1,4 +1,4 @@
-﻿using TournamentHistory.Models;
+﻿using Tournaments.Models;
 
 namespace Tennis.ViewModels
 {

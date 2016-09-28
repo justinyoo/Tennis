@@ -21,10 +21,10 @@
     <DnxInvisibleContent Include=".bowerrc" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\TournamentHistory.EntityModels\TournamentHistory.EntityModels.csproj" />
-    <ProjectReference Include="..\TournamentHistory.Helpers\TournamentHistory.Helpers.csproj" />
-    <ProjectReference Include="..\TournamentHistory.Mappers\TournamentHistory.Mappers.csproj" />
-    <ProjectReference Include="..\TournamentHistory.Services\TournamentHistory.Services.csproj" />
+    <ProjectReference Include="..\Tournaments.EntityModels\Tournaments.EntityModels.csproj" />
+    <ProjectReference Include="..\Tournaments.Helpers\Tournaments.Helpers.csproj" />
+    <ProjectReference Include="..\Tournaments.Mappers\Tournaments.Mappers.csproj" />
+    <ProjectReference Include="..\Tournaments.Services\Tournaments.Services.csproj" />
   </ItemGroup>
   <Import Project="$(VSToolsPath)\DotNet.Web\Microsoft.DotNet.Web.targets" Condition="'$(VSToolsPath)' != ''" />
 </Project>

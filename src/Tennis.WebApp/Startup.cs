@@ -12,10 +12,10 @@ using Microsoft.IdentityModel.Protocols.OpenIdConnect;
 using Tennis.AppSettings;
 using Tennis.AppSettings.Extensions;
 
-using TournamentHistory.EntityModels;
-using TournamentHistory.Helpers;
-using TournamentHistory.Mappers;
-using TournamentHistory.Services;
+using Tournaments.EntityModels;
+using Tournaments.Helpers;
+using Tournaments.Mappers;
+using Tournaments.Services;
 
 namespace Tennis.WebApp
 {
