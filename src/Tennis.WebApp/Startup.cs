@@ -1,10 +1,16 @@
-﻿using Microsoft.AspNetCore.Authentication.Cookies;
+﻿using System.Collections.Generic;
+using System.Linq;
+
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.IdentityModel.Protocols.OpenIdConnect;
+
+using Tennis.AppSettings;
+using Tennis.AppSettings.Extensions;
 
 using TournamentHistory.EntityModels;
 using TournamentHistory.Helpers;
@@ -13,35 +19,50 @@ using TournamentHistory.Services;
 
 namespace Tennis.WebApp
 {
+    /// <summary>
+    /// This represents the entity for startup.
+    /// </summary>
     public class Startup
     {
+        /// <summary>
+        /// Initialises a new insatance of the <see cref="Startup"/> class.
+        /// </summary>
+        /// <param name="env"></param>
         public Startup(IHostingEnvironment env)
         {
             var builder = new ConfigurationBuilder()
                 .SetBasePath(env.ContentRootPath)
-                .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
-                .AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: true);
+                .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true);
 
             if (env.IsDevelopment())
             {
-                // For more details on using the user secret store see http://go.microsoft.com/fwlink/?LinkID=532709
                 builder.AddUserSecrets();
             }
+
             builder.AddEnvironmentVariables();
+
             Configuration = builder.Build();
         }
 
+        /// <summary>
+        /// Gets the <see cref="IConfigurationRoot"/> instance.
+        /// </summary>
         public IConfigurationRoot Configuration { get; }
 
-        // This method gets called by the runtime. Use this method to add services to the container.
+        /// <summary>
+        /// Adds services to the container. This method gets called by the runtime.
+        /// </summary>
+        /// <param name="services"><see cref="IServiceCollection"/> instance.</param>
         public void ConfigureServices(IServiceCollection services)
         {
+            var connectionStrings = this.Configuration.Get<List<ConnectionStringSettings>>("connectionStrings");
+
             // Add framework services.
             services.AddMvc();
 
-            services.AddAuthentication(SharedOptions => SharedOptions.SignInScheme = CookieAuthenticationDefaults.AuthenticationScheme);
+            services.AddAuthentication(o => o.SignInScheme = CookieAuthenticationDefaults.AuthenticationScheme);
 
-            services.AddScoped<ITournamentDbContext, TournamentDbContext>(_ => new TournamentDbContext(Configuration.GetConnectionString("TournamentDbContext")));
+            services.AddScoped<ITournamentDbContext, TournamentDbContext>(_ => new TournamentDbContext(connectionStrings.Single(p => p.Name.Equals("TournamentDbContext")).ConnectionString));
 
             services.AddTransient<IFeedHelper, FeedHelper>();
             services.AddTransient<ISyndicationFeedWrapper, SyndicationFeedWrapper>();
@@ -52,10 +73,17 @@ namespace Tennis.WebApp
             services.AddTransient<IPlayerService, PlayerService>();
         }
 
-        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
+        /// <summary>
+        /// Configures the HTTP request pipeline. This method gets called by the runtime.
+        /// </summary>
+        /// <param name="app"><see cref="IApplicationBuilder"/> instance.</param>
+        /// <param name="env"><see cref="IHostingEnvironment"/> instance.</param>
+        /// <param name="loggerFactory"><see cref="ILoggerFactory"/> instance.</param>
         public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
         {
-            loggerFactory.AddConsole(Configuration.GetSection("Logging"));
+            var auth = this.Configuration.Get<AuthenticationSettings>("authentication");
+
+            loggerFactory.AddConsole(Configuration.GetSection("logging"));
             loggerFactory.AddDebug();
 
             if (env.IsDevelopment())
@@ -73,20 +101,15 @@ namespace Tennis.WebApp
             app.UseCookieAuthentication();
 
             app.UseOpenIdConnectAuthentication(new OpenIdConnectOptions
-            {
-                ClientId = Configuration["Authentication:AzureAd:ClientId"],
-                ClientSecret = Configuration["Authentication:AzureAd:ClientSecret"],
-                Authority = Configuration["Authentication:AzureAd:AADInstance"] + Configuration["Authentication:AzureAd:TenantId"],
-                CallbackPath = Configuration["Authentication:AzureAd:CallbackPath"],
-                ResponseType = OpenIdConnectResponseType.CodeIdToken
-            });
+                                               {
+                                                   ClientId = auth.AzureAd.ClientId,
+                                                   ClientSecret = auth.AzureAd.ClientSecret,
+                                                   Authority = $"{auth.AzureAd.AadInstance.TrimEnd('/')}/{auth.AzureAd.TenantId}",
+                                                   CallbackPath = auth.AzureAd.CallbackPath,
+                                                   ResponseType = OpenIdConnectResponseType.CodeIdToken
+                                               });
 
-            app.UseMvc(routes =>
-            {
-                routes.MapRoute(
-                    name: "default",
-                    template: "{controller=Home}/{action=Index}/{id?}");
-            });
+            app.UseMvcWithDefaultRoute();
         }
     }
 }

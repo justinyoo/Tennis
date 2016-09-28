@@ -4,8 +4,9 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
+using Tennis.ViewModels;
+
 using TournamentHistory.Services;
-using TournamentHistory.ViewModels;
 
 namespace Tennis.WebApp.Controllers
 {
@@ -62,19 +63,19 @@ namespace Tennis.WebApp.Controllers
             return View("GetPlayer", vm);
         }
 
-        /// <summary>
-        /// Gets the tournament feeds for the given player.
-        /// </summary>
-        /// <param name="memberId">Member Id at tennis.com.au.</param>
-        /// <returns>Returns the tournament feeds for the given player.</returns>
-        [Route("{memberId}/feed")]
-        [HttpGet]
-        public async Task<IActionResult> GetTournamentsFeed(long memberId)
-        {
-            var tournaments = await this._service.GetTournamentsFromFeedAsync(memberId).ConfigureAwait(false);
+        ///// <summary>
+        ///// Gets the tournament feeds for the given player.
+        ///// </summary>
+        ///// <param name="memberId">Member Id at tennis.com.au.</param>
+        ///// <returns>Returns the tournament feeds for the given player.</returns>
+        //[Route("{memberId}/feed")]
+        //[HttpGet]
+        //public async Task<IActionResult> GetTournamentsFeed(long memberId)
+        //{
+        //    var tournaments = await this._service.GetTournamentsFromFeedAsync(memberId).ConfigureAwait(false);
 
-            return View(tournaments);
-        }
+        //    return View(tournaments);
+        //}
 
         /// <summary>
         /// Adds a new player.

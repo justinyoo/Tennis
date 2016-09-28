@@ -1,6 +1,6 @@
 ﻿using TournamentHistory.Models;
 
-namespace TournamentHistory.ViewModels
+namespace Tennis.ViewModels
 {
     /// <summary>
     /// Gets or sets the view model entity for the tournament feed.

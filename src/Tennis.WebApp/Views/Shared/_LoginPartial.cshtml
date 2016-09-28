@@ -1,9 +1,9 @@
-﻿@using System.Security.Principal
-
-@if (User.Identity.IsAuthenticated)
+﻿@if (User.Identity.IsAuthenticated)
 {
+    var loggedInAs = User.Claims.Single(p => p.Type.Equals("name", StringComparison.CurrentCultureIgnoreCase)).Value;
+
     <ul class="nav navbar-nav navbar-right">
-        <li class="navbar-text">Hello @User.Identity.Name!</li>
+        <li class="navbar-text">@loggedInAs</li>
         <li><a asp-area="" asp-controller="Account" asp-action="SignOut">Sign Out</a></li>
     </ul>
 }

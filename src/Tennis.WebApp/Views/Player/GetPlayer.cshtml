@@ -1,6 +1,9 @@
-﻿@model TournamentHistory.ViewModels.PlayerViewModel
+﻿@model Tennis.ViewModels.PlayerViewModel
 
 @{
+
+    ViewData["Title"] = "Player";
+
     var tournamentUrl = "http://tournaments.tennis.com.au/sport/player.aspx?id={0}&player={1}";
     var profileUrl = "http://tournaments.tennis.com.au/profile/overview.aspx?id={0}";
     var rankingUrl = "http://tournaments.tennis.com.au/ranking/player.aspx?rid=100&player={0}";
