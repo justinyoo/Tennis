@@ -8,11 +8,8 @@
     "administratorLoginPassword": {
       "value": "[YOUR_SECURE_PASSWORD]"
     },
-    "databases": {
-      "value": [
-        "competitions",
-        "tournaments"
-      ]
+    "database": {
+      "value": "competitions"
     }
   }
 }

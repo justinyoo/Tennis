@@ -37,9 +37,14 @@
         "parameterUrl": "[concat(variables('baseTemplateUrl'), 'app-deployment-web.params.json')]"
       },
       {
-        "name": "sql-template",
+        "name": "sql-competitions-template",
         "templateUrl": "[concat(variables('baseTemplateUrl'), 'sql-deployment.json')]",
-        "parameterUrl": "[concat(variables('baseTemplateUrl'), 'sql-deployment.params.json')]"
+        "parameterUrl": "[concat(variables('baseTemplateUrl'), 'sql-deployment-competitions.params.json')]"
+      },
+      {
+        "name": "sql-tournaments-template",
+        "templateUrl": "[concat(variables('baseTemplateUrl'), 'sql-deployment.json')]",
+        "parameterUrl": "[concat(variables('baseTemplateUrl'), 'sql-deployment-tournaments.params.json')]"
       }
     ]
   },

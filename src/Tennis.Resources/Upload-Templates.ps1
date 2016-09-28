@@ -3,8 +3,10 @@
 Param(
     [string] [Parameter(Mandatory=$true)] $SubscriptionId,
     [string] [Parameter(Mandatory=$true)] $ResourceGroupName,
-    [string] [Parameter(Mandatory=$true)] $StorageAccountName,
     [string] [Parameter(Mandatory=$true)] $ProjectName,
+    [string] [Parameter(Mandatory=$true)] $Environment,
+    [string] [Parameter(Mandatory=$true)] $ResourcePath,
+    [string] [Parameter(Mandatory=$true)] $StorageAccountName,
     [string] [Parameter(Mandatory=$false)] $ContainerName = "templates",
     [switch] $UseServicePrincipal,
     [string] [Parameter(Mandatory=$false)] $TenantId,
@@ -37,7 +39,7 @@ Write-Host "Credentials verified" -ForegroundColor Green
 $msg = Set-AzureRmCurrentStorageAccount -ResourceGroupName $ResourceGroupName -Name $StorageAccountName
 
 # Templates
-$templates = Get-ChildItem .\src\$ProjectName\Templates\*.json -Exclude ("base-*.json", "master-*.json", "*.params.json")
+$templates = Get-ChildItem .\src\$ResourcePath\Templates\*.json -Exclude ("base-*.json", "master-*.json", "*.params.json")
 foreach($template in $templates)
 {
     $filePath = $template.FullName
@@ -53,9 +55,9 @@ foreach($template in $templates)
 # Parameters
 $segments = $ResourceGroupName.Split("-")
 $prjName = $ProjectName
-$envName = $segments[$segments.Count - 1]
+$envName = $Environment
 
-$templates = Get-ChildItem .\src\$ProjectName\Templates\*.params.json -Exclude ("base-*.json", "master-*.json")
+$templates = Get-ChildItem .\src\$ResourcePath\Templates\*.params.json -Exclude ("base-*.json", "master-*.json")
 foreach($template in $templates)
 {
     $filePath = $template.FullName

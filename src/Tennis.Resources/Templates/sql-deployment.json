@@ -8,6 +8,7 @@
     },
     "environment": {
       "type": "string",
+      "defaultValue": "dev",
       "allowedValues": [
         "dev",
         "test",
@@ -26,10 +27,10 @@
         "description": "The password of the admin user of the SQL Server"
       }
     },
-    "databases": {
-      "type": "array",
+    "database": {
+      "type": "string",
       "metadata": {
-        "description": "List of database names"
+        "description": "Database name"
       }
     },
     "collation": {
@@ -84,10 +85,6 @@
       "name": "[variables('sqlserverName')]",
       "type": "Microsoft.Sql/servers",
       "location": "[resourceGroup().location]",
-      "copy": {
-        "name": "dbsCopy",
-        "count": "[length(parameters('databases'))]"
-      },
       "tags": {
         "displayName": "[variables('sqlserverName')]"
       },
@@ -112,11 +109,11 @@
         },
         {
           "apiVersion": "2014-04-01-preview",
-          "name": "[concat(parameters('projectName'), '-', parameters('databases')[copyIndex()], '-db-', parameters('environment'))]",
+          "name": "[concat(parameters('projectName'), '-', parameters('database'), '-db-', parameters('environment'))]",
           "type": "databases",
           "location": "[resourceGroup().location]",
           "tags": {
-            "displayName": "[concat(parameters('projectName'), '-', parameters('databases')[copyIndex()], '-db-', parameters('environment'))]"
+            "displayName": "[concat(parameters('projectName'), '-', parameters('database'), '-db-', parameters('environment'))]"
           },
           "dependsOn": [
             "[variables('sqlserverName')]"
