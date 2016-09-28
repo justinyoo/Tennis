@@ -4,10 +4,15 @@ using System.Linq;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.IdentityModel.Protocols.OpenIdConnect;
+
+using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
+using Newtonsoft.Json.Serialization;
 
 using Tennis.AppSettings;
 using Tennis.AppSettings.Extensions;
@@ -58,7 +63,16 @@ namespace Tennis.WebApp
             var connectionStrings = this.Configuration.Get<List<ConnectionStringSettings>>("connectionStrings");
 
             // Add framework services.
-            services.AddMvc();
+            services.AddMvc()
+                    .AddMvcOptions(o => o.Filters.Add(new RequireHttpsAttribute()))
+                    .AddJsonOptions(o =>
+                                    {
+                                        o.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
+                                        o.SerializerSettings.Converters.Add(new StringEnumConverter());
+                                        o.SerializerSettings.Formatting = Formatting.Indented;
+                                        o.SerializerSettings.NullValueHandling = NullValueHandling.Ignore;
+                                        o.SerializerSettings.MissingMemberHandling = MissingMemberHandling.Ignore;
+                                    });
 
             services.AddAuthentication(o => o.SignInScheme = CookieAuthenticationDefaults.AuthenticationScheme);
 
