@@ -15,9 +15,8 @@
 [Dd]ebugPublic/
 [Rr]elease/
 [Rr]eleases/
-[Xx]64/
-[Xx]86/
-[Bb]uild/
+x64/
+x86/
 bld/
 [Bb]in/
 [Oo]bj/
@@ -141,11 +140,9 @@ publish/
 # Publish Web Output
 *.[Pp]ublish.xml
 *.azurePubxml
-
-# TODO: Un-comment the next line if you do not want to checkin 
-# your web deploy settings because they may include unencrypted
-# passwords
-#*.pubxml
+# TODO: Comment the next line if you want to checkin your web deploy settings
+# but database connection strings (with potential passwords) will be unencrypted
+*.pubxml
 *.publishproj
 
 # Microsoft Azure Web App publish settings. Comment the next line if you want to
@@ -172,9 +169,6 @@ csx/
 # Microsoft Azure Emulator
 ecf/
 rcf/
-
-# Microsoft Azure ApplicationInsights config file
-ApplicationInsights.config
 
 # Windows Store app package directories and files
 AppPackages/
@@ -245,10 +239,6 @@ FakesAssemblies/
 **/*.Server/GeneratedArtifacts
 **/*.Server/ModelManifest.xml
 _Pvt_Extensions
-
-# LightSwitch generated files
-GeneratedArtifacts/
-ModelManifest.xml
 
 # Paket dependency manager
 .paket/paket.exe
