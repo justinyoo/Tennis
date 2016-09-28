@@ -42,6 +42,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tournaments.Models", "src\T
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tournaments.Services", "src\Tournaments.Services\Tournaments.Services.csproj", "{12FC2F99-F111-45BF-98F2-96D616197676}"
 EndProject
+Project("{151D2E53-A2C4-4D7D-83FE-D05416EBD58E}") = "Tennis.Resources", "src\Tennis.Resources\Tennis.Resources.deployproj", "{0CBD5F03-F16E-4A42-9649-77C620EB033A}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -80,6 +82,10 @@ Global
 		{12FC2F99-F111-45BF-98F2-96D616197676}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{12FC2F99-F111-45BF-98F2-96D616197676}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{12FC2F99-F111-45BF-98F2-96D616197676}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0CBD5F03-F16E-4A42-9649-77C620EB033A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0CBD5F03-F16E-4A42-9649-77C620EB033A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0CBD5F03-F16E-4A42-9649-77C620EB033A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0CBD5F03-F16E-4A42-9649-77C620EB033A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -97,5 +103,6 @@ Global
 		{433E827B-BEC4-482B-AD12-2C57C796AF5C} = {56913805-7412-4C77-9581-F7E58989EF08}
 		{E09E8557-40DF-4622-8CA7-DC5126434E86} = {56913805-7412-4C77-9581-F7E58989EF08}
 		{12FC2F99-F111-45BF-98F2-96D616197676} = {56913805-7412-4C77-9581-F7E58989EF08}
+		{0CBD5F03-F16E-4A42-9649-77C620EB033A} = {B1C14642-C4CC-4E3F-B1E3-0FEDC165E92E}
 	EndGlobalSection
 EndGlobal
