@@ -7,8 +7,8 @@
 
 **Tennis** manages:
 
-* tennis players registered in Australia, and
-* competitions run by districts in Victoria, Australia.
+* Tennis players registered in [tennis.com.au](http://tennis.com.au), and
+* Competitions run by districts in Victoria, Australia.
 
 
 ## Contribution ##
