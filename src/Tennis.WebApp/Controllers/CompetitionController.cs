@@ -1,4 +1,6 @@
 ﻿using System.Collections.Generic;
+using System.Threading.Tasks;
+using Competitions.Models;
 
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -30,6 +32,19 @@ namespace Tennis.WebApp.Controllers
             var vm = new CompetitionCollectionViewModel() { Competitions = competitions };
 
             return View("Index", vm);
+        }
+
+        /// <summary>
+        /// Adds competition details.
+        /// </summary>
+        /// <returns>Returns the competition details input form.</returns>
+        [Route("add")]
+        [HttpGet]
+        public async Task<IActionResult> AddCompetition()
+        {
+            var vm = new CompetitionViewModel();
+
+            return View("AddCompetition", vm);
         }
     }
 }

@@ -1,5 +1,7 @@
 ﻿using System.Collections.Generic;
 
+using Competitions.Models;
+
 namespace Tennis.ViewModels
 {
     /// <summary>
@@ -11,16 +13,5 @@ namespace Tennis.ViewModels
         /// Gets or sets the list of competitions.
         /// </summary>
         public List<CompetitionModel> Competitions { get; set; }
-    }
-
-    /// <summary>
-    /// This represents the model entity for competition.
-    /// </summary>
-    public class CompetitionModel
-    {
-        /// <summary>
-        /// Gets or sets the name of competition.
-        /// </summary>
-        public string Name { get; set; }
     }
 }

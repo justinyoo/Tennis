@@ -7,6 +7,9 @@
   "frameworks": {
     "net461": {
       "dependencies": {
+        "Competitions.Models": {
+          "target": "project"
+        },
         "Tournaments.Models": {
           "target": "project"
         }

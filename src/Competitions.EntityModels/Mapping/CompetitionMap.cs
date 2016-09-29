@@ -19,6 +19,11 @@ namespace Competitions.EntityModels.Mapping
             this.Property(p => p.CompetitionId).IsRequired();
             this.Property(p => p.DistrictId).IsRequired();
             this.Property(p => p.Name).IsRequired().HasMaxLength(128);
+            this.Property(p => p.Year).IsRequired();
+            this.Property(p => p.Season).IsRequired().HasMaxLength(8);
+            this.Property(p => p.Type).IsRequired().HasMaxLength(8);
+            this.Property(p => p.Grade).IsRequired().HasMaxLength(32);
+            this.Property(p => p.Level).IsRequired().HasMaxLength(8);
             this.Property(p => p.Url).IsOptional().HasMaxLength(512);
             this.Property(p => p.DateCreated).IsRequired();
             this.Property(p => p.DateUpdated).IsRequired();
@@ -28,6 +33,11 @@ namespace Competitions.EntityModels.Mapping
             this.Property(p => p.CompetitionId).HasColumnName("CompetitionId");
             this.Property(p => p.DistrictId).HasColumnName("DistrictId");
             this.Property(p => p.Name).HasColumnName("Name");
+            this.Property(p => p.Year).HasColumnName("Year");
+            this.Property(p => p.Season).HasColumnName("Season");
+            this.Property(p => p.Type).HasColumnName("Type");
+            this.Property(p => p.Grade).HasColumnName("Grade");
+            this.Property(p => p.Level).HasColumnName("Level");
             this.Property(p => p.Url).HasColumnName("Url");
             this.Property(p => p.DateCreated).HasColumnName("DateCreated");
             this.Property(p => p.DateUpdated).HasColumnName("DateUpdated");

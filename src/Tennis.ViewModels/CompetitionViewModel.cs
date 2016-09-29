@@ -1,22 +1,19 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using System.ComponentModel;
+using Competitions.Models;
 
-namespace Competitions.EntityModels
+namespace Tennis.ViewModels
 {
     /// <summary>
-    /// This represents the entity for competition.
+    /// This represents the view model entity for competition.
     /// </summary>
-    public class Competition
+    public class CompetitionViewModel
     {
         /// <summary>
-        /// Gets or sets the competition Id.
+        /// Gets or sets the list of districts.
         /// </summary>
-        public Guid CompetitionId { get; set; }
-
-        /// <summary>
-        /// Gets or sets the district Id where the competition belongs.
-        /// </summary>
-        public Guid DistrictId { get; set; }
+        [DisplayName("Districts")]
+        public List<DistrictModel> Districts { get; set; }
 
         /// <summary>
         /// Gets or sets the name of competition.
@@ -54,23 +51,8 @@ namespace Competitions.EntityModels
         public string Url { get; set; }
 
         /// <summary>
-        /// Gets or sets the date when the record was created.
+        /// Gets or sets the competition details.
         /// </summary>
-        public DateTimeOffset DateCreated { get; set; }
-
-        /// <summary>
-        /// Gets or sets the date when the record was updated.
-        /// </summary>
-        public DateTimeOffset DateUpdated { get; set; }
-
-        /// <summary>
-        /// Gets or sets the <see cref="EntityModels.District"/> instances.
-        /// </summary>
-        public virtual District District { get; set; }
-
-        /// <summary>
-        /// Gets or sets the list of <see cref="Fixture"/> instances.
-        /// </summary>
-        public virtual List<Fixture> Fixtures { get; set; }
+        public CompetitionModel Competition { get; set; }
     }
 }
