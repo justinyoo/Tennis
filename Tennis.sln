@@ -44,6 +44,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tournaments.Services", "src
 EndProject
 Project("{151D2E53-A2C4-4D7D-83FE-D05416EBD58E}") = "Tennis.Resources", "src\Tennis.Resources\Tennis.Resources.deployproj", "{0CBD5F03-F16E-4A42-9649-77C620EB033A}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Competitions.EntityModels", "src\Competitions.EntityModels\Competitions.EntityModels.csproj", "{4E61BF17-EBD9-45DD-B245-7873D3BACE93}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -86,6 +88,10 @@ Global
 		{0CBD5F03-F16E-4A42-9649-77C620EB033A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0CBD5F03-F16E-4A42-9649-77C620EB033A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0CBD5F03-F16E-4A42-9649-77C620EB033A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4E61BF17-EBD9-45DD-B245-7873D3BACE93}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4E61BF17-EBD9-45DD-B245-7873D3BACE93}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4E61BF17-EBD9-45DD-B245-7873D3BACE93}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4E61BF17-EBD9-45DD-B245-7873D3BACE93}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -104,5 +110,6 @@ Global
 		{E09E8557-40DF-4622-8CA7-DC5126434E86} = {56913805-7412-4C77-9581-F7E58989EF08}
 		{12FC2F99-F111-45BF-98F2-96D616197676} = {56913805-7412-4C77-9581-F7E58989EF08}
 		{0CBD5F03-F16E-4A42-9649-77C620EB033A} = {B1C14642-C4CC-4E3F-B1E3-0FEDC165E92E}
+		{4E61BF17-EBD9-45DD-B245-7873D3BACE93} = {338E79E0-02BC-4592-A7B9-39E6C41989F8}
 	EndGlobalSection
 EndGlobal
