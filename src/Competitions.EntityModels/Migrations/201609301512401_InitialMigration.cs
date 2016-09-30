@@ -20,7 +20,7 @@ namespace Competitions.EntityModels.Migrations
                         Email = c.String(maxLength: 256),
                         DateCreated = c.DateTimeOffset(nullable: false, precision: 7, defaultValueSql: "SYSDATETIMEOFFSET()"),
                         DateUpdated = c.DateTimeOffset(nullable: false, precision: 7, defaultValueSql: "SYSDATETIMEOFFSET()"),
-                    })
+                })
                 .PrimaryKey(t => t.ClubId)
                 .ForeignKey("dbo.Venue", t => t.VenueId)
                 .Index(t => t.VenueId);
@@ -35,7 +35,7 @@ namespace Competitions.EntityModels.Migrations
                         LastName = c.String(nullable: false, maxLength: 64),
                         DateCreated = c.DateTimeOffset(nullable: false, precision: 7, defaultValueSql: "SYSDATETIMEOFFSET()"),
                         DateUpdated = c.DateTimeOffset(nullable: false, precision: 7, defaultValueSql: "SYSDATETIMEOFFSET()"),
-                    })
+                })
                 .PrimaryKey(t => t.PlayerId)
                 .ForeignKey("dbo.Club", t => t.ClubId, cascadeDelete: true)
                 .Index(t => t.ClubId);
@@ -50,7 +50,7 @@ namespace Competitions.EntityModels.Migrations
                         HomeOrAway = c.String(nullable: false),
                         DateCreated = c.DateTimeOffset(nullable: false, precision: 7, defaultValueSql: "SYSDATETIMEOFFSET()"),
                         DateUpdated = c.DateTimeOffset(nullable: false, precision: 7, defaultValueSql: "SYSDATETIMEOFFSET()"),
-                    })
+                })
                 .PrimaryKey(t => t.MatchPlayerId)
                 .ForeignKey("dbo.Match", t => t.MatchId, cascadeDelete: true)
                 .ForeignKey("dbo.Player", t => t.PlayerId, cascadeDelete: true)
@@ -99,6 +99,11 @@ namespace Competitions.EntityModels.Migrations
                         CompetitionId = c.Guid(nullable: false),
                         DistrictId = c.Guid(nullable: false),
                         Name = c.String(nullable: false, maxLength: 128),
+                        Year = c.Int(nullable: false),
+                        Season = c.String(nullable: false, maxLength: 8),
+                        Type = c.String(nullable: false, maxLength: 8),
+                        Grade = c.String(nullable: false, maxLength: 32),
+                        Level = c.String(nullable: false, maxLength: 8),
                         Url = c.String(maxLength: 512),
                         DateCreated = c.DateTimeOffset(nullable: false, precision: 7, defaultValueSql: "SYSDATETIMEOFFSET()"),
                         DateUpdated = c.DateTimeOffset(nullable: false, precision: 7, defaultValueSql: "SYSDATETIMEOFFSET()"),

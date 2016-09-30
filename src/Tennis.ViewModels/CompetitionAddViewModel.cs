@@ -33,9 +33,19 @@ namespace Tennis.ViewModels
         public int Year { get; set; }
 
         /// <summary>
+        /// Gets or sets the list of seasons.
+        /// </summary>
+        public List<string> Seasons { get; set; }
+
+        /// <summary>
         /// Gets or sets the season of competition - Spring, Summer, Autumn, Winter.
         /// </summary>
         public string Season { get; set; }
+
+        /// <summary>
+        /// Gets or sets the list of types.
+        /// </summary>
+        public List<string> Types { get; set; }
 
         /// <summary>
         /// Gets or sets the type of competition - Boys, Girls, Open

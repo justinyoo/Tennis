@@ -53,6 +53,20 @@ namespace Tennis.WebApp.Controllers
         }
 
         /// <summary>
+        /// Gets the competition details.
+        /// </summary>
+        /// <param name="competitionId">Competition Id.</param>
+        /// <returns>Returns the competition details.</returns>
+        [Route("{competitionId}")]
+        [HttpGet]
+        public async Task<IActionResult> GetCompetition(Guid competitionId)
+        {
+            var vm = new CompetitionViewModel();
+
+            return View("GetCompetition", vm);
+        }
+
+        /// <summary>
         /// Adds competition details.
         /// </summary>
         /// <returns>Returns the competition details input form.</returns>
@@ -61,11 +75,20 @@ namespace Tennis.WebApp.Controllers
         [HttpGet]
         public async Task<IActionResult> AddCompetition()
         {
-            var districts = await this._context.DistrictService.GetDistrictsAsync().ConfigureAwait(false);
+            var items = await this._context.DistrictService.GetDistrictsAsync().ConfigureAwait(false);
+            var districts = this._context.Map<DistrictModelToSelectListItemMapper, List<SelectListItem>>(items);
+            districts.Insert(0, new SelectListItem() { Text = "Select District", Selected = true });
+
+            var year = DateTimeOffset.Now.Year;
+            var seasons = new List<string> { "Spring", "Summer", "Autumn", "Winter" };
+            var types = new List<string> { "Boys", "Girls", "Open" };
 
             var vm = new CompetitionAddViewModel()
                      {
-                         Districts = this._context.Map<DistrictModelToSelectListItemMapper, List<SelectListItem>>(districts)
+                         Districts = districts,
+                         Year = year,
+                         Seasons = seasons,
+                         Types = types
                      };
 
             return View("AddCompetition", vm);
@@ -78,6 +101,7 @@ namespace Tennis.WebApp.Controllers
         [Route("add")]
         [Authorize]
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> AddCompetition(CompetitionAddViewModel model)
         {
             throw new NotImplementedException();

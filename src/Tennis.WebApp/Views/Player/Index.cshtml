@@ -6,7 +6,7 @@
 
 <div class="row">
     <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-        <h1>Players</h1>
+        <h2>Players</h2>
 
         <ul>
             @foreach (var player in Model.Players)
@@ -14,13 +14,16 @@
                 <li><a asp-controller="Player" asp-action="GetPlayer" asp-route-playerId="@player.PlayerId">@player.FirstName @player.LastName</a></li>
             }
         </ul>
-
-        <form class="form-inline" asp-controller="Player" asp-action="AddPlayer" method="post">
-            <div class="form-group">
-                <label asp-for="TournamentFeedUrl"></label>
-                <input asp-for="TournamentFeedUrl" type="text" class="form-control" placeholder="Feed URL">
-            </div>
-            <button type="submit" class="btn btn-default">Add Player Feed</button>
-        </form>
+        
+        @if (User.Identity.IsAuthenticated)
+        {
+            <form class="form-inline" asp-controller="Player" asp-action="AddPlayer" method="post">
+                <div class="form-group">
+                    <label asp-for="TournamentFeedUrl"></label>
+                    <input asp-for="TournamentFeedUrl" type="text" class="form-control" placeholder="Feed URL">
+                </div>
+                <button type="submit" class="btn btn-default">Add Player Feed</button>
+            </form>
+        }
     </div>
 </div>

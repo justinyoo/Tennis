@@ -13,7 +13,6 @@ namespace Tennis.WebApp.Controllers
     /// <summary>
     /// This represents the controller entity for players.
     /// </summary>
-    [Authorize]
     [Route("players")]
     public class PlayerController : Controller
     {
@@ -83,6 +82,7 @@ namespace Tennis.WebApp.Controllers
         /// <param name="model"><see cref="PlayerCollectionViewModel"/> instance.</param>
         /// <returns>Returns the <see cref="PlayerViewModel"/> instance.</returns>
         [Route("add")]
+        [Authorize]
         [HttpPost]
         public async Task<IActionResult> AddPlayer(PlayerCollectionViewModel model)
         {
