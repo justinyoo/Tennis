@@ -21,6 +21,11 @@
     <DnxInvisibleContent Include=".bowerrc" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Competitions.EntityModels\Competitions.EntityModels.csproj" />
+    <ProjectReference Include="..\Competitions.Mappers\Competitions.Mappers.csproj" />
+    <ProjectReference Include="..\Competitions.Models\Competitions.Models.csproj" />
+    <ProjectReference Include="..\Competitions.Services\Competitions.Services.csproj" />
+    <ProjectReference Include="..\Tennis.Mappers\Tennis.Mappers.csproj" />
     <ProjectReference Include="..\Tournaments.EntityModels\Tournaments.EntityModels.csproj" />
     <ProjectReference Include="..\Tournaments.Helpers\Tournaments.Helpers.csproj" />
     <ProjectReference Include="..\Tournaments.Mappers\Tournaments.Mappers.csproj" />

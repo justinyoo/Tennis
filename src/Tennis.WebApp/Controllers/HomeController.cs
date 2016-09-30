@@ -1,12 +1,10 @@
-﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 
 namespace Tennis.WebApp.Controllers
 {
     /// <summary>
     /// This represents the controller entity for home.
     /// </summary>
-    [Authorize]
     [Route("")]
     [Route("home")]
     public class HomeController : Controller

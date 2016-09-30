@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Tournaments.Mappers
+namespace Tennis.Mappers
 {
     /// <summary>
     /// This provides interfaces to the mapper classes.

@@ -5,10 +5,12 @@ using System.Data.Entity.Migrations;
 using System.Linq;
 using System.Threading.Tasks;
 
+using Tennis.Common.Extensions;
+using Tennis.Mappers;
+
 using Tournaments.EntityModels;
 using Tournaments.Mappers;
 using Tournaments.Models;
-using Tournaments.Services.Extensions;
 
 namespace Tournaments.Services
 {

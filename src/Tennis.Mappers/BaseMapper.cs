@@ -2,7 +2,7 @@
 
 using AutoMapper;
 
-namespace Tournaments.Mappers
+namespace Tennis.Mappers
 {
     /// <summary>
     /// This represents the base mapper entity.

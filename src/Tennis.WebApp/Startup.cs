@@ -1,6 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 
+using Competitions.EntityModels;
+using Competitions.Services;
+
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -16,10 +19,11 @@ using Newtonsoft.Json.Serialization;
 
 using Tennis.AppSettings;
 using Tennis.AppSettings.Extensions;
+using Tennis.Mappers;
+using Tennis.WebApp.ServiceContexts;
 
 using Tournaments.EntityModels;
 using Tournaments.Helpers;
-using Tournaments.Mappers;
 using Tournaments.Services;
 
 namespace Tennis.WebApp
@@ -76,14 +80,26 @@ namespace Tennis.WebApp
 
             services.AddAuthentication(o => o.SignInScheme = CookieAuthenticationDefaults.AuthenticationScheme);
 
+            // DB Contexts
+            services.AddScoped<ICompetitionDbContext, CompetitionDbContext>(_ => new CompetitionDbContext(connectionStrings.Single(p => p.Name.Equals("CompetitionDbContext")).ConnectionString));
             services.AddScoped<ITournamentDbContext, TournamentDbContext>(_ => new TournamentDbContext(connectionStrings.Single(p => p.Name.Equals("TournamentDbContext")).ConnectionString));
 
+            // Helpers
             services.AddTransient<IFeedHelper, FeedHelper>();
+
+            // Wrappers
             services.AddTransient<ISyndicationFeedWrapper, SyndicationFeedWrapper>();
+
+            // Contexts
+            services.AddTransient<ICompetitionServiceContext, CompetitionServiceContext>();
             services.AddTransient<IFeedContext, FeedContext>();
 
+            // Factories
             services.AddTransient<IMapperFactory, MapperFactory>();
 
+            // Services
+            services.AddTransient<ICompetitionService, CompetitionService>();
+            services.AddTransient<IDistrictService, DistrictService>();
             services.AddTransient<IPlayerService, PlayerService>();
         }
 

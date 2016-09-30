@@ -3,6 +3,8 @@ using System.ServiceModel.Syndication;
 
 using AutoMapper;
 
+using Tennis.Mappers;
+
 using Tournaments.Models;
 
 namespace Tournaments.Mappers

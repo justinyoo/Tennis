@@ -4,11 +4,11 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{12FC2F99-F111-45BF-98F2-96D616197676}</ProjectGuid>
+    <ProjectGuid>{DE371F82-C28B-40D3-8B93-CE55325110F8}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Tournaments.Services</RootNamespace>
-    <AssemblyName>Tournaments.Services</AssemblyName>
+    <RootNamespace>Competitions.Services</RootNamespace>
+    <AssemblyName>Competitions.Services</AssemblyName>
     <TargetFrameworkVersion>v4.6</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -41,7 +41,6 @@
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
-    <Reference Include="System.ServiceModel" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -50,43 +49,33 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="FeedContext.cs" />
-    <Compile Include="IFeedContext.cs" />
-    <Compile Include="IPlayerService.cs" />
-    <Compile Include="ISyndicationFeedWrapper.cs" />
-    <Compile Include="PlayerService.cs" />
+    <Compile Include="DistrictService.cs" />
+    <Compile Include="CompetitionService.cs" />
+    <Compile Include="ICompetitionService.cs" />
+    <Compile Include="IDistrictService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="SyndicationFeedWrapper.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="App.config" />
-    <None Include="packages.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\Tennis.Common\Tennis.Common.csproj">
-      <Project>{2b8389f6-7b35-4f86-959e-c1c6fea3c545}</Project>
-      <Name>Tennis.Common</Name>
+    <ProjectReference Include="..\Competitions.EntityModels\Competitions.EntityModels.csproj">
+      <Project>{4e61bf17-ebd9-45dd-b245-7873d3bace93}</Project>
+      <Name>Competitions.EntityModels</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Competitions.Mappers\Competitions.Mappers.csproj">
+      <Project>{1c9cb3fb-c9b7-416e-a161-8a3e5c01a88c}</Project>
+      <Name>Competitions.Mappers</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Competitions.Models\Competitions.Models.csproj">
+      <Project>{5c1f980b-c20f-448b-bff2-bcdeac8ba76a}</Project>
+      <Name>Competitions.Models</Name>
     </ProjectReference>
     <ProjectReference Include="..\Tennis.Mappers\Tennis.Mappers.csproj">
       <Project>{f42f9620-4eac-4e38-b890-a78c4c5dc616}</Project>
       <Name>Tennis.Mappers</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Tournaments.EntityModels\Tournaments.EntityModels.csproj">
-      <Project>{8b20ea03-0125-4e44-9fdb-dfdf6f08fa0f}</Project>
-      <Name>Tournaments.EntityModels</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Tournaments.Helpers\Tournaments.Helpers.csproj">
-      <Project>{97c7f3fd-ed9e-45ab-b459-70125d5cf33c}</Project>
-      <Name>Tournaments.Helpers</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Tournaments.Mappers\Tournaments.Mappers.csproj">
-      <Project>{433e827b-bec4-482b-ad12-2c57c796af5c}</Project>
-      <Name>Tournaments.Mappers</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Tournaments.Models\Tournaments.Models.csproj">
-      <Project>{e09e8557-40df-4622-8ca7-dc5126434e86}</Project>
-      <Name>Tournaments.Models</Name>
-    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config" />
+    <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

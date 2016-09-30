@@ -4,11 +4,11 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{433E827B-BEC4-482B-AD12-2C57C796AF5C}</ProjectGuid>
+    <ProjectGuid>{F42F9620-4EAC-4E38-B890-A78C4C5DC616}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Tournaments.Mappers</RootNamespace>
-    <AssemblyName>Tournaments.Mappers</AssemblyName>
+    <RootNamespace>Tennis.Mappers</RootNamespace>
+    <AssemblyName>Tennis.Mappers</AssemblyName>
     <TargetFrameworkVersion>v4.6</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -34,12 +34,8 @@
       <HintPath>..\..\packages\AutoMapper.5.1.1\lib\net45\AutoMapper.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="Microsoft.AspNetCore.Mvc.ViewFeatures">
-      <HintPath>..\..\..\..\..\Users\Justin\.nuget\packages\Microsoft.AspNetCore.Mvc.ViewFeatures\1.0.1\lib\net451\Microsoft.AspNetCore.Mvc.ViewFeatures.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
-    <Reference Include="System.ServiceModel" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -48,27 +44,14 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="PlayerTournamentToTournamentModelMapper.cs" />
-    <Compile Include="PlayerToPlayerModelMapper.cs" />
-    <Compile Include="FeedToTournamentFeedModelMapper.cs" />
+    <Compile Include="BaseMapper.cs" />
+    <Compile Include="IMapper.cs" />
+    <Compile Include="IMapperFactory.cs" />
+    <Compile Include="MapperFactory.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\Tennis.Mappers\Tennis.Mappers.csproj">
-      <Project>{f42f9620-4eac-4e38-b890-a78c4c5dc616}</Project>
-      <Name>Tennis.Mappers</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Tournaments.EntityModels\Tournaments.EntityModels.csproj">
-      <Project>{8b20ea03-0125-4e44-9fdb-dfdf6f08fa0f}</Project>
-      <Name>Tournaments.EntityModels</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Tournaments.Models\Tournaments.Models.csproj">
-      <Project>{e09e8557-40df-4622-8ca7-dc5126434e86}</Project>
-      <Name>Tournaments.Models</Name>
-    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

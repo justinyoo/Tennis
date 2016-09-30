@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 
-namespace Tournaments.Services.Extensions
+namespace Tennis.Common.Extensions
 {
     /// <summary>
     /// This represents the extension entity for the <see cref="IEnumerable{T}"/> instance.

@@ -1,5 +1,7 @@
 ﻿using AutoMapper;
 
+using Tennis.Mappers;
+
 using Tournaments.EntityModels;
 using Tournaments.Models;
 

@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Tournaments.Mappers
+namespace Tennis.Mappers
 {
     /// <summary>
     /// This represents the entity for mapper factory.
