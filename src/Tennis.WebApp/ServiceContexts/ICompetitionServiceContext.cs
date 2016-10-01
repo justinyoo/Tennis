@@ -1,16 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-
-using Competitions.Services;
-
-using Tennis.Mappers;
+﻿using Competitions.Services;
 
 namespace Tennis.WebApp.ServiceContexts
 {
     /// <summary>
     /// This provides interfaces to the <see cref="CompetitionServiceContext"/> class.
     /// </summary>
-    public interface ICompetitionServiceContext : IDisposable
+    public interface ICompetitionServiceContext : IBaseServiceContext
     {
         /// <summary>
         /// Gets the <see cref="IDistrictService"/> instance.
@@ -23,12 +18,8 @@ namespace Tennis.WebApp.ServiceContexts
         ICompetitionService CompetitionService { get; }
 
         /// <summary>
-        /// Maps the object to designated typed one.
+        /// Gets the <see cref="IClubService"/> instance.
         /// </summary>
-        /// <typeparam name="TMapper">Type of mapper.</typeparam>
-        /// <typeparam name="TDestination">Type to be mapped.</typeparam>
-        /// <param name="item">Item to map.</param>
-        /// <returns>Returns the mapped object.</returns>
-        TDestination Map<TMapper, TDestination>(object item) where TMapper : IMapper;
+        IClubService ClubService { get; }
     }
 }

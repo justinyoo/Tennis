@@ -44,6 +44,11 @@ namespace Competitions.EntityModels
         public string Email { get; set; }
 
         /// <summary>
+        /// Gets or sets the URL of club.
+        /// </summary>
+        public string Url { get; set; }
+
+        /// <summary>
         /// Gets or sets the date when the record was created.
         /// </summary>
         public DateTimeOffset DateCreated { get; set; }
@@ -62,5 +67,10 @@ namespace Competitions.EntityModels
         /// Gets or sets the list of <see cref="Player"/> instances.
         /// </summary>
         public virtual List<Player> Players { get;set; }
+
+        /// <summary>
+        /// Gets or sets the list of <see cref="CompetitionClub"/> instances.
+        /// </summary>
+        public virtual List<CompetitionClub> CompetitionClubs { get; set; }
     }
 }

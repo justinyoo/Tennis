@@ -24,16 +24,38 @@
     <h2>Participating Clubs</h2>
 
     <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+        <ul>
+            @foreach (var club in competition.ParticipatingClubs)
+            {
+                <li>@club.Name @club.Tag</li>
+            }
+        </ul>
     </div>
 
     @if (User.Identity.IsAuthenticated)
     {
         <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-            <a href="#">Add Club</a>
-            @*<a asp-controller="Club" asp-action="AddClub">Add Club</a>*@
+            <form class="form-inline" asp-controller="Competition" asp-action="AddClub" asp-route-competitionId="@competition.CompetitionId" method="post">
+                <div class="form-group">
+                    <select class="form-control" asp-for="Club" asp-items="@Model.Clubs"></select>
+                </div>
+                
+                <div class="form-group">
+                    <label asp-for="Tag"></label>
+                    <input class="form-control" asp-for="Tag" value="@Model.Tag"/>
+                </div>
+
+                <div class="form-group">
+                    <button type="submit" class="btn btn-primary">Add</button>
+                </div>
+            </form>
+        </div>
+
+        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+            <a asp-controller="Club" asp-action="AddClub">New Club</a>
         </div>
     }
-    
+
     <h2>Fixtures</h2>
 
     <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">

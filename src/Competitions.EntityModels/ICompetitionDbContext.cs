@@ -14,6 +14,11 @@ namespace Competitions.EntityModels
         DbSet<Club> Clubs { get; set; }
 
         /// <summary>
+        /// Gets or sets the set of <see cref="CompetitionClub"/> instances.
+        /// </summary>
+        DbSet<CompetitionClub> CompetitionClubs { get; set; }
+
+        /// <summary>
         /// Gets or sets the set of <see cref="Competition"/> instances.
         /// </summary>
         DbSet<Competition> Competitions { get; set; }

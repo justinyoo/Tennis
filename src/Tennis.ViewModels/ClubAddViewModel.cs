@@ -1,25 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-
-namespace Competitions.Models
+﻿namespace Tennis.ViewModels
 {
     /// <summary>
-    /// This represents the entity for tennis club.
+    /// This represents the view model entity for competition to add.
     /// </summary>
-    public class ClubModel
+    public class ClubAddViewModel
     {
         /// <summary>
-        /// Gets or sets the club Id.
-        /// </summary>
-        public Guid ClubId { get; set; }
-
-        /// <summary>
-        /// Gets or sets the venue Id.
-        /// </summary>
-        public Guid VenueId { get; set; }
-
-        /// <summary>
-        /// Gets or sets the name of the club.
+        /// Gets or sets the name of competition.
         /// </summary>
         public string Name { get; set; }
 
@@ -44,18 +31,33 @@ namespace Competitions.Models
         public string Email { get; set; }
 
         /// <summary>
-        /// Gets or sets the list of contacts.
+        /// Gets or sets the address 1.
         /// </summary>
-        public List<string> Contacts { get; set; }
+        public string Address1 { get; set; }
+
+        /// <summary>
+        /// Gets or sets the address 2.
+        /// </summary>
+        public string Address2 { get; set; }
+
+        /// <summary>
+        /// Gets or sets the suburb.
+        /// </summary>
+        public string Suburb { get; set; }
+
+        /// <summary>
+        /// Gets or sets the state.
+        /// </summary>
+        public string State { get; set; }
+
+        /// <summary>
+        /// Gets or sets the postcode.
+        /// </summary>
+        public string Postcode { get; set; }
 
         /// <summary>
         /// Gets or sets the URL of club.
         /// </summary>
         public string Url { get; set; }
-
-        /// <summary>
-        /// Gets or sets the club tag used in competition.
-        /// </summary>
-        public string Tag { get; set; }
     }
 }

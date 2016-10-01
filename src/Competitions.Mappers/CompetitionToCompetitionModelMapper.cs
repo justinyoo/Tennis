@@ -1,4 +1,6 @@
-﻿using AutoMapper;
+﻿using System.Linq;
+
+using AutoMapper;
 
 using Competitions.EntityModels;
 using Competitions.Models;
@@ -19,7 +21,15 @@ namespace Competitions.Mappers
         protected override void ConfigureMap(IMapperConfigurationExpression config)
         {
             config.CreateMap<Competition, CompetitionModel>()
-                  .ForMember(p => p.TrolsUrl, o => o.MapFrom(s => s.District.TrolsUrl))
+                  .ForMember(d => d.TrolsUrl, o => o.MapFrom(s => s.District.TrolsUrl))
+                  .ForMember(d => d.ParticipatingClubs, o => o.MapFrom(s => s.CompetitionClubs.Select(q => q.Club).ToList()))
+                  ;
+
+            config.CreateMap<CompetitionClub, ClubModel>()
+                  .ForMember(d => d.Tag, o => o.MapFrom(s => s.ClubTag))
+                  ;
+
+            config.CreateMap<Club, ClubModel>()
                   ;
         }
     }

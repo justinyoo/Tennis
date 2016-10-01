@@ -83,6 +83,7 @@ namespace Competitions.Services
 
             var result = await this._dbContext.Competitions
                                    .Include(p => p.District)
+                                   .Include(p => p.CompetitionClubs.Select(q => q.Club))
                                    .SingleOrDefaultAsync(p => p.CompetitionId == competitionId)
                                    .ConfigureAwait(false);
 
@@ -118,6 +119,38 @@ namespace Competitions.Services
                 transaction.Commit();
 
                 return competition.CompetitionId;
+            }
+            catch
+            {
+                transaction.Rollback();
+                throw;
+            }
+        }
+
+        /// <summary>
+        /// Saves the competition-club details.
+        /// </summary>
+        /// <param name="model"><see cref="CompetitionClubModel"/> instance.</param>
+        /// <returns>Returns the competition-club Id from the competition-club details.</returns>
+        /// <exception cref="ArgumentNullException"><paramref name="model"/> is <see langword="null" />.</exception>
+        public async Task<Guid> SaveCompetitionClubAsync(CompetitionClubModel model)
+        {
+            if (model == null)
+            {
+                throw new ArgumentNullException(nameof(model));
+            }
+
+            var cc = await this.GetOrCreateCompetitionClubAsync(model).ConfigureAwait(false);
+
+            this._dbContext.CompetitionClubs.Add(cc);
+
+            var transaction = this._dbContext.Database.BeginTransaction();
+            try
+            {
+                await this._dbContext.SaveChangesAsync().ConfigureAwait(false);
+                transaction.Commit();
+
+                return cc.CompetitionClubId;
             }
             catch
             {
@@ -163,6 +196,28 @@ namespace Competitions.Services
             competition.DateUpdated = now;
 
             return competition;
+        }
+
+        private async Task<CompetitionClub> GetOrCreateCompetitionClubAsync(CompetitionClubModel model)
+        {
+            var cc = await this._dbContext.CompetitionClubs
+                               .SingleOrDefaultAsync(p => p.CompetitionId == model.CompetitionId &&
+                                                          p.ClubId == model.ClubId)
+                               .ConfigureAwait(false);
+
+            var now = DateTimeOffset.Now;
+
+            if (cc == null)
+            {
+                cc = new CompetitionClub() { CompetitionClubId = Guid.NewGuid(), DateCreated = now };
+            }
+
+            cc.CompetitionId = model.CompetitionId;
+            cc.ClubId = model.ClubId;
+            cc.ClubTag = model.Tag;
+            cc.DateUpdated = now;
+
+            return cc;
         }
     }
 }

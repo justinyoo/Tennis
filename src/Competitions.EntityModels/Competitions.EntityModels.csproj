@@ -51,8 +51,10 @@
   <ItemGroup>
     <Compile Include="Club.cs" />
     <Compile Include="Competition.cs" />
+    <Compile Include="CompetitionClub.cs" />
     <Compile Include="District.cs" />
     <Compile Include="ICompetitionDbContext.cs" />
+    <Compile Include="Mapping\CompetitionClubMap.cs" />
     <Compile Include="Mapping\MatchPlayerMap.cs" />
     <Compile Include="Mapping\MatchMap.cs" />
     <Compile Include="Mapping\FixtureMap.cs" />
@@ -63,9 +65,9 @@
     <Compile Include="Mapping\PlayerMap.cs" />
     <Compile Include="Match.cs" />
     <Compile Include="MatchPlayer.cs" />
-    <Compile Include="Migrations\201610010200130_InitialMigration.cs" />
-    <Compile Include="Migrations\201610010200130_InitialMigration.Designer.cs">
-      <DependentUpon>201610010200130_InitialMigration.cs</DependentUpon>
+    <Compile Include="Migrations\201610011250468_InitialMigration.cs" />
+    <Compile Include="Migrations\201610011250468_InitialMigration.Designer.cs">
+      <DependentUpon>201610011250468_InitialMigration.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Player.cs" />
@@ -80,8 +82,8 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201610010200130_InitialMigration.resx">
-      <DependentUpon>201610010200130_InitialMigration.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201610011250468_InitialMigration.resx">
+      <DependentUpon>201610011250468_InitialMigration.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

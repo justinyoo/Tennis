@@ -49,10 +49,14 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ClubService.cs" />
+    <Compile Include="VenueService.cs" />
     <Compile Include="DistrictService.cs" />
     <Compile Include="CompetitionService.cs" />
+    <Compile Include="IClubService.cs" />
     <Compile Include="ICompetitionService.cs" />
     <Compile Include="IDistrictService.cs" />
+    <Compile Include="IVenueService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

@@ -23,6 +23,7 @@ namespace Competitions.EntityModels.Mapping
             this.Property(p => p.Phone).IsOptional().HasMaxLength(16);
             this.Property(p => p.Mobile).IsOptional().HasMaxLength(16);
             this.Property(p => p.Email).IsOptional().HasMaxLength(256);
+            this.Property(p => p.Url).IsOptional().HasMaxLength(512);
             this.Property(p => p.DateCreated).IsRequired();
             this.Property(p => p.DateUpdated).IsRequired();
 
@@ -35,6 +36,7 @@ namespace Competitions.EntityModels.Mapping
             this.Property(p => p.Phone).HasColumnName("Phone");
             this.Property(p => p.Mobile).HasColumnName("Mobile");
             this.Property(p => p.Email).HasColumnName("Email");
+            this.Property(p => p.Url).HasColumnName("Url");
             this.Property(p => p.DateCreated).HasColumnName("DateCreated");
             this.Property(p => p.DateUpdated).HasColumnName("DateUpdated");
 

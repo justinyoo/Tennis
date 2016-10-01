@@ -1,0 +1,23 @@
+﻿@model Tennis.ViewModels.ClubViewModel
+@{
+    ViewData["Title"] = "Club";
+
+    var club = Model.Club;
+    var venue = Model.Venue;
+}
+
+<div class="row">
+    <h2>Club Details</h2>
+
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+        <ul>
+            <li>Name: @club.Name</li>
+            <li>Manager: @club.Manager (@string.Join(" | ", club.Contacts))</li>
+            <li>Address: @venue.FullAddress</li>
+            @if (!string.IsNullOrWhiteSpace(club.Url))
+            {
+                <li>Website: <a href="@club.Url" target="_blank">@club.Url</a></li>
+            }
+        </ul>
+    </div>
+</div>

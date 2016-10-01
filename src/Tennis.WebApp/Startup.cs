@@ -91,6 +91,7 @@ namespace Tennis.WebApp
             services.AddTransient<ISyndicationFeedWrapper, SyndicationFeedWrapper>();
 
             // Contexts
+            services.AddTransient<IClubServiceContext, ClubServiceContext>();
             services.AddTransient<ICompetitionServiceContext, CompetitionServiceContext>();
             services.AddTransient<IFeedContext, FeedContext>();
 
@@ -99,8 +100,10 @@ namespace Tennis.WebApp
 
             // Services
             services.AddTransient<ICompetitionService, CompetitionService>();
+            services.AddTransient<IClubService, ClubService>();
             services.AddTransient<IDistrictService, DistrictService>();
             services.AddTransient<IPlayerService, PlayerService>();
+            services.AddTransient<IVenueService, VenueService>();
         }
 
         /// <summary>

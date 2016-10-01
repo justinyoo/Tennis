@@ -36,5 +36,10 @@ namespace Competitions.Models
         /// Gets or sets the postcode.
         /// </summary>
         public string Postcode { get; set; }
+
+        /// <summary>
+        /// Gets or sets the full address details.
+        /// </summary>
+        public string FullAddress { get; set; }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace Competitions.Models
 {
@@ -56,5 +57,10 @@ namespace Competitions.Models
         /// Gets or sets the official URL at trols.org.au
         /// </summary>
         public string TrolsUrl { get; set; }
+
+        /// <summary>
+        /// Gets or sets the list of participating clubs.
+        /// </summary>
+        public List<ClubModel> ParticipatingClubs { get; set; }
     }
 }

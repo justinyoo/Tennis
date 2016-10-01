@@ -73,7 +73,13 @@ namespace Tennis.WebApp.Controllers
                                         .GetCompetitionAsync(competitionId)
                                         .ConfigureAwait(false);
 
-            var vm = new CompetitionViewModel() { Competition = competition };
+            var items = await this._context.ClubService
+                                  .GetClubsAsync()
+                                  .ConfigureAwait(false);
+
+            var clubs = this._context.Map<ClubModelToSelectListItemMapper, List<SelectListItem>>(items);
+
+            var vm = new CompetitionViewModel() { Competition = competition, Clubs = clubs };
 
             return View("GetCompetition", vm);
         }
@@ -125,6 +131,36 @@ namespace Tennis.WebApp.Controllers
 
             var competition= this._context.Map<CompetitionAddViewModelToCompetitionModelMapper, CompetitionModel>(model);
             var competitionId = await this._context.CompetitionService.SaveCompetitionAsync(competition).ConfigureAwait(false);
+
+            return RedirectToAction("GetCompetition", new { competitionId = competitionId });
+        }
+
+        /// <summary>
+        /// Adds club to competition.
+        /// </summary>
+        /// <param name="competitionId">Competition Id.</param>
+        /// <param name="model"><see cref="CompetitionViewModel"/> instance.</param>
+        /// <returns>Returns the competition details page.</returns>
+        [Route("{competitionId}/clubs/add")]
+        [Authorize]
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> AddClub(Guid competitionId, CompetitionViewModel model)
+        {
+            if (competitionId == Guid.Empty)
+            {
+                return NotFound();
+            }
+
+            if (model == null)
+            {
+                return BadRequest();
+            }
+
+            var cc = this._context.Map<CompetitionViewModelToCompetitionClubModelMapper, CompetitionClubModel>(model);
+            cc.CompetitionId = competitionId;
+
+            await this._context.CompetitionService.SaveCompetitionClubAsync(cc).ConfigureAwait(false);
 
             return RedirectToAction("GetCompetition", new { competitionId = competitionId });
         }

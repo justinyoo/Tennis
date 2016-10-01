@@ -1,0 +1,24 @@
+﻿@model Tennis.ViewModels.ClubCollectionViewModel
+@{
+    ViewData["Title"] = "Clubs";
+}
+
+<div class="row">
+    <h2>Clubs</h2>
+
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+        <ul>
+            @foreach (var club in Model.Clubs)
+            {
+                <li><a asp-controller="Club" asp-action="GetClub" asp-route-clubId="@club.ClubId">@club.Name</a></li>
+            }
+        </ul>
+    </div>
+
+    @if (User.Identity.IsAuthenticated)
+    {
+        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+            <a asp-controller="Club" asp-action="AddClub">Add Club</a>
+        </div>
+    }
+</div>

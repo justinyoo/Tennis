@@ -1,0 +1,99 @@
+﻿@model Tennis.ViewModels.ClubAddViewModel
+@{
+    ViewData["Title"] = "Club";
+}
+
+<div class="row">
+    <h2>Add Club</h2>
+    
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+        <form asp-controller="Club" asp-action="AddClub" method="post">
+            <h3>Club Details</h3>
+
+            <div class="form-group">
+                <label class="col-xs-12 col-sm-2 col-md-1 col-lg-1 control-label" asp-for="@Model.Name"></label>
+                <div class="col-xs-12 col-sm-10 col-md-11 col-lg-11">
+                    <input class="form-control" asp-for="Name" value="@Model.Name"/>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="col-xs-12 col-sm-2 col-md-1 col-lg-1 control-label" asp-for="@Model.Manager"></label>
+                <div class="col-xs-12 col-sm-10 col-md-11 col-lg-11">
+                    <input class="form-control" asp-for="Manager" value="@Model.Manager"/>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="col-xs-12 col-sm-2 col-md-1 col-lg-1 control-label" asp-for="@Model.Phone"></label>
+                <div class="col-xs-12 col-sm-10 col-md-11 col-lg-11">
+                    <input class="form-control" asp-for="Phone" value="@Model.Phone" />
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="col-xs-12 col-sm-2 col-md-1 col-lg-1 control-label" asp-for="@Model.Mobile"></label>
+                <div class="col-xs-12 col-sm-10 col-md-11 col-lg-11">
+                    <input class="form-control" asp-for="Mobile" value="@Model.Mobile" />
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="col-xs-12 col-sm-2 col-md-1 col-lg-1 control-label" asp-for="@Model.Email"></label>
+                <div class="col-xs-12 col-sm-10 col-md-11 col-lg-11">
+                    <input class="form-control" asp-for="Email" value="@Model.Email" />
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="col-xs-12 col-sm-2 col-md-1 col-lg-1 control-label" asp-for="@Model.Url"></label>
+                <div class="col-xs-12 col-sm-10 col-md-11 col-lg-11">
+                    <input class="form-control" asp-for="Url" value="@Model.Url" />
+                </div>
+            </div>
+            
+            <h3>Venue Details</h3>
+            
+            <div class="form-group">
+                <label class="col-xs-12 col-sm-2 col-md-1 col-lg-1 control-label" asp-for="@Model.Address1"></label>
+                <div class="col-xs-12 col-sm-10 col-md-11 col-lg-11">
+                    <input class="form-control" asp-for="Address1" value="@Model.Address1" />
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="col-xs-12 col-sm-2 col-md-1 col-lg-1 control-label" asp-for="@Model.Address2"></label>
+                <div class="col-xs-12 col-sm-10 col-md-11 col-lg-11">
+                    <input class="form-control" asp-for="Address2" value="@Model.Address2" />
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="col-xs-12 col-sm-2 col-md-1 col-lg-1 control-label" asp-for="@Model.Suburb"></label>
+                <div class="col-xs-12 col-sm-10 col-md-11 col-lg-11">
+                    <input class="form-control" asp-for="Suburb" value="@Model.Suburb" />
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="col-xs-12 col-sm-2 col-md-1 col-lg-1 control-label" asp-for="@Model.State"></label>
+                <div class="col-xs-12 col-sm-10 col-md-11 col-lg-11">
+                    <input class="form-control" asp-for="State" value="@Model.State" />
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="col-xs-12 col-sm-2 col-md-1 col-lg-1 control-label" asp-for="@Model.Postcode"></label>
+                <div class="col-xs-12 col-sm-10 col-md-11 col-lg-11">
+                    <input class="form-control" asp-for="Postcode" value="@Model.Postcode" />
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="col-xs-12 col-sm-offset-2 col-sm-10 col-md-offset-1 col-md-11 col-lg-offset-1 col-lg-11">
+                    <button type="submit" class="btn btn-primary">Add</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
