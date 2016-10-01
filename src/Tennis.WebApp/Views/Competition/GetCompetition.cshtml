@@ -1,8 +1,35 @@
 ﻿@model Tennis.ViewModels.CompetitionViewModel
 @{
     ViewData["Title"] = "Competition";
+
+    var competition = Model.Competition;
 }
 
 <div class="row">
-    <h2>Competition</h2>
+    <h2>Competition Details</h2>
+
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+        <ul>
+            <li>Name: @competition.Name</li>
+            <li>Year: @competition.Year</li>
+            <li>Season: @competition.Season</li>
+            <li>Type: @competition.Type</li>
+            <li>Grade: @competition.Grade</li>
+            <li>Level: @competition.Level</li>
+            <li><a href="@competition.TrolsUrl">Official TROLS page</a></li>
+        </ul>
+    </div>
+
+    <h2>Participating Clubs</h2>
+
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+    </div>
+
+    @if (User.Identity.IsAuthenticated)
+    {
+        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+            <a href="#">Add Club</a>
+            @*<a asp-controller="Club" asp-action="AddClub">Add Club</a>*@
+        </div>
+    }
 </div>

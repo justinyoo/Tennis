@@ -19,6 +19,7 @@ namespace Competitions.EntityModels.Mapping
             this.Property(p => p.DistrictId).IsRequired();
             this.Property(p => p.Name).IsRequired().HasMaxLength(128);
             this.Property(p => p.Url).IsOptional().HasMaxLength(512);
+            this.Property(p => p.TrolsUrl).IsOptional().HasMaxLength(512);
             this.Property(p => p.DateCreated).IsRequired();
             this.Property(p => p.DateUpdated).IsRequired();
 
@@ -27,6 +28,7 @@ namespace Competitions.EntityModels.Mapping
             this.Property(p => p.DistrictId).HasColumnName("DistrictId");
             this.Property(p => p.Name).HasColumnName("Name");
             this.Property(p => p.Url).HasColumnName("Url");
+            this.Property(p => p.TrolsUrl).HasColumnName("TrolsUrl");
             this.Property(p => p.DateCreated).HasColumnName("DateCreated");
             this.Property(p => p.DateUpdated).HasColumnName("DateUpdated");
 

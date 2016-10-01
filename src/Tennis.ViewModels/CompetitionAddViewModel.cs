@@ -61,10 +61,5 @@ namespace Tennis.ViewModels
         /// Gets or sets the level of competition. - D1, C1
         /// </summary>
         public string Level { get; set; }
-
-        /// <summary>
-        /// Gets or sets the competition page URL at trols.org.au.
-        /// </summary>
-        public string Url { get; set; }
     }
 }

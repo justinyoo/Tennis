@@ -53,16 +53,76 @@ namespace Competitions.Services
         public async Task<List<CompetitionModel>> GetCompetitionsAsync()
         {
             var results = await this._dbContext.Competitions
+                                    .Include(p => p.District)
                                     .OrderByDescending(p => p.Year)
                                     .ThenBy(p => p.Season)
                                     .ThenBy(p => p.Name)
-                                    .ToListAsync().ConfigureAwait(false);
+                                    .ToListAsync()
+                                    .ConfigureAwait(false);
 
             using (var mapper = this._mapperFactory.Get<CompetitionToCompetitionModelMapper>())
             {
                 var competitions = mapper.Map<List<CompetitionModel>>(results);
 
                 return competitions;
+            }
+        }
+
+        /// <summary>
+        /// Gets the competition details.
+        /// </summary>
+        /// <param name="competitionId">Competition Id.</param>
+        /// <returns>Returns the competition details.</returns>
+        /// <exception cref="ArgumentNullException"><paramref name="competitionId"/> is <see langword="null" />.</exception>
+        public async Task<CompetitionModel> GetCompetitionAsync(Guid competitionId)
+        {
+            if (competitionId == Guid.Empty)
+            {
+                throw new ArgumentNullException(nameof(competitionId));
+            }
+
+            var result = await this._dbContext.Competitions
+                                   .Include(p => p.District)
+                                   .SingleOrDefaultAsync(p => p.CompetitionId == competitionId)
+                                   .ConfigureAwait(false);
+
+            using (var mapper = this._mapperFactory.Get<CompetitionToCompetitionModelMapper>())
+            {
+                var competition = mapper.Map<CompetitionModel>(result);
+
+                return competition;
+            }
+        }
+
+        /// <summary>
+        /// Saves the competition details.
+        /// </summary>
+        /// <param name="model"><see cref="CompetitionModel"/> instance.</param>
+        /// <returns>Returns the competition Id from the competition details.</returns>
+        /// <exception cref="ArgumentNullException"><paramref name="model"/> is <see langword="null" />.</exception>
+        public async Task<Guid> SaveCompetitionAsync(CompetitionModel model)
+        {
+            if (model == null)
+            {
+                throw new ArgumentNullException(nameof(model));
+            }
+
+            var competition = await this.GetOrCreateCompetitionAsync(model).ConfigureAwait(false);
+
+            this._dbContext.Competitions.Add(competition);
+
+            var transaction = this._dbContext.Database.BeginTransaction();
+            try
+            {
+                await this._dbContext.SaveChangesAsync().ConfigureAwait(false);
+                transaction.Commit();
+
+                return competition.CompetitionId;
+            }
+            catch
+            {
+                transaction.Rollback();
+                throw;
             }
         }
 
@@ -77,6 +137,31 @@ namespace Competitions.Services
             }
 
             this._disposed = true;
+        }
+
+        private async Task<Competition> GetOrCreateCompetitionAsync(CompetitionModel model)
+        {
+            var competition = await this._dbContext.Competitions.
+                                        SingleOrDefaultAsync(p => p.CompetitionId == model.CompetitionId)
+                                        .ConfigureAwait(false);
+
+            var now = DateTimeOffset.Now;
+
+            if (competition == null)
+            {
+                competition = new Competition() { CompetitionId = Guid.NewGuid(), DateCreated = now };
+            }
+
+            competition.DistrictId = model.DistrictId;
+            competition.Name = model.Name;
+            competition.Year = model.Year;
+            competition.Season = model.Season;
+            competition.Type = model.Type;
+            competition.Grade = model.Grade;
+            competition.Level = model.Level;
+            competition.DateUpdated = now;
+
+            return competition;
         }
     }
 }

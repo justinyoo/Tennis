@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
+using Competitions.Models;
+
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -61,7 +63,16 @@ namespace Tennis.WebApp.Controllers
         [HttpGet]
         public async Task<IActionResult> GetCompetition(Guid competitionId)
         {
-            var vm = new CompetitionViewModel();
+            if (competitionId == Guid.Empty)
+            {
+                return NotFound();
+            }
+
+            var competition = await this._context.CompetitionService
+                                        .GetCompetitionAsync(competitionId)
+                                        .ConfigureAwait(false);
+
+            var vm = new CompetitionViewModel() { Competition = competition };
 
             return View("GetCompetition", vm);
         }
@@ -104,7 +115,15 @@ namespace Tennis.WebApp.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> AddCompetition(CompetitionAddViewModel model)
         {
-            throw new NotImplementedException();
+            if (model == null)
+            {
+                return BadRequest();
+            }
+
+            var competition= this._context.Map<CompetitionAddViewModelToCompetitionModelMapper, CompetitionModel>(model);
+            var competitionId = await this._context.CompetitionService.SaveCompetitionAsync(competition).ConfigureAwait(false);
+
+            return RedirectToAction("GetCompetition", new { competitionId = competitionId });
         }
     }
 }

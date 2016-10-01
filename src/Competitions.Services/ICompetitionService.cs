@@ -16,5 +16,19 @@ namespace Competitions.Services
         /// </summary>
         /// <returns>Returns the list of competitions.</returns>
         Task<List<CompetitionModel>> GetCompetitionsAsync();
+
+        /// <summary>
+        /// Gets the competition details.
+        /// </summary>
+        /// <param name="competitionId">Competition Id.</param>
+        /// <returns>Returns the competition details.</returns>
+        Task<CompetitionModel> GetCompetitionAsync(Guid competitionId);
+
+        /// <summary>
+        /// Saves the competition details.
+        /// </summary>
+        /// <param name="model"><see cref="CompetitionModel"/> instance.</param>
+        /// <returns>Returns the competition Id from the competition details.</returns>
+        Task<Guid> SaveCompetitionAsync(CompetitionModel model);
     }
 }

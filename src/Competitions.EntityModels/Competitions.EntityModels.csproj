@@ -63,9 +63,9 @@
     <Compile Include="Mapping\PlayerMap.cs" />
     <Compile Include="Match.cs" />
     <Compile Include="MatchPlayer.cs" />
-    <Compile Include="Migrations\201609301512401_InitialMigration.cs" />
-    <Compile Include="Migrations\201609301512401_InitialMigration.Designer.cs">
-      <DependentUpon>201609301512401_InitialMigration.cs</DependentUpon>
+    <Compile Include="Migrations\201610010120119_InitialMigration.cs" />
+    <Compile Include="Migrations\201610010120119_InitialMigration.Designer.cs">
+      <DependentUpon>201610010120119_InitialMigration.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Player.cs" />
@@ -80,8 +80,8 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201609301512401_InitialMigration.resx">
-      <DependentUpon>201609301512401_InitialMigration.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201610010120119_InitialMigration.resx">
+      <DependentUpon>201610010120119_InitialMigration.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

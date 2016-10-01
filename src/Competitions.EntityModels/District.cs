@@ -24,6 +24,11 @@ namespace Competitions.EntityModels
         public string Url { get; set; }
 
         /// <summary>
+        /// Gets or sets the official URL at trols.org.au
+        /// </summary>
+        public string TrolsUrl { get; set; }
+
+        /// <summary>
         /// Gets or sets the date when the record was created.
         /// </summary>
         public DateTimeOffset DateCreated { get; set; }

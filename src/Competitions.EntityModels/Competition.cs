@@ -49,11 +49,6 @@ namespace Competitions.EntityModels
         public string Level { get; set; }
 
         /// <summary>
-        /// Gets or sets the competition page URL at trols.org.au.
-        /// </summary>
-        public string Url { get; set; }
-
-        /// <summary>
         /// Gets or sets the date when the record was created.
         /// </summary>
         public DateTimeOffset DateCreated { get; set; }

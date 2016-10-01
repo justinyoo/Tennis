@@ -1,8 +1,6 @@
 ﻿@model Tennis.ViewModels.CompetitionAddViewModel
 @{
     ViewData["Title"] = "Competition";
-
-    var year = DateTimeOffset.Now.Year;
 }
 
 <div class="row">
@@ -27,7 +25,7 @@
             <div class="form-group">
                 <label class="col-xs-12 col-sm-2 col-md-1 col-lg-1 control-label" asp-for="@Model.Year"></label>
                 <div class="col-xs-12 col-sm-10 col-md-11 col-lg-11">
-                    <input class="form-control" asp-for="Year" readonly="readonly" value="@year" />
+                    <input class="form-control" asp-for="Year" readonly="readonly" value="@Model.Year" />
                 </div>
             </div>
 

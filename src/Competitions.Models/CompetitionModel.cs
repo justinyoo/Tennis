@@ -48,8 +48,8 @@ namespace Competitions.Models
         public string Level { get; set; }
 
         /// <summary>
-        /// Gets or sets the competition page URL at trols.org.au.
+        /// Gets or sets the official URL at trols.org.au
         /// </summary>
-        public string Url { get; set; }
+        public string TrolsUrl { get; set; }
     }
 }

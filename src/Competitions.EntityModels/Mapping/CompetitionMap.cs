@@ -24,7 +24,6 @@ namespace Competitions.EntityModels.Mapping
             this.Property(p => p.Type).IsRequired().HasMaxLength(8);
             this.Property(p => p.Grade).IsRequired().HasMaxLength(32);
             this.Property(p => p.Level).IsRequired().HasMaxLength(8);
-            this.Property(p => p.Url).IsOptional().HasMaxLength(512);
             this.Property(p => p.DateCreated).IsRequired();
             this.Property(p => p.DateUpdated).IsRequired();
 
@@ -38,7 +37,6 @@ namespace Competitions.EntityModels.Mapping
             this.Property(p => p.Type).HasColumnName("Type");
             this.Property(p => p.Grade).HasColumnName("Grade");
             this.Property(p => p.Level).HasColumnName("Level");
-            this.Property(p => p.Url).HasColumnName("Url");
             this.Property(p => p.DateCreated).HasColumnName("DateCreated");
             this.Property(p => p.DateUpdated).HasColumnName("DateUpdated");
 
