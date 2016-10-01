@@ -101,6 +101,7 @@ namespace Competitions.EntityModels.Migrations
                         Name = c.String(nullable: false, maxLength: 128),
                         Year = c.Int(nullable: false),
                         Season = c.String(nullable: false, maxLength: 8),
+                        Day = c.String(nullable: false, maxLength: 16),
                         Type = c.String(nullable: false, maxLength: 8),
                         Grade = c.String(nullable: false, maxLength: 32),
                         Level = c.String(nullable: false, maxLength: 8),

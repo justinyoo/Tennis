@@ -33,6 +33,11 @@ namespace Competitions.Models
         public string Season { get; set; }
 
         /// <summary>
+        /// Gets or sets the day when the competition is held - Friday, Saturday, Sunday
+        /// </summary>
+        public string Day { get; set; }
+
+        /// <summary>
         /// Gets or sets the type of competition - Boys, Girls, Open
         /// </summary>
         public string Type { get; set; }

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 using Competitions.Models;
@@ -92,6 +93,7 @@ namespace Tennis.WebApp.Controllers
 
             var year = DateTimeOffset.Now.Year;
             var seasons = new List<string> { "Spring", "Summer", "Autumn", "Winter" };
+            var days = ((int[]) Enum.GetValues(typeof(DayOfWeek))).OrderBy(p => p).Select(p => Enum.GetName(typeof(DayOfWeek), p)).ToList();
             var types = new List<string> { "Boys", "Girls", "Open" };
 
             var vm = new CompetitionAddViewModel()
@@ -99,6 +101,7 @@ namespace Tennis.WebApp.Controllers
                          Districts = districts,
                          Year = year,
                          Seasons = seasons,
+                         Days = days,
                          Types = types
                      };
 

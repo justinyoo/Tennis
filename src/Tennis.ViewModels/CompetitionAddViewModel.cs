@@ -43,6 +43,16 @@ namespace Tennis.ViewModels
         public string Season { get; set; }
 
         /// <summary>
+        /// Gets or sets the list of days.
+        /// </summary>
+        public List<string> Days { get; set; }
+
+        /// <summary>
+        /// Gets or sets the day when the competition is held - Friday, Saturday, Sunday
+        /// </summary>
+        public string Day { get; set; }
+
+        /// <summary>
         /// Gets or sets the list of types.
         /// </summary>
         public List<string> Types { get; set; }

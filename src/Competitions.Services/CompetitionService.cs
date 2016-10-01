@@ -156,6 +156,7 @@ namespace Competitions.Services
             competition.Name = model.Name;
             competition.Year = model.Year;
             competition.Season = model.Season;
+            competition.Day = model.Day;
             competition.Type = model.Type;
             competition.Grade = model.Grade;
             competition.Level = model.Level;

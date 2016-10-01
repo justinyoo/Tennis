@@ -21,6 +21,7 @@ namespace Competitions.EntityModels.Mapping
             this.Property(p => p.Name).IsRequired().HasMaxLength(128);
             this.Property(p => p.Year).IsRequired();
             this.Property(p => p.Season).IsRequired().HasMaxLength(8);
+            this.Property(p => p.Day).IsRequired().HasMaxLength(16);
             this.Property(p => p.Type).IsRequired().HasMaxLength(8);
             this.Property(p => p.Grade).IsRequired().HasMaxLength(32);
             this.Property(p => p.Level).IsRequired().HasMaxLength(8);
@@ -34,6 +35,7 @@ namespace Competitions.EntityModels.Mapping
             this.Property(p => p.Name).HasColumnName("Name");
             this.Property(p => p.Year).HasColumnName("Year");
             this.Property(p => p.Season).HasColumnName("Season");
+            this.Property(p => p.Day).HasColumnName("Day");
             this.Property(p => p.Type).HasColumnName("Type");
             this.Property(p => p.Grade).HasColumnName("Grade");
             this.Property(p => p.Level).HasColumnName("Level");

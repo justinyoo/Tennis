@@ -13,10 +13,11 @@
             <li>Name: @competition.Name</li>
             <li>Year: @competition.Year</li>
             <li>Season: @competition.Season</li>
+            <li>Day: @competition.Day</li>
             <li>Type: @competition.Type</li>
             <li>Grade: @competition.Grade</li>
             <li>Level: @competition.Level</li>
-            <li><a href="@competition.TrolsUrl">Official TROLS page</a></li>
+            <li><a href="@competition.TrolsUrl" target="_blank">Official TROLS page</a></li>
         </ul>
     </div>
 
@@ -29,6 +30,19 @@
     {
         <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
             <a href="#">Add Club</a>
+            @*<a asp-controller="Club" asp-action="AddClub">Add Club</a>*@
+        </div>
+    }
+    
+    <h2>Fixtures</h2>
+
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+    </div>
+
+    @if (User.Identity.IsAuthenticated)
+    {
+        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+            <a href="#">Add Fixture</a>
             @*<a asp-controller="Club" asp-action="AddClub">Add Club</a>*@
         </div>
     }
