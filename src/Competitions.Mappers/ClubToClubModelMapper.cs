@@ -1,9 +1,11 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+
 using AutoMapper;
 
 using Competitions.EntityModels;
 using Competitions.Models;
+
 using Tennis.Common.Extensions;
 using Tennis.Mappers;
 
@@ -22,7 +24,12 @@ namespace Competitions.Mappers
         {
             config.CreateMap<Club, ClubModel>()
                   .ForMember(d => d.Contacts, o => o.MapFrom(s => GetContacts(s)))
+                  .ForMember(d => d.Players, o => o.MapFrom(s => s.Players))
                   .ForMember(d => d.Venue, o => o.MapFrom(s => s.Venue))
+                  ;
+
+            config.CreateMap<Player, PlayerModel>()
+                  .ForMember(d => d.Club, o => o.Ignore())
                   ;
 
             config.CreateMap<Venue, VenueModel>()

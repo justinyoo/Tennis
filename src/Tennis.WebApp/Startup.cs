@@ -99,13 +99,14 @@ namespace Tennis.WebApp
             services.AddTransient<IMapperFactory, MapperFactory>();
 
             // Services
-            services.AddTransient<ICompetitionService, CompetitionService>();
             services.AddTransient<IClubService, ClubService>();
+            services.AddTransient<ICompetitionService, CompetitionService>();
             services.AddTransient<IDistrictService, DistrictService>();
             services.AddTransient<IFixtureService, FixtureService>();
+            services.AddTransient<Competitions.Services.IPlayerService, Competitions.Services.PlayerService>();
             services.AddTransient<IVenueService, VenueService>();
 
-            services.AddTransient<IPlayerService, PlayerService>();
+            services.AddTransient<Tournaments.Services.IPlayerService, Tournaments.Services.PlayerService>();
         }
 
         /// <summary>

@@ -1,4 +1,4 @@
-﻿@using Tennis.ViewModels.Competitions
+﻿@using Tennis.Common.Extensions
 @model Tennis.ViewModels.Competitions.ClubViewModel
 @{
     ViewData["Title"] = "Club";
@@ -20,4 +20,29 @@
             }
         </ul>
     </div>
+    
+    <h2>Players</h2>
+
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+        <ul>
+            @if (club.Players.IsNullOrEmpty())
+            {
+                <li>There is no player</li>
+            }
+            else
+            {
+                foreach (var player in club.Players)
+                {
+                    <li>@player.LastName, @player.FirstName</li>
+                }
+            }
+        </ul>
+    </div>
+    
+    @if (User.Identity.IsAuthenticated)
+    {
+        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+            <a asp-controller="Club" asp-action="AddPlayer" asp-route-clubId="@club.ClubId">Add Player</a>
+        </div>
+    }
 </div>

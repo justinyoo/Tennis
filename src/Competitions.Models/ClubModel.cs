@@ -62,5 +62,10 @@ namespace Competitions.Models
         /// Gets or sets the venue details.
         /// </summary>
         public VenueModel Venue { get; set; }
+
+        /// <summary>
+        /// Gets or sets the list of player details.
+        /// </summary>
+        public List<PlayerModel> Players { get; set; }
     }
 }

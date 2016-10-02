@@ -53,7 +53,12 @@ namespace Competitions.Services
         /// <returns>Returns the list of districts.</returns>
         public async Task<List<ClubModel>> GetClubsAsync()
         {
-            var results = await this._dbContext.Clubs.OrderBy(p => p.Name).ToListAsync().ConfigureAwait(false);
+            var results = await this._dbContext.Clubs
+                                    .Include(p => p.Players)
+                                    .Include(p => p.Venue)
+                                    .OrderBy(p => p.Name)
+                                    .ToListAsync()
+                                    .ConfigureAwait(false);
 
             using (var mapper = this._mapperFactory.Get<ClubToClubModelMapper>())
             {
@@ -77,6 +82,7 @@ namespace Competitions.Services
             }
 
             var result = await this._dbContext.Clubs
+                                   .Include(p => p.Players)
                                    .Include(p => p.Venue)
                                    .SingleOrDefaultAsync(p => p.ClubId == clubId)
                                    .ConfigureAwait(false);

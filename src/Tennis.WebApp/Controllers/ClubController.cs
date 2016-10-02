@@ -101,5 +101,57 @@ namespace Tennis.WebApp.Controllers
 
             return RedirectToAction("GetClub", new { clubId = clubId });
         }
+
+        /// <summary>
+        /// Adds the player.
+        /// </summary>
+        /// <param name="clubId">Club Id.</param>
+        /// <returns>Returns the player input form.</returns>
+        [Route("{clubId}/players/add")]
+        [Authorize]
+        [HttpGet]
+        public async Task<IActionResult> AddPlayer(Guid clubId)
+        {
+            if (clubId == Guid.Empty)
+            {
+                return NotFound();
+            }
+
+            var club = await this._context.ClubService.GetClubAsync(clubId).ConfigureAwait(false);
+
+            var vm = new PlayerAddViewModel() { ClubId = clubId, ClubName = club.Name };
+
+            return View("AddPlayer", vm);
+        }
+
+        /// <summary>
+        /// Adds the player.
+        /// </summary>
+        /// <param name="clubId">Club Id.</param>
+        /// <param name="model"><see cref="PlayerAddViewModel"/> instance.</param>
+        /// <returns>Returns the player input form.</returns>
+        [Route("{clubId}/players/add")]
+        [Authorize]
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> AddPlayer(Guid clubId, PlayerAddViewModel model)
+        {
+            if (clubId == Guid.Empty)
+            {
+                return NotFound();
+            }
+
+            if (model == null)
+            {
+                return BadRequest();
+            }
+
+            var player = this._context.Map<PlayerAddViewModelToPlayerModelMapper, PlayerModel>(model);
+            player.ClubId = clubId;
+
+            await this._context.PlayerService.SavePlayerAsync(player).ConfigureAwait(false);
+
+            return RedirectToAction("GetClub", new { clubId = clubId });
+        }
     }
 }
