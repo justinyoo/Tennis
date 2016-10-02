@@ -76,6 +76,10 @@
       <Project>{5c1f980b-c20f-448b-bff2-bcdeac8ba76a}</Project>
       <Name>Competitions.Models</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Tennis.Common\Tennis.Common.csproj">
+      <Project>{2b8389f6-7b35-4f86-959e-c1c6fea3c545}</Project>
+      <Name>Tennis.Common</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Tennis.Mappers\Tennis.Mappers.csproj">
       <Project>{f42f9620-4eac-4e38-b890-a78c4c5dc616}</Project>
       <Name>Tennis.Mappers</Name>

@@ -20,7 +20,8 @@ namespace Tennis.WebApp.Mappers
         {
             config.CreateMap<CompetitionViewModel, CompetitionClubModel>()
                   .ForMember(d => d.ClubId, o => o.MapFrom(s => s.Club))
-                ;
+                  .ForMember(d => d.Club, o => o.Ignore())
+                  ;
         }
     }
 }

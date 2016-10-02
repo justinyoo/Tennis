@@ -20,11 +20,16 @@ namespace Competitions.Models
         /// <summary>
         /// Gets or sets the player Id.
         /// </summary>
-        public Guid PlayerId { get; set; }
+        public Guid? PlayerId { get; set; }
 
         /// <summary>
         /// Gets or sets the value that specifies whether the player belongs to home or away.
         /// </summary>
         public string HomeOrAway { get; set; }
+
+        /// <summary>
+        /// Gets or sets the player details.
+        /// </summary>
+        public PlayerModel Player { get; set; }
     }
 }

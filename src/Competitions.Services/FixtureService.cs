@@ -89,6 +89,9 @@ namespace Competitions.Services
             }
 
             var result = await this._dbContext.Fixtures
+                                   .Include(p => p.Matches)
+                                   .Include(p => p.Matches.Select(q => q.MatchPlayers))
+                                   .Include(p => p.Matches.Select(q => q.MatchPlayers.Select(r => r.Player)))
                                    .Include(p => p.Venue)
                                    .SingleOrDefaultAsync(p => p.FixtureId == fixtureId)
                                    .ConfigureAwait(false);

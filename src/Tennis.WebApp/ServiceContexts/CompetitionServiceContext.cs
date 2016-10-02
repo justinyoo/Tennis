@@ -20,17 +20,20 @@ namespace Tennis.WebApp.ServiceContexts
         /// <param name="clubService"><see cref="IClubService"/> instance.</param>
         /// <param name="competitionService"><see cref="ICompetitionService"/> instance.</param>
         /// <param name="fixtureService"><see cref="IFixtureService"/> instance.</param>
+        /// <param name="playerService"><see cref="IPlayerService"/> instance.</param>
         /// <exception cref="ArgumentNullException"><paramref name="mapperFactory"/> is <see langword="null" />.</exception>
         /// <exception cref="ArgumentNullException"><paramref name="districtService"/> is <see langword="null" />.</exception>
         /// <exception cref="ArgumentNullException"><paramref name="competitionService"/> is <see langword="null" />.</exception>
         /// <exception cref="ArgumentNullException"><paramref name="clubService"/> is <see langword="null" />.</exception>
         /// <exception cref="ArgumentNullException"><paramref name="fixtureService"/> is <see langword="null" />.</exception>
+        /// <exception cref="ArgumentNullException"><paramref name="playerService"/> is <see langword="null" />.</exception>
         public CompetitionServiceContext(IMapperFactory mapperFactory,
                                          IDistrictService districtService,
                                          IVenueService venueService,
                                          IClubService clubService,
                                          ICompetitionService competitionService,
-                                         IFixtureService fixtureService)
+                                         IFixtureService fixtureService,
+                                         IPlayerService playerService)
             : base(mapperFactory)
         {
             if (districtService == null)
@@ -67,6 +70,13 @@ namespace Tennis.WebApp.ServiceContexts
             }
 
             this.FixtureService = fixtureService;
+
+            if (playerService == null)
+            {
+                throw new ArgumentNullException(nameof(playerService));
+            }
+
+            this.PlayerService = playerService;
         }
 
         /// <summary>
@@ -93,5 +103,10 @@ namespace Tennis.WebApp.ServiceContexts
         /// Gets the <see cref="IFixtureService"/> instance.
         /// </summary>
         public IFixtureService FixtureService { get; }
+
+        /// <summary>
+        /// Gets the <see cref="IPlayerService"/> instance.
+        /// </summary>
+        public IPlayerService PlayerService { get; }
     }
 }

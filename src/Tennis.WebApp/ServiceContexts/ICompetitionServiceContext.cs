@@ -31,5 +31,10 @@ namespace Tennis.WebApp.ServiceContexts
         /// Gets the <see cref="IFixtureService"/> instance.
         /// </summary>
         IFixtureService FixtureService { get; }
+
+        /// <summary>
+        /// Gets the <see cref="IPlayerService"/> instance.
+        /// </summary>
+        IPlayerService PlayerService { get; }
     }
 }

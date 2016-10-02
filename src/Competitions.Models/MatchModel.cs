@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 
 namespace Competitions.Models
 {
@@ -16,6 +17,11 @@ namespace Competitions.Models
         /// Gets or sets the fixture Id.
         /// </summary>
         public Guid FixtureId { get; set; }
+
+        /// <summary>
+        /// Gets or sets the set number;
+        /// </summary>
+        public int SetNumber { get; set; }
 
         /// <summary>
         /// Gets or sets the set score for home team.
@@ -36,5 +42,10 @@ namespace Competitions.Models
         /// Gets or sets the game score for away team.
         /// </summary>
         public int AwayGameScore { get; set; }
+
+        /// <summary>
+        /// Gets or sets the list of match-players details.
+        /// </summary>
+        public List<MatchPlayerModel> MatchPlayers { get; set; }
     }
 }

@@ -20,18 +20,56 @@
     <h2>Matches</h2>
     
     <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-        <ul>
-            @if (fixture.Matches.IsNullOrEmpty())
-            {
-                <li>There is no match</li>
-            }
-            else
-            {
-                foreach (var match in fixture.Matches)
+        <div class="table-responsive">
+            <table class="table table-bordered">
+                <tr>
+                    <th rowspan="2">Set</th>
+                    <th colspan="3">Home</th>
+                    <th colspan="3">Away</th>
+                </tr>
+                <tr>
+                    <th>Player(s)</th>
+                    <th>Set</th>
+                    <th>Game</th>
+                    <th>Game</th>
+                    <th>Set</th>
+                    <th>Player(s)</th>
+                </tr>
+                @if (fixture.Matches.IsNullOrEmpty())
                 {
+                    <tr>
+                        <td colspan="7" class="text-center">There is no match</td>
+                    </tr>
                 }
-            }
-        </ul>
+                else
+                {
+                    foreach (var match in fixture.Matches.OrderBy(p => p.SetNumber))
+                    {
+                        var homePlayers = match.MatchPlayers.Where(p => p.HomeOrAway.Equals("home", StringComparison.CurrentCultureIgnoreCase));
+                        var awayPlayers = match.MatchPlayers.Where(p => p.HomeOrAway.Equals("away", StringComparison.CurrentCultureIgnoreCase));
+
+                        <tr>
+                            <td class="text-center">@match.SetNumber</td>
+                            <td>@Html.Raw(string.Join("<br />", homePlayers.Select(p => p.Player == null ? string.Empty : $"{p.Player.FirstName} {p.Player.LastName}")))</td>
+                            <td class="text-center">@match.HomeSetScore</td>
+                            <td class="text-center">@match.HomeGameScore</td>
+                            <td class="text-center">@match.AwayGameScore</td>
+                            <td class="text-center">@match.AwaySetScore</td>
+                            <td>@Html.Raw(string.Join("<br />", awayPlayers.Select(p => p.Player == null ? string.Empty : $"{p.Player.FirstName} {p.Player.LastName}")))</td>
+                        </tr>
+                    }
+                    <tr>
+                        <td class="text-center">Total</td>
+                        <td></td>
+                        <td class="text-center">@fixture.Matches.Sum(p => p.HomeSetScore)</td>
+                        <td class="text-center">@fixture.Matches.Sum(p => p.HomeGameScore)</td>
+                        <td class="text-center">@fixture.Matches.Sum(p => p.AwayGameScore)</td>
+                        <td class="text-center">@fixture.Matches.Sum(p => p.AwaySetScore)</td>
+                        <td></td>
+                    </tr>
+                }
+            </table>
+        </div>
     </div>
 
     @if (User.Identity.IsAuthenticated)

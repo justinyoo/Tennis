@@ -20,7 +20,7 @@ namespace Competitions.EntityModels
         /// <summary>
         /// Gets or sets the player Id.
         /// </summary>
-        public Guid PlayerId { get; set; }
+        public Guid? PlayerId { get; set; }
 
         /// <summary>
         /// Gets or sets the value that specifies whether the player belongs to home or away.

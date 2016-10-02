@@ -18,8 +18,8 @@ namespace Competitions.EntityModels.Mapping
             // Properties
             this.Property(p => p.MatchPlayerId).IsRequired();
             this.Property(p => p.MatchId).IsRequired();
-            this.Property(p => p.PlayerId).IsRequired();
-            this.Property(p => p.HomeOrAway).IsRequired();
+            this.Property(p => p.PlayerId).IsOptional();
+            this.Property(p => p.HomeOrAway).IsRequired().HasMaxLength(8);
             this.Property(p => p.DateCreated).IsRequired();
             this.Property(p => p.DateUpdated).IsRequired();
 
@@ -37,7 +37,7 @@ namespace Competitions.EntityModels.Mapping
                 .WithMany(p => p.MatchPlayers)
                 .HasForeignKey(p => p.MatchId);
 
-            this.HasRequired(p => p.Player)
+            this.HasOptional(p => p.Player)
                 .WithMany(p => p.MatchPlayers)
                 .HasForeignKey(p => p.PlayerId);
         }

@@ -19,7 +19,20 @@ namespace Competitions.Mappers
         protected override void ConfigureMap(IMapperConfigurationExpression config)
         {
             config.CreateMap<Fixture, FixtureModel>()
+                  .ForMember(d => d.Matches, o => o.MapFrom(s => s.Matches))
                   .ForMember(d => d.Venue, o => o.MapFrom(s => s.Venue))
+                  ;
+
+            config.CreateMap<Match, MatchModel>()
+                  .ForMember(d => d.MatchPlayers, o => o.MapFrom(s => s.MatchPlayers))
+                  ;
+
+            config.CreateMap<MatchPlayer, MatchPlayerModel>()
+                  .ForMember(d => d.Player, o => o.MapFrom(s => s.Player))
+                  ;
+
+            config.CreateMap<Player, PlayerModel>()
+                  .ForMember(d => d.Club, o => o.Ignore())
                   ;
 
             config.CreateMap<Venue, VenueModel>()

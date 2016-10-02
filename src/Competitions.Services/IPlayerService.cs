@@ -31,5 +31,14 @@ namespace Competitions.Services
         /// <param name="model"><see cref="PlayerModel"/> instance.</param>
         /// <returns>Returns the player Id from the player details.</returns>
         Task<Guid> SavePlayerAsync(PlayerModel model);
+
+        /// <summary>
+        /// Saves match details.
+        /// </summary>
+        /// <param name="fixtureId">Fixture Id.</param>
+        /// <param name="homePlayers">List of home players.</param>
+        /// <param name="awayPlayers">List of away players.</param>
+        /// <returns>Returns the list of matches.</returns>
+        Task<List<Guid>> SaveMatchesAsync(Guid fixtureId, List<Guid> homePlayers, List<Guid> awayPlayers);
     }
 }

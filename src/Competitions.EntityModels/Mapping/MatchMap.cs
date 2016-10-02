@@ -18,6 +18,7 @@ namespace Competitions.EntityModels.Mapping
             // Properties
             this.Property(p => p.MatchId).IsRequired();
             this.Property(p => p.FixtureId).IsRequired();
+            this.Property(p => p.SetNumber).IsRequired();
             this.Property(p => p.HomeSetScore).IsRequired();
             this.Property(p => p.AwaySetScore).IsRequired();
             this.Property(p => p.HomeGameScore).IsRequired();
@@ -29,6 +30,7 @@ namespace Competitions.EntityModels.Mapping
             this.ToTable("Match");
             this.Property(p => p.MatchId).HasColumnName("MatchId");
             this.Property(p => p.FixtureId).HasColumnName("FixtureId");
+            this.Property(p => p.SetNumber).HasColumnName("SetNumber");
             this.Property(p => p.HomeSetScore).HasColumnName("HomeSetScore");
             this.Property(p => p.AwaySetScore).HasColumnName("AwaySetScore");
             this.Property(p => p.HomeGameScore).HasColumnName("HomeGameScore");

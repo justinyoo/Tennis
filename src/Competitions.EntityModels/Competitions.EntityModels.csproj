@@ -69,6 +69,18 @@
     <Compile Include="Migrations\201610012330000_InitialMigration.Designer.cs">
       <DependentUpon>201610012330000_InitialMigration.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201610021400323_AddSetNumberToMatch.cs" />
+    <Compile Include="Migrations\201610021400323_AddSetNumberToMatch.Designer.cs">
+      <DependentUpon>201610021400323_AddSetNumberToMatch.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201610021442525_UpdateMatchPlayerPlayerId.cs" />
+    <Compile Include="Migrations\201610021442525_UpdateMatchPlayerPlayerId.Designer.cs">
+      <DependentUpon>201610021442525_UpdateMatchPlayerPlayerId.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201610021444121_UpdateMatchPlayerHomeOrAway.cs" />
+    <Compile Include="Migrations\201610021444121_UpdateMatchPlayerHomeOrAway.Designer.cs">
+      <DependentUpon>201610021444121_UpdateMatchPlayerHomeOrAway.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Player.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -84,6 +96,15 @@
   <ItemGroup>
     <EmbeddedResource Include="Migrations\201610012330000_InitialMigration.resx">
       <DependentUpon>201610012330000_InitialMigration.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201610021400323_AddSetNumberToMatch.resx">
+      <DependentUpon>201610021400323_AddSetNumberToMatch.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201610021442525_UpdateMatchPlayerPlayerId.resx">
+      <DependentUpon>201610021442525_UpdateMatchPlayerPlayerId.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201610021444121_UpdateMatchPlayerHomeOrAway.resx">
+      <DependentUpon>201610021444121_UpdateMatchPlayerHomeOrAway.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

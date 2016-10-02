@@ -250,6 +250,16 @@ namespace Tennis.WebApp.Controllers
         [HttpGet]
         public async Task<IActionResult> AddMatches(Guid competitionId, Guid fixtureId)
         {
+            if (competitionId == Guid.Empty)
+            {
+                return NotFound();
+            }
+
+            if (fixtureId == Guid.Empty)
+            {
+                return NotFound();
+            }
+
             var items = await this._context.CompetitionService.GetCompetitionClubsAsync(competitionId).ConfigureAwait(false);
             var clubs = this._context.Map<CompetitionClubModelToSelectListItemMapper, List<SelectListItem>>(items);
             clubs.Insert(0, new SelectListItem() { Text = "Select Club", Value = string.Empty, Selected = true });
@@ -272,6 +282,23 @@ namespace Tennis.WebApp.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> AddMatches(Guid competitionId, Guid fixtureId, MatchesAddViewModel model)
         {
+            if (competitionId == Guid.Empty)
+            {
+                return NotFound();
+            }
+
+            if (fixtureId == Guid.Empty)
+            {
+                return NotFound();
+            }
+
+            if (model == null)
+            {
+                return BadRequest();
+            }
+
+            await this._context.PlayerService.SaveMatchesAsync(fixtureId, model.HomePlayers, model.AwayPlayers).ConfigureAwait(false);
+
             return RedirectToAction("GetFixture", new { competitionId = competitionId, fixtureId = fixtureId });
         }
     }

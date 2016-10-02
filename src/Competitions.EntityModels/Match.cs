@@ -19,6 +19,11 @@ namespace Competitions.EntityModels
         public Guid FixtureId { get; set; }
 
         /// <summary>
+        /// Gets or sets the set number.
+        /// </summary>
+        public int SetNumber { get; set; }
+
+        /// <summary>
         /// Gets or sets the set score for home team.
         /// </summary>
         public int HomeSetScore { get; set; }

@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 using Competitions.EntityModels;
 using Competitions.Mappers;
 using Competitions.Models;
-
+using Tennis.Common.Extensions;
 using Tennis.Mappers;
 
 namespace Competitions.Services
@@ -135,7 +135,40 @@ namespace Competitions.Services
                 transaction.Rollback();
                 throw;
             }
+        }
 
+        /// <summary>
+        /// Saves match details.
+        /// </summary>
+        /// <param name="fixtureId">Fixture Id.</param>
+        /// <param name="homePlayers">List of home players.</param>
+        /// <param name="awayPlayers">List of away players.</param>
+        /// <returns>Returns the list of matches.</returns>
+        /// <exception cref="ArgumentNullException"><paramref name="fixtureId"/> is <see langword="null" />.</exception>
+        public async Task<List<Guid>> SaveMatchesAsync(Guid fixtureId, List<Guid> homePlayers, List<Guid> awayPlayers)
+        {
+            if (fixtureId == Guid.Empty)
+            {
+                throw new ArgumentNullException(nameof(fixtureId));
+            }
+
+            var matches = await this.GetOrCreateMatchesAsync(fixtureId, homePlayers, awayPlayers).ConfigureAwait(false);
+
+            this._dbContext.Matches.AddOrUpdate(matches.ToArray());
+
+            var transaction = this._dbContext.Database.BeginTransaction();
+            try
+            {
+                await this._dbContext.SaveChangesAsync().ConfigureAwait(false);
+                transaction.Commit();
+
+                return matches.Select(p => p.MatchId).ToList();
+            }
+            catch
+            {
+                transaction.Rollback();
+                throw;
+            }
         }
 
         /// <summary>
@@ -172,27 +205,102 @@ namespace Competitions.Services
             return player;
         }
 
-        private async Task<Venue> GetOrCreateVenueAsync(VenueModel model)
+        private async Task<List<Match>> GetOrCreateMatchesAsync(Guid fixtureId, List<Guid> homePlayers, List<Guid> awayPlayers)
         {
-            var venue = await this._dbContext.Venues
-                                  .SingleOrDefaultAsync(p => p.VenueId == model.VenueId)
-                                  .ConfigureAwait(false);
+            var matches = await this._dbContext.Matches
+                                    .Include(p => p.MatchPlayers)
+                                    .Where(p => p.FixtureId == fixtureId)
+                                    .OrderBy(p => p.SetNumber)
+                                    .ToListAsync()
+                                    .ConfigureAwait(false);
 
             var now = DateTimeOffset.Now;
 
-            if (venue == null)
+            if (matches.IsNullOrEmpty())
             {
-                venue = new Venue() { VenueId = Guid.NewGuid(), DateCreated = now };
+                matches = Enumerable.Range(1, 6)
+                                    .Select(p => new Match() { MatchId = Guid.NewGuid(), FixtureId = fixtureId, SetNumber = p, DateCreated = now })
+                                    .ToList();
             }
 
-            venue.Address1 = model.Address1;
-            venue.Address2 = model.Address2;
-            venue.Suburb = model.Suburb;
-            venue.State = model.State;
-            venue.Postcode = model.Postcode;
-            venue.DateUpdated = now;
+            // For singles.
+            for (var i = 1; i <= 3; i++)
+            {
+                var match = matches[i - 1];
+                if (match.MatchPlayers.IsNullOrEmpty())
+                {
+                    match.MatchPlayers = new List<MatchPlayer>()
+                                         {
+                                             new MatchPlayer() { MatchPlayerId = Guid.NewGuid(), MatchId = match.MatchId, DateCreated = now },
+                                             new MatchPlayer() { MatchPlayerId = Guid.NewGuid(), MatchId = match.MatchId, DateCreated = now },
+                                         };
+                }
 
-            return venue;
+                if (!homePlayers.IsNullOrEmpty())
+                {
+                    match.MatchPlayers[0].PlayerId = homePlayers[i - 1];
+                }
+
+                match.MatchPlayers[0].HomeOrAway = "Home";
+                match.MatchPlayers[0].DateUpdated = now;
+
+                if (!awayPlayers.IsNullOrEmpty())
+                {
+                    match.MatchPlayers[1].PlayerId = awayPlayers[i - 1];
+                }
+
+                match.MatchPlayers[1].HomeOrAway = "Away";
+                match.MatchPlayers[1].DateUpdated = now;
+
+                match.DateUpdated = now;
+            }
+
+            // For doubles.
+            for (var i = 4; i <= 6; i++)
+            {
+                var match = matches[i - 1];
+                if (match.MatchPlayers.IsNullOrEmpty())
+                {
+                    match.MatchPlayers = new List<MatchPlayer>()
+                                         {
+                                             new MatchPlayer() { MatchPlayerId = Guid.NewGuid(), MatchId = match.MatchId, DateCreated = now },
+                                             new MatchPlayer() { MatchPlayerId = Guid.NewGuid(), MatchId = match.MatchId, DateCreated = now },
+                                             new MatchPlayer() { MatchPlayerId = Guid.NewGuid(), MatchId = match.MatchId, DateCreated = now },
+                                             new MatchPlayer() { MatchPlayerId = Guid.NewGuid(), MatchId = match.MatchId, DateCreated = now },
+                                         };
+                }
+
+                var first = i%3;
+                var next = (i + 1)%3;
+
+                if (!homePlayers.IsNullOrEmpty())
+                {
+                    match.MatchPlayers[0].PlayerId = homePlayers[first];
+                    match.MatchPlayers[1].PlayerId = homePlayers[next];
+                }
+
+                match.MatchPlayers[0].HomeOrAway = "Home";
+                match.MatchPlayers[0].DateUpdated = now;
+
+                match.MatchPlayers[1].HomeOrAway = "Home";
+                match.MatchPlayers[1].DateUpdated = now;
+
+                if (!awayPlayers.IsNullOrEmpty())
+                {
+                    match.MatchPlayers[2].PlayerId = awayPlayers[first];
+                    match.MatchPlayers[3].PlayerId = awayPlayers[next];
+                }
+
+                match.MatchPlayers[2].HomeOrAway = "Away";
+                match.MatchPlayers[2].DateUpdated = now;
+
+                match.MatchPlayers[3].HomeOrAway = "Away";
+                match.MatchPlayers[3].DateUpdated = now;
+
+                match.DateUpdated = now;
+            }
+
+            return matches;
         }
     }
 }
