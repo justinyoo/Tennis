@@ -69,13 +69,13 @@ namespace Competitions.EntityModels
         public virtual District District { get; set; }
 
         /// <summary>
+        /// Gets or sets the list of <see cref="CompetitionTeam"/> instances.
+        /// </summary>
+        public virtual List<CompetitionTeam> CompetitionTeams { get; set; }
+
+        /// <summary>
         /// Gets or sets the list of <see cref="Fixture"/> instances.
         /// </summary>
         public virtual List<Fixture> Fixtures { get; set; }
-
-        /// <summary>
-        /// Gets or sets the list of <see cref="CompetitionClub"/> instances.
-        /// </summary>
-        public virtual List<CompetitionClub> CompetitionClubs { get; set; }
     }
 }

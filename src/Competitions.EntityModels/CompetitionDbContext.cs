@@ -40,14 +40,14 @@ namespace Competitions.EntityModels
         public DbSet<Club> Clubs { get; set; }
 
         /// <summary>
-        /// Gets or sets the set of <see cref="CompetitionClub"/> instances.
-        /// </summary>
-        public DbSet<CompetitionClub> CompetitionClubs { get; set; }
-
-        /// <summary>
         /// Gets or sets the set of <see cref="Competition"/> instances.
         /// </summary>
         public DbSet<Competition> Competitions { get; set; }
+
+        /// <summary>
+        /// Gets or sets the set of <see cref="CompetitionTeam"/> instances.
+        /// </summary>
+        public DbSet<CompetitionTeam> CompetitionTeams { get; set; }
 
         /// <summary>
         /// Gets or sets the set of <see cref="District"/> instances.
@@ -75,6 +75,16 @@ namespace Competitions.EntityModels
         public DbSet<Player> Players { get; set; }
 
         /// <summary>
+        /// Gets or sets the set of <see cref="Team"/> instances.
+        /// </summary>
+        public DbSet<Team> Teams { get; set; }
+
+        /// <summary>
+        /// Gets or sets the set of <see cref="TeamPlayer"/> instances.
+        /// </summary>
+        public DbSet<TeamPlayer> TeamPlayers { get; set; }
+
+        /// <summary>
         /// Gets or sets the set of <see cref="Venue"/> instances.
         /// </summary>
         public DbSet<Venue> Venues { get; set; }
@@ -86,13 +96,15 @@ namespace Competitions.EntityModels
         protected override void OnModelCreating(DbModelBuilder builder)
         {
             builder.Configurations.Add(new ClubMap());
-            builder.Configurations.Add(new CompetitionClubMap());
             builder.Configurations.Add(new CompetitionMap());
+            builder.Configurations.Add(new CompetitionTeamMap());
             builder.Configurations.Add(new DistrictMap());
             builder.Configurations.Add(new FixtureMap());
             builder.Configurations.Add(new MatchMap());
             builder.Configurations.Add(new MatchPlayerMap());
             builder.Configurations.Add(new PlayerMap());
+            builder.Configurations.Add(new TeamMap());
+            builder.Configurations.Add(new TeamPlayerMap());
             builder.Configurations.Add(new VenueMap());
         }
     }

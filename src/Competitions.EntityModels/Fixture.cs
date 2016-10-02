@@ -14,14 +14,14 @@ namespace Competitions.EntityModels
         public Guid FixtureId { get; set; }
 
         /// <summary>
+        /// Gets or sets the club Id.
+        /// </summary>
+        public Guid ClubId { get; set; }
+
+        /// <summary>
         /// Gets or sets the competition Id.
         /// </summary>
         public Guid CompetitionId { get; set; }
-
-        /// <summary>
-        /// Gets or sets the venue Id.
-        /// </summary>
-        public Guid VenueId { get; set; }
 
         /// <summary>
         /// Gets or sets the week of the fixture.
@@ -49,14 +49,14 @@ namespace Competitions.EntityModels
         public DateTimeOffset DateUpdated { get; set; }
 
         /// <summary>
+        /// Gets or sets the <see cref="EntityModels.Club"/> instance.
+        /// </summary>
+        public virtual Club Club { get; set; }
+
+        /// <summary>
         /// Gets or sets the <see cref="EntityModels.Competition"/> instance.
         /// </summary>
         public virtual Competition Competition { get; set; }
-
-        /// <summary>
-        /// Gets or sets the <see cref="EntityModels.Venue"/> instance.
-        /// </summary>
-        public virtual Venue Venue { get; set; }
 
         /// <summary>
         /// Gets or sets the list of <see cref="Match"/> instance.

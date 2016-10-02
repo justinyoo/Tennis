@@ -17,8 +17,8 @@ namespace Competitions.EntityModels.Mapping
 
             // Properties
             this.Property(p => p.FixtureId).IsRequired();
+            this.Property(p => p.ClubId).IsRequired();
             this.Property(p => p.CompetitionId).IsRequired();
-            this.Property(p => p.VenueId).IsRequired();
             this.Property(p => p.Week).IsRequired();
             this.Property(p => p.DateScheduled).IsRequired();
             this.Property(p => p.ScoreSheet).IsOptional().HasMaxLength(256);
@@ -29,7 +29,7 @@ namespace Competitions.EntityModels.Mapping
             this.ToTable("Fixture");
             this.Property(p => p.FixtureId).HasColumnName("FixtureId");
             this.Property(p => p.CompetitionId).HasColumnName("CompetitionId");
-            this.Property(p => p.VenueId).HasColumnName("VenueId");
+            this.Property(p => p.ClubId).HasColumnName("ClubId");
             this.Property(p => p.Week).HasColumnName("Week");
             this.Property(p => p.DateScheduled).HasColumnName("DateScheduled");
             this.Property(p => p.ScoreSheet).HasColumnName("ScoreSheet");
@@ -37,14 +37,13 @@ namespace Competitions.EntityModels.Mapping
             this.Property(p => p.DateUpdated).HasColumnName("DateUpdated");
 
             // Relationships
+            this.HasRequired(p => p.Club)
+                .WithMany(p => p.Fixtures)
+                .HasForeignKey(p => p.ClubId);
+
             this.HasRequired(p => p.Competition)
                 .WithMany(p => p.Fixtures)
                 .HasForeignKey(p => p.CompetitionId);
-
-            this.HasRequired(p => p.Venue)
-                .WithMany(p => p.Fixtures)
-                .HasForeignKey(p => p.VenueId)
-                .WillCascadeOnDelete(false);
         }
     }
 }

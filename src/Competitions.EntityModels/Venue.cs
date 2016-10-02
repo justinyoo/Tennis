@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 
 namespace Competitions.EntityModels
 {
@@ -49,13 +48,8 @@ namespace Competitions.EntityModels
         public DateTimeOffset DateUpdated { get; set; }
 
         /// <summary>
-        /// Gets or sets the list of <see cref="Club"/> instances.
+        /// Gets or sets the <see cref="EntityModels.Club"/> instance.
         /// </summary>
-        public virtual List<Club> Clubs { get; set; }
-
-        /// <summary>
-        /// Gets or sets the list of <see cref="Fixture"/> instances.
-        /// </summary>
-        public virtual List<Fixture> Fixtures { get; set; }
+        public virtual Club Club { get; set; }
     }
 }

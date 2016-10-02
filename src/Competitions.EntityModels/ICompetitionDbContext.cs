@@ -14,14 +14,14 @@ namespace Competitions.EntityModels
         DbSet<Club> Clubs { get; set; }
 
         /// <summary>
-        /// Gets or sets the set of <see cref="CompetitionClub"/> instances.
-        /// </summary>
-        DbSet<CompetitionClub> CompetitionClubs { get; set; }
-
-        /// <summary>
         /// Gets or sets the set of <see cref="Competition"/> instances.
         /// </summary>
         DbSet<Competition> Competitions { get; set; }
+
+        /// <summary>
+        /// Gets or sets the set of <see cref="CompetitionTeam"/> instances.
+        /// </summary>
+        DbSet<CompetitionTeam> CompetitionTeams { get; set; }
 
         /// <summary>
         /// Gets or sets the set of <see cref="District"/> instances.
@@ -47,6 +47,16 @@ namespace Competitions.EntityModels
         /// Gets or sets the set of <see cref="Player"/> instances.
         /// </summary>
         DbSet<Player> Players { get; set; }
+
+        /// <summary>
+        /// Gets or sets the set of <see cref="Team"/> instances.
+        /// </summary>
+        DbSet<Team> Teams { get; set; }
+
+        /// <summary>
+        /// Gets or sets the set of <see cref="TeamPlayer"/> instances.
+        /// </summary>
+        DbSet<TeamPlayer> TeamPlayers { get; set; }
 
         /// <summary>
         /// Gets or sets the set of <see cref="Venue"/> instances.

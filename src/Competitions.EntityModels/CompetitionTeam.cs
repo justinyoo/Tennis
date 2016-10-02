@@ -3,14 +3,14 @@
 namespace Competitions.EntityModels
 {
     /// <summary>
-    /// This represents the entity for competition-club.
+    /// This represents the entity for competition-team.
     /// </summary>
-    public class CompetitionClub
+    public class CompetitionTeam
     {
         /// <summary>
-        /// Gets or sets the competition-club Id.
+        /// Gets or sets the competition-team Id.
         /// </summary>
-        public Guid CompetitionClubId { get; set; }
+        public Guid CompetitionTeamId { get; set; }
 
         /// <summary>
         /// Gets or sets the competition Id.
@@ -18,14 +18,9 @@ namespace Competitions.EntityModels
         public Guid CompetitionId { get; set; }
 
         /// <summary>
-        /// Gets or sets the club Id.
+        /// Gets or sets the team Id.
         /// </summary>
-        public Guid ClubId { get; set; }
-
-        /// <summary>
-        /// Gets or sets the club tag, if multiple teams from one club participate in the competition.
-        /// </summary>
-        public string ClubTag { get; set; }
+        public Guid TeamId { get; set; }
 
         /// <summary>
         /// Gets or sets the date when the record was created.
@@ -43,8 +38,8 @@ namespace Competitions.EntityModels
         public virtual Competition Competition { get; set; }
 
         /// <summary>
-        /// Gets or sets the <see cref="EntityModels.Club"/> instance.
+        /// Gets or sets the <see cref="EntityModels.Team"/> instance.
         /// </summary>
-        public virtual Club Club { get; set; }
+        public virtual Team Team { get; set; }
     }
 }

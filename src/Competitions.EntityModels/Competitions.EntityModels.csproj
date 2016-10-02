@@ -51,39 +51,25 @@
   <ItemGroup>
     <Compile Include="Club.cs" />
     <Compile Include="Competition.cs" />
-    <Compile Include="CompetitionClub.cs" />
+    <Compile Include="CompetitionTeam.cs" />
     <Compile Include="District.cs" />
     <Compile Include="ICompetitionDbContext.cs" />
-    <Compile Include="Mapping\CompetitionClubMap.cs" />
+    <Compile Include="Mapping\CompetitionTeamMap.cs" />
     <Compile Include="Mapping\MatchPlayerMap.cs" />
     <Compile Include="Mapping\MatchMap.cs" />
     <Compile Include="Mapping\FixtureMap.cs" />
     <Compile Include="Mapping\CompetitionMap.cs" />
     <Compile Include="Mapping\DistrictMap.cs" />
+    <Compile Include="Mapping\TeamMap.cs" />
+    <Compile Include="Mapping\TeamPlayerMap.cs" />
     <Compile Include="Mapping\VenueMap.cs" />
     <Compile Include="Mapping\ClubMap.cs" />
     <Compile Include="Mapping\PlayerMap.cs" />
     <Compile Include="Match.cs" />
     <Compile Include="MatchPlayer.cs" />
-    <Compile Include="Migrations\201610012330000_InitialMigration.cs" />
-    <Compile Include="Migrations\201610012330000_InitialMigration.Designer.cs">
-      <DependentUpon>201610012330000_InitialMigration.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201610021400323_AddSetNumberToMatch.cs" />
-    <Compile Include="Migrations\201610021400323_AddSetNumberToMatch.Designer.cs">
-      <DependentUpon>201610021400323_AddSetNumberToMatch.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201610021442525_UpdateMatchPlayerPlayerId.cs" />
-    <Compile Include="Migrations\201610021442525_UpdateMatchPlayerPlayerId.Designer.cs">
-      <DependentUpon>201610021442525_UpdateMatchPlayerPlayerId.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201610021444121_UpdateMatchPlayerHomeOrAway.cs" />
-    <Compile Include="Migrations\201610021444121_UpdateMatchPlayerHomeOrAway.Designer.cs">
-      <DependentUpon>201610021444121_UpdateMatchPlayerHomeOrAway.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201610021553526_UpdateFixtureForScoreSheet.cs" />
-    <Compile Include="Migrations\201610021553526_UpdateFixtureForScoreSheet.Designer.cs">
-      <DependentUpon>201610021553526_UpdateFixtureForScoreSheet.cs</DependentUpon>
+    <Compile Include="Migrations\201610022318139_InitialMigration.cs" />
+    <Compile Include="Migrations\201610022318139_InitialMigration.Designer.cs">
+      <DependentUpon>201610022318139_InitialMigration.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Player.cs" />
@@ -91,6 +77,8 @@
     <Compile Include="Fixture.cs" />
     <Compile Include="CompetitionDbContext.cs" />
     <Compile Include="Seeding\SeedingExtensions.cs" />
+    <Compile Include="Team.cs" />
+    <Compile Include="TeamPlayer.cs" />
     <Compile Include="Venue.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -98,20 +86,8 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201610012330000_InitialMigration.resx">
-      <DependentUpon>201610012330000_InitialMigration.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201610021400323_AddSetNumberToMatch.resx">
-      <DependentUpon>201610021400323_AddSetNumberToMatch.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201610021442525_UpdateMatchPlayerPlayerId.resx">
-      <DependentUpon>201610021442525_UpdateMatchPlayerPlayerId.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201610021444121_UpdateMatchPlayerHomeOrAway.resx">
-      <DependentUpon>201610021444121_UpdateMatchPlayerHomeOrAway.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201610021553526_UpdateFixtureForScoreSheet.resx">
-      <DependentUpon>201610021553526_UpdateFixtureForScoreSheet.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201610022318139_InitialMigration.resx">
+      <DependentUpon>201610022318139_InitialMigration.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

@@ -64,13 +64,13 @@ namespace Competitions.EntityModels
         public virtual Venue Venue { get; set; }
 
         /// <summary>
-        /// Gets or sets the list of <see cref="Player"/> instances.
+        /// Gets or sets the list of <see cref="Fixture"/> instances.
         /// </summary>
-        public virtual List<Player> Players { get;set; }
+        public virtual List<Fixture> Fixtures { get; set; }
 
         /// <summary>
-        /// Gets or sets the list of <see cref="CompetitionClub"/> instances.
+        /// Gets or sets the list of <see cref="Team"/> instances.
         /// </summary>
-        public virtual List<CompetitionClub> CompetitionClubs { get; set; }
+        public virtual List<Team> Teams { get; set; }
     }
 }

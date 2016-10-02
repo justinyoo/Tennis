@@ -42,9 +42,7 @@ namespace Competitions.EntityModels.Mapping
 
             // Relationships
             this.HasRequired(p => p.Venue)
-                .WithMany(p => p.Clubs)
-                .HasForeignKey(p => p.VenueId)
-                .WillCascadeOnDelete(false);
+                .WithRequiredPrincipal(p => p.Club);
         }
     }
 }

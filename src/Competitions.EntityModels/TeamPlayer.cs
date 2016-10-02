@@ -1,27 +1,31 @@
 ﻿using System;
-using System.Collections.Generic;
 
 namespace Competitions.EntityModels
 {
     /// <summary>
-    /// This represents the entity for player.
+    /// This represents the entity for team-player.
     /// </summary>
-    public class Player
+    public class TeamPlayer
     {
+        /// <summary>
+        /// Gets or sets the team player Id.
+        /// </summary>
+        public Guid TeamPlayerId { get; set; }
+
         /// <summary>
         /// Gets or sets the player Id.
         /// </summary>
         public Guid PlayerId { get; set; }
 
         /// <summary>
-        /// Gets or sets the first name.
+        /// Gets or sets the team Id.
         /// </summary>
-        public string FirstName { get; set; }
+        public Guid TeamId { get; set; }
 
         /// <summary>
-        /// Gets or sets the last name.
+        /// Gets or sets the order of players.
         /// </summary>
-        public string LastName { get; set; }
+        public int Order { get; set; }
 
         /// <summary>
         /// Gets or sets the date when the record was created.
@@ -34,13 +38,13 @@ namespace Competitions.EntityModels
         public DateTimeOffset DateUpdated { get; set; }
 
         /// <summary>
-        /// Gets or sets the list of <see cref="MatchPlayer"/> instances.
+        /// Gets or sets the <see cref="EntityModels.Player"/> instance.
         /// </summary>
-        public virtual List<MatchPlayer> MatchPlayers { get; set; }
+        public virtual Player Player { get; set; }
 
         /// <summary>
-        /// Gets or sets the list of <see cref="TeamPlayer"/> instances.
+        /// Gets or sets the <see cref="EntityModels.Team"/> instance.
         /// </summary>
-        public virtual List<TeamPlayer> TeamPlayers { get; set; }
+        public virtual Team Team { get; set; }
     }
 }
