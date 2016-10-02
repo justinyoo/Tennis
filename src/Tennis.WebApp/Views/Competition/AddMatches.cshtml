@@ -1,0 +1,120 @@
+﻿@model Tennis.ViewModels.Competitions.MatchesAddViewModel
+@{
+    ViewData["Title"] = "Matches";
+}
+
+@section scripts
+{
+    <script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
+    <script>
+        "use strict";
+        (function($) {
+            var url = $.validator.format("/clubs/{0}/players");
+
+            var emptyOption = function(elementIdPrefix) {
+                var $option = $("<option></option>")
+                    .attr("value", "")
+                    .text("Select Player");
+                $("select[id^=" + elementIdPrefix + "]").empty().append($option);
+            };
+
+            var appendPlayer = function (elementIdPrefix, player) {
+                var $option = $("<option></option>")
+                    .attr("value", player.playerId)
+                    .text(player.name);
+                $("select[id^=" + elementIdPrefix + "]").append($option);
+            };
+
+            var appendPlayers = function (elementIdPrefix, players) {
+                $.each(players,
+                    function (i, player) {
+                        appendPlayer(elementIdPrefix, player);
+                    });
+            };
+
+            $("#HomeClub")
+                .change(function() {
+                    var clubId = $(this).val();
+                    if (clubId === "") {
+                        emptyOption("home-player-");
+                        return;
+                    }
+
+                    $.getJSON(url(clubId),
+                        function (players) {
+                            appendPlayers("home-player-", players);
+                        });
+                });
+
+            $("#AwayClub")
+                .change(function() {
+                    var clubId = $(this).val();
+                    if (clubId === "") {
+                        emptyOption("away-player-");
+                        return;
+                    }
+
+                    $.getJSON(url(clubId),
+                        function (players) {
+                            appendPlayers("away-player-", players);
+                        });
+                });
+        })(jQuery);
+    </script>
+}
+
+<div class="row">
+    <h2>Add Matches</h2>
+
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+        <form asp-controller="Competition" asp-action="AddMatches" asp-route-competitionId="@Model.CompetitionId" asp-route-fixtureId="@Model.FixtureId" method="post">
+            <h3>Home</h3>
+
+            <div class="form-group">
+                <label class="col-xs-12 col-sm-3 col-md-2 col-lg-2 control-label" asp-for="@Model.Clubs"></label>
+                <div class="col-xs-12 col-sm-9 col-md-10 col-lg-10">
+                    <select class="form-control" asp-for="HomeClub" asp-items="@Model.Clubs"></select>
+                </div>
+            </div>
+            
+            @for (var i = 1; i <= Model.NumberOfPlayers; i++)
+            {
+                <div class="form-group">
+                    <label class="col-xs-12 col-sm-3 col-md-2 col-lg-2 control-label">Player @i</label>
+                    <div class="col-xs-12 col-sm-9 col-md-10 col-lg-10">
+                        <select class="form-control" id="home-player-@i" name="HomePlayers">
+                            <option value="">Select Player</option>
+                        </select>
+                    </div>
+                </div>
+            }
+
+            <h3>Away</h3>
+
+            <div class="form-group">
+                <label class="col-xs-12 col-sm-3 col-md-2 col-lg-2 control-label" asp-for="@Model.Clubs"></label>
+                <div class="col-xs-12 col-sm-9 col-md-10 col-lg-10">
+                    <select class="form-control" asp-for="AwayClub" asp-items="@Model.Clubs"></select>
+                </div>
+            </div>
+
+            @for (var i = 1; i <= Model.NumberOfPlayers; i++)
+            {
+                <div class="form-group">
+                    <label class="col-xs-12 col-sm-3 col-md-2 col-lg-2 control-label">Player @i</label>
+                    <div class="col-xs-12 col-sm-9 col-md-10 col-lg-10">
+                        <select class="form-control" id="away-player-@i" name="AwayPlayers">
+                            <option value="">Select Player</option>
+                        </select>
+                    </div>
+                </div>
+            }
+
+            <div class="form-group">
+                <div class="col-xs-12 col-sm-offset-3 col-sm-9 col-md-offset-2 col-md-10 col-lg-offset-2 col-lg-10">
+                    <button type="submit" class="btn btn-primary">Add</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>

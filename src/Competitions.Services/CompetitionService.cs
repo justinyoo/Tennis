@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Data.Entity;
 using System.Data.Entity.Migrations;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Threading.Tasks;
 
 using Competitions.EntityModels;
@@ -127,6 +128,35 @@ namespace Competitions.Services
             {
                 transaction.Rollback();
                 throw;
+            }
+        }
+
+
+        /// <summary>
+        /// Gets the list of competition-club details.
+        /// </summary>
+        /// <param name="competitionId">Competition Id.</param>
+        /// <returns>Returns the list of competition-club details.</returns>
+        /// <exception cref="ArgumentNullException"><paramref name="competitionId"/> is <see langword="null" />.</exception>
+        public async Task<List<CompetitionClubModel>> GetCompetitionClubsAsync(Guid competitionId)
+        {
+            if (competitionId == Guid.Empty)
+            {
+                throw new ArgumentNullException(nameof(competitionId));
+            }
+
+            var results = await this._dbContext.CompetitionClubs
+                               .Include(p => p.Club)
+                               .Where(p => p.CompetitionId == competitionId)
+                               .OrderBy(p => p.Club.Name)
+                               .ToListAsync()
+                               .ConfigureAwait(false);
+
+            using (var mapper = this._mapperFactory.Get<CompetitionClubToCompetitionClubModelMapper>())
+            {
+                var ccs = mapper.Map<List<CompetitionClubModel>>(results);
+
+                return ccs;
             }
         }
 

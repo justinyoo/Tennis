@@ -45,4 +45,27 @@ namespace Competitions.Mappers
                   ;
         }
     }
+
+    /// <summary>
+    /// This represents the mapper entity between <see cref="CompetitionClub"/> and <see cref="CompetitionClubModel"/>.
+    /// </summary>
+    public class CompetitionClubToCompetitionClubModelMapper : BaseMapper
+    {
+        /// <summary>
+        /// Configures the mapping information between source and destination.
+        /// </summary>
+        /// <param name="config"><see cref="IMapperConfigurationExpression"/> instance.</param>
+        protected override void ConfigureMap(IMapperConfigurationExpression config)
+        {
+            config.CreateMap<CompetitionClub, CompetitionClubModel>()
+                  .ForMember(d => d.Tag, o => o.MapFrom(s => s.ClubTag))
+                  ;
+
+            config.CreateMap<Club, ClubModel>()
+                  .ForMember(d => d.Contacts, o => o.MapFrom(s => ClubToClubModelMapper.GetContacts(s)))
+                  .ForMember(d => d.Players, o => o.Ignore())
+                  .ForMember(d => d.Venue, o => o.Ignore())
+                  ;
+        }
+    }
 }

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Threading.Tasks;
 
 using Competitions.Models;
@@ -100,6 +101,28 @@ namespace Tennis.WebApp.Controllers
             var clubId = await this._context.ClubService.SaveClubAsync(club, venue).ConfigureAwait(false);
 
             return RedirectToAction("GetClub", new { clubId = clubId });
+        }
+
+        /// <summary>
+        /// Gets the list of players.
+        /// </summary>
+        /// <param name="clubId">Club Id.</param>
+        /// <returns>Returns the list of players.</returns>
+        [Route("{clubId}/players")]
+        [Authorize]
+        [HttpGet]
+        public async Task<IActionResult> GetPlayers(Guid clubId)
+        {
+            if (clubId == Guid.Empty)
+            {
+                return NotFound();
+            }
+
+            var players = await this._context.PlayerService.GetPlayersAsync(clubId).ConfigureAwait(false);
+            var sorted = players.OrderBy(p => p.FirstName)
+                                .ThenBy(p => p.LastName)
+                                .Select(p => new { PlayerId = p.PlayerId, Name = $"{p.FirstName} {p.LastName}" });
+            return new JsonResult(sorted);
         }
 
         /// <summary>

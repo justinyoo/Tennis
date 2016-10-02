@@ -26,5 +26,10 @@ namespace Competitions.Models
         /// Gets or sets the club tag, if multiple teams from one club participate in the competition.
         /// </summary>
         public string Tag { get; set; }
+
+        /// <summary>
+        /// Gets or sets the club details.
+        /// </summary>
+        public ClubModel Club { get; set; }
     }
 }
