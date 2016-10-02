@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace Competitions.Models
 {
@@ -36,5 +37,10 @@ namespace Competitions.Models
         /// Gets or sets the venue details.
         /// </summary>
         public VenueModel Venue { get; set; }
+
+        /// <summary>
+        /// Gets or sets the list of match details.
+        /// </summary>
+        public List<MatchModel> Matches { get; set; }
     }
 }

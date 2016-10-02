@@ -23,10 +23,15 @@ namespace Competitions.Mappers
             config.CreateMap<Competition, CompetitionModel>()
                   .ForMember(d => d.TrolsUrl, o => o.MapFrom(s => s.District.TrolsUrl))
                   .ForMember(d => d.ParticipatingClubs, o => o.MapFrom(s => s.CompetitionClubs.Select(q => q.Club).ToList()))
+                  .ForMember(d => d.Fixtures, o => o.MapFrom(s => s.Fixtures))
                   ;
 
             config.CreateMap<CompetitionClub, ClubModel>()
                   .ForMember(d => d.Tag, o => o.MapFrom(s => s.ClubTag))
+                  ;
+
+            config.CreateMap<Fixture, FixtureModel>()
+                  .ForMember(d => d.Venue, o => o.MapFrom(s => s.Venue))
                   ;
 
             config.CreateMap<Club, ClubModel>()

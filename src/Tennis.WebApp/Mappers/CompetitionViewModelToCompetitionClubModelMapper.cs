@@ -3,7 +3,6 @@
 using Competitions.Models;
 
 using Tennis.Mappers;
-using Tennis.ViewModels;
 using Tennis.ViewModels.Competitions;
 
 namespace Tennis.WebApp.Mappers

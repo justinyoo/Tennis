@@ -23,5 +23,12 @@ namespace Competitions.Services
         /// <param name="fixtureId">Fixture Id.</param>
         /// <returns>Returns the fixture details.</returns>
         Task<FixtureModel> GetFixtureAsync(Guid fixtureId);
+
+        /// <summary>
+        /// Saves the fixture details.
+        /// </summary>
+        /// <param name="model"><see cref="FixtureModel"/> instance.</param>
+        /// <returns>Returns the fixture Id from the fixture details.</returns>
+        Task<Guid> SaveFixtureAsync(FixtureModel model);
     }
 }

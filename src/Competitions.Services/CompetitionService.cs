@@ -85,6 +85,8 @@ namespace Competitions.Services
             var result = await this._dbContext.Competitions
                                    .Include(p => p.District)
                                    .Include(p => p.CompetitionClubs.Select(q => q.Club))
+                                   .Include(p => p.Fixtures)
+                                   .Include(p => p.Fixtures.Select(q => q.Venue))
                                    .SingleOrDefaultAsync(p => p.CompetitionId == competitionId)
                                    .ConfigureAwait(false);
 

@@ -204,7 +204,39 @@ namespace Tennis.WebApp.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> AddFixture(Guid competitionId, FixtureAddViewModel model)
         {
+            if (competitionId == Guid.Empty)
+            {
+                return NotFound();
+            }
+
+            if (model == null)
+            {
+                return BadRequest();
+            }
+
+            var fixture = this._context.Map<FixtureAddViewModelToFixtureModelMapper, FixtureModel>(model);
+            fixture.CompetitionId = competitionId;
+
+            await this._context.FixtureService.SaveFixtureAsync(fixture).ConfigureAwait(false);
+
             return RedirectToAction("GetCompetition", new { competitionId = competitionId });
+        }
+
+        /// <summary>
+        /// Gets the fixture details.
+        /// </summary>
+        /// <param name="competitionId">Competition Id.</param>
+        /// <param name="fixtureId">Fixture Id.</param>
+        /// <returns>Returns the fixture details.</returns>
+        [Route("{competitionId}/fixtures/{fixtureId}")]
+        [HttpGet]
+        public async Task<IActionResult> GetFixture(Guid competitionId, Guid fixtureId)
+        {
+            var fixture = await this._context.FixtureService.GetFixtureAsync(fixtureId).ConfigureAwait(false);
+
+            var vm = new FixtureViewModel() { Fixture = fixture };
+
+            return View("GetFixture", vm);
         }
     }
 }

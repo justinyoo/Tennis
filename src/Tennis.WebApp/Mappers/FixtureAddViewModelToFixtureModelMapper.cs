@@ -8,9 +8,9 @@ using Tennis.ViewModels.Competitions;
 namespace Tennis.WebApp.Mappers
 {
     /// <summary>
-    /// This represents the mapper entity between <see cref="ClubAddViewModel"/> and <see cref="ClubModel"/>.
+    /// This represents the mapper entity between <see cref="FixtureAddViewModel"/> and <see cref="FixtureModel"/>.
     /// </summary>
-    public class ClubAddViewModelToClubModelMapper : BaseMapper
+    public class FixtureAddViewModelToFixtureModelMapper : BaseMapper
     {
         /// <summary>
         /// Configures the mapping information between source and destination.
@@ -18,7 +18,10 @@ namespace Tennis.WebApp.Mappers
         /// <param name="config"><see cref="IMapperConfigurationExpression"/> instance.</param>
         protected override void ConfigureMap(IMapperConfigurationExpression config)
         {
-            config.CreateMap<ClubAddViewModel, ClubModel>()
+            config.CreateMap<FixtureAddViewModel, FixtureModel>()
+                  .ForMember(d => d.VenueId, o => o.MapFrom(s => s.Venue))
+                  .ForMember(d => d.Venue, o => o.Ignore())
+                  .ForMember(d => d.Week, o => o.MapFrom(s => s.Week.GetValueOrDefault()))
                 ;
         }
     }

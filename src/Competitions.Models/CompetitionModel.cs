@@ -62,5 +62,10 @@ namespace Competitions.Models
         /// Gets or sets the list of participating clubs.
         /// </summary>
         public List<ClubModel> ParticipatingClubs { get; set; }
+
+        /// <summary>
+        /// Gets or sets the list of fixtures.
+        /// </summary>
+        public List<FixtureModel> Fixtures { get; set; }
     }
 }
