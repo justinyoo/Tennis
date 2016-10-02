@@ -3,7 +3,6 @@
     ViewData["Title"] = "Club";
 
     var club = Model.Club;
-    var venue = Model.Venue;
 }
 
 <div class="row">
@@ -13,7 +12,7 @@
         <ul>
             <li>Name: @club.Name</li>
             <li>Manager: @club.Manager (@string.Join(" | ", club.Contacts))</li>
-            <li>Address: @venue.FullAddress</li>
+            <li>Address: @club.Venue.FullAddress</li>
             @if (!string.IsNullOrWhiteSpace(club.Url))
             {
                 <li>Website: <a href="@club.Url" target="_blank">@club.Url</a></li>

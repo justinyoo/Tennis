@@ -20,7 +20,7 @@ namespace Tennis.WebApp.Mappers
         protected override void ConfigureMap(IMapperConfigurationExpression config)
         {
             config.CreateMap<ClubModel, SelectListItem>()
-                  .ForMember(d => d.Text, o => o.MapFrom(s => s.Name))
+                  .ForMember(d => d.Text, o => o.MapFrom(s => $"{s.Name} - {s.Manager}"))
                   .ForMember(d => d.Value, o => o.MapFrom(s => s.ClubId))
                 ;
         }

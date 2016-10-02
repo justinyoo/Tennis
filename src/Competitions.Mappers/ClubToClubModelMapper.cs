@@ -22,10 +22,20 @@ namespace Competitions.Mappers
         {
             config.CreateMap<Club, ClubModel>()
                   .ForMember(d => d.Contacts, o => o.MapFrom(s => GetContacts(s)))
+                  .ForMember(d => d.Venue, o => o.MapFrom(s => s.Venue))
+                  ;
+
+            config.CreateMap<Venue, VenueModel>()
+                  .ForMember(d => d.FullAddress, o => o.MapFrom(s => VenueToVenueModelMapper.GetFullAddress(s)))
                   ;
         }
 
-        private static List<string> GetContacts(Club club)
+        /// <summary>
+        /// Gets the list of contacts from the club details.
+        /// </summary>
+        /// <param name="club"><see cref="Club"/> instance.</param>
+        /// <returns>Returns the list of contacts.</returns>
+        public static List<string> GetContacts(Club club)
         {
             var contacts = new List<string>() { club.Phone.ToPhone(), club.Mobile.ToMobile(), club.Email }.Where(p => !string.IsNullOrWhiteSpace(p)).ToList();
             return contacts;

@@ -27,13 +27,13 @@ namespace Competitions.EntityModels.Migrations
                 .Index(t => t.VenueId);
             
             CreateTable(
-                "dbo.CompetitionClubs",
+                "dbo.CompetitionClub",
                 c => new
                     {
                         CompetitionClubId = c.Guid(nullable: false),
                         CompetitionId = c.Guid(nullable: false),
                         ClubId = c.Guid(nullable: false),
-                        ClubTag = c.String(),
+                        ClubTag = c.String(maxLength: 8),
                         DateCreated = c.DateTimeOffset(nullable: false, precision: 7, defaultValueSql: "SYSDATETIMEOFFSET()"),
                         DateUpdated = c.DateTimeOffset(nullable: false, precision: 7, defaultValueSql: "SYSDATETIMEOFFSET()"),
                     })
@@ -163,6 +163,7 @@ namespace Competitions.EntityModels.Migrations
         public override void Down()
         {
             DropForeignKey("dbo.Club", "VenueId", "dbo.Venue");
+            DropForeignKey("dbo.CompetitionClub", "CompetitionId", "dbo.Competition");
             DropForeignKey("dbo.Fixture", "VenueId", "dbo.Venue");
             DropForeignKey("dbo.MatchPlayer", "PlayerId", "dbo.Player");
             DropForeignKey("dbo.Player", "ClubId", "dbo.Club");
@@ -170,8 +171,7 @@ namespace Competitions.EntityModels.Migrations
             DropForeignKey("dbo.Match", "FixtureId", "dbo.Fixture");
             DropForeignKey("dbo.Fixture", "CompetitionId", "dbo.Competition");
             DropForeignKey("dbo.Competition", "DistrictId", "dbo.District");
-            DropForeignKey("dbo.CompetitionClubs", "CompetitionId", "dbo.Competition");
-            DropForeignKey("dbo.CompetitionClubs", "ClubId", "dbo.Club");
+            DropForeignKey("dbo.CompetitionClub", "ClubId", "dbo.Club");
             DropIndex("dbo.Player", new[] { "ClubId" });
             DropIndex("dbo.MatchPlayer", new[] { "PlayerId" });
             DropIndex("dbo.MatchPlayer", new[] { "MatchId" });
@@ -179,8 +179,8 @@ namespace Competitions.EntityModels.Migrations
             DropIndex("dbo.Fixture", new[] { "VenueId" });
             DropIndex("dbo.Fixture", new[] { "CompetitionId" });
             DropIndex("dbo.Competition", new[] { "DistrictId" });
-            DropIndex("dbo.CompetitionClubs", new[] { "ClubId" });
-            DropIndex("dbo.CompetitionClubs", new[] { "CompetitionId" });
+            DropIndex("dbo.CompetitionClub", new[] { "ClubId" });
+            DropIndex("dbo.CompetitionClub", new[] { "CompetitionId" });
             DropIndex("dbo.Club", new[] { "VenueId" });
             DropTable("dbo.Venue");
             DropTable("dbo.Player");
@@ -189,7 +189,7 @@ namespace Competitions.EntityModels.Migrations
             DropTable("dbo.Fixture");
             DropTable("dbo.District");
             DropTable("dbo.Competition");
-            DropTable("dbo.CompetitionClubs");
+            DropTable("dbo.CompetitionClub");
             DropTable("dbo.Club");
         }
     }

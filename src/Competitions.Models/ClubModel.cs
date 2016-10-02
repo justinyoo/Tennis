@@ -57,5 +57,10 @@ namespace Competitions.Models
         /// Gets or sets the club tag used in competition.
         /// </summary>
         public string Tag { get; set; }
+
+        /// <summary>
+        /// Gets or sets the venue details.
+        /// </summary>
+        public VenueModel Venue { get; set; }
     }
 }

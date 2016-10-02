@@ -11,10 +11,5 @@ namespace Tennis.ViewModels
         /// Gets or sets the club details.
         /// </summary>
         public ClubModel Club { get; set; }
-
-        /// <summary>
-        /// Gets or sets the venue details.
-        /// </summary>
-        public VenueModel Venue { get; set; }
     }
 }

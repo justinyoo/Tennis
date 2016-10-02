@@ -60,9 +60,8 @@ namespace Tennis.WebApp.Controllers
         public async Task<IActionResult> GetClub(Guid clubId)
         {
             var club = await this._context.ClubService.GetClubAsync(clubId).ConfigureAwait(false);
-            var venue = await this._context.VenueService.GetVenueAsync(club.VenueId).ConfigureAwait(false);
 
-            var vm = new ClubViewModel() { Club = club, Venue = venue };
+            var vm = new ClubViewModel() { Club = club };
 
             return View("GetClub", vm);
         }

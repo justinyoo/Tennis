@@ -25,7 +25,12 @@ namespace Competitions.Mappers
                   ;
         }
 
-        private static string GetFullAddress(Venue venue)
+        /// <summary>
+        /// Gets the full address details from venue details.
+        /// </summary>
+        /// <param name="venue"><see cref="Venue"/> instance.</param>
+        /// <returns>Retuns the full address details.</returns>
+        public static string GetFullAddress(Venue venue)
         {
             var segments = new[] { venue.Address1, venue.Address2, venue.Suburb, venue.State, venue.Postcode }
                                  .Where(p => !string.IsNullOrWhiteSpace(p))

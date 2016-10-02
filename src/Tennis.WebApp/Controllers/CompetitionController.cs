@@ -78,6 +78,7 @@ namespace Tennis.WebApp.Controllers
                                   .ConfigureAwait(false);
 
             var clubs = this._context.Map<ClubModelToSelectListItemMapper, List<SelectListItem>>(items);
+            clubs.Insert(0, new SelectListItem() { Text = "Select Club", Selected = true });
 
             var vm = new CompetitionViewModel() { Competition = competition, Clubs = clubs };
 

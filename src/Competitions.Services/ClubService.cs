@@ -76,6 +76,7 @@ namespace Competitions.Services
             }
 
             var result = await this._dbContext.Clubs
+                                   .Include(p => p.Venue)
                                    .SingleOrDefaultAsync(p => p.ClubId == clubId)
                                    .ConfigureAwait(false);
 

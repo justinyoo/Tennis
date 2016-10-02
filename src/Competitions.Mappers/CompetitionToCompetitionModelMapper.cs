@@ -30,6 +30,12 @@ namespace Competitions.Mappers
                   ;
 
             config.CreateMap<Club, ClubModel>()
+                  .ForMember(d => d.Contacts, o => o.MapFrom(s => ClubToClubModelMapper.GetContacts(s)))
+                  .ForMember(d => d.Venue, o => o.MapFrom(s => s.Venue))
+                  ;
+
+            config.CreateMap<Venue, VenueModel>()
+                  .ForMember(d => d.FullAddress, o => o.MapFrom(s => VenueToVenueModelMapper.GetFullAddress(s)))
                   ;
         }
     }
