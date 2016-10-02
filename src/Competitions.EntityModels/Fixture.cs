@@ -34,6 +34,11 @@ namespace Competitions.EntityModels
         public DateTimeOffset DateScheduled { get; set; }
 
         /// <summary>
+        /// Gets or sets the score sheet image path.
+        /// </summary>
+        public string ScoreSheet { get; set; }
+
+        /// <summary>
         /// Gets or sets the date when the record was created.
         /// </summary>
         public DateTimeOffset DateCreated { get; set; }

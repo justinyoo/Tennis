@@ -3,12 +3,12 @@ using System.Collections.Generic;
 using System.Data.Entity;
 using System.Data.Entity.Migrations;
 using System.Linq;
-using System.Net.Http.Headers;
 using System.Threading.Tasks;
 
 using Competitions.EntityModels;
 using Competitions.Mappers;
 using Competitions.Models;
+
 using Tennis.Common.Extensions;
 using Tennis.Mappers;
 
@@ -224,7 +224,7 @@ namespace Competitions.Services
             }
 
             // For singles.
-            for (var i = 1; i <= 3; i++)
+            foreach (var i in Enumerable.Range(1, 6).Where(p => p%2 == 1))
             {
                 var match = matches[i - 1];
                 if (match.MatchPlayers.IsNullOrEmpty())
@@ -256,7 +256,7 @@ namespace Competitions.Services
             }
 
             // For doubles.
-            for (var i = 4; i <= 6; i++)
+            foreach (var i in Enumerable.Range(1, 6).Where(p => p % 2 == 0))
             {
                 var match = matches[i - 1];
                 if (match.MatchPlayers.IsNullOrEmpty())
@@ -270,8 +270,8 @@ namespace Competitions.Services
                                          };
                 }
 
-                var first = i%3;
-                var next = (i + 1)%3;
+                var first = i % 3;
+                var next = (i + 1) % 3;
 
                 if (!homePlayers.IsNullOrEmpty())
                 {

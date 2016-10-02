@@ -81,6 +81,10 @@
     <Compile Include="Migrations\201610021444121_UpdateMatchPlayerHomeOrAway.Designer.cs">
       <DependentUpon>201610021444121_UpdateMatchPlayerHomeOrAway.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201610021553526_UpdateFixtureForScoreSheet.cs" />
+    <Compile Include="Migrations\201610021553526_UpdateFixtureForScoreSheet.Designer.cs">
+      <DependentUpon>201610021553526_UpdateFixtureForScoreSheet.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Player.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -105,6 +109,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201610021444121_UpdateMatchPlayerHomeOrAway.resx">
       <DependentUpon>201610021444121_UpdateMatchPlayerHomeOrAway.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201610021553526_UpdateFixtureForScoreSheet.resx">
+      <DependentUpon>201610021553526_UpdateFixtureForScoreSheet.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

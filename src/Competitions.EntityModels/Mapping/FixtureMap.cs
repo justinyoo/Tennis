@@ -21,6 +21,7 @@ namespace Competitions.EntityModels.Mapping
             this.Property(p => p.VenueId).IsRequired();
             this.Property(p => p.Week).IsRequired();
             this.Property(p => p.DateScheduled).IsRequired();
+            this.Property(p => p.ScoreSheet).IsOptional().HasMaxLength(256);
             this.Property(p => p.DateCreated).IsRequired();
             this.Property(p => p.DateUpdated).IsRequired();
 
@@ -31,6 +32,7 @@ namespace Competitions.EntityModels.Mapping
             this.Property(p => p.VenueId).HasColumnName("VenueId");
             this.Property(p => p.Week).HasColumnName("Week");
             this.Property(p => p.DateScheduled).HasColumnName("DateScheduled");
+            this.Property(p => p.ScoreSheet).HasColumnName("ScoreSheet");
             this.Property(p => p.DateCreated).HasColumnName("DateCreated");
             this.Property(p => p.DateUpdated).HasColumnName("DateUpdated");
 

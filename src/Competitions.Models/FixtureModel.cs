@@ -34,6 +34,11 @@ namespace Competitions.Models
         public DateTimeOffset DateScheduled { get; set; }
 
         /// <summary>
+        /// Gets or sets the score sheet image path.
+        /// </summary>
+        public string ScoreSheet { get; set; }
+
+        /// <summary>
         /// Gets or sets the venue details.
         /// </summary>
         public VenueModel Venue { get; set; }
