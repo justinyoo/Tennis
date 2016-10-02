@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data.Entity;
+using System.Data.Entity.Migrations;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -110,7 +111,7 @@ namespace Competitions.Services
 
             var competition = await this.GetOrCreateCompetitionAsync(model).ConfigureAwait(false);
 
-            this._dbContext.Competitions.Add(competition);
+            this._dbContext.Competitions.AddOrUpdate(competition);
 
             var transaction = this._dbContext.Database.BeginTransaction();
             try
@@ -142,7 +143,7 @@ namespace Competitions.Services
 
             var cc = await this.GetOrCreateCompetitionClubAsync(model).ConfigureAwait(false);
 
-            this._dbContext.CompetitionClubs.Add(cc);
+            this._dbContext.CompetitionClubs.AddOrUpdate(cc);
 
             var transaction = this._dbContext.Database.BeginTransaction();
             try

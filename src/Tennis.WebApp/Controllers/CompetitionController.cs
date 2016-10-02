@@ -9,7 +9,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 
-using Tennis.ViewModels;
+using Tennis.ViewModels.Competitions;
 using Tennis.WebApp.Mappers;
 using Tennis.WebApp.ServiceContexts;
 
@@ -130,7 +130,7 @@ namespace Tennis.WebApp.Controllers
                 return BadRequest();
             }
 
-            var competition= this._context.Map<CompetitionAddViewModelToCompetitionModelMapper, CompetitionModel>(model);
+            var competition = this._context.Map<CompetitionAddViewModelToCompetitionModelMapper, CompetitionModel>(model);
             var competitionId = await this._context.CompetitionService.SaveCompetitionAsync(competition).ConfigureAwait(false);
 
             return RedirectToAction("GetCompetition", new { competitionId = competitionId });
@@ -163,6 +163,47 @@ namespace Tennis.WebApp.Controllers
 
             await this._context.CompetitionService.SaveCompetitionClubAsync(cc).ConfigureAwait(false);
 
+            return RedirectToAction("GetCompetition", new { competitionId = competitionId });
+        }
+
+        /// <summary>
+        /// Adds fixture details.
+        /// </summary>
+        /// <param name="competitionId">Competition Id.</param>
+        /// <returns>Returns the fixture details input form.</returns>
+        [Route("{competitionId}/fixtures/add")]
+        [Authorize]
+        [HttpGet]
+        public async Task<IActionResult> AddFixture(Guid competitionId)
+        {
+            if (competitionId == Guid.Empty)
+            {
+                return NotFound();
+            }
+
+            var competition = await this._context.CompetitionService.GetCompetitionAsync(competitionId).ConfigureAwait(false);
+
+            var items = await this._context.VenueService.GetVenuesAsync().ConfigureAwait(false);
+            var venues = this._context.Map<VenueModelToSelectListItemMapper, List<SelectListItem>>(items);
+            venues.Insert(0, new SelectListItem() { Text = "Select Venue", Selected = true });
+
+            var vm = new FixtureAddViewModel() { CompetitionId = competitionId, CompetitionName = competition.Name, Venues = venues };
+
+            return View("AddFixture", vm);
+        }
+
+        /// <summary>
+        /// Adds fixture details.
+        /// </summary>
+        /// <param name="competitionId">Competition Id.</param>
+        /// <param name="model"><see cref="FixtureAddViewModel"/> instance.</param>
+        /// <returns>Returns the competition details page.</returns>
+        [Route("{competitionId}/fixtures/add")]
+        [Authorize]
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> AddFixture(Guid competitionId, FixtureAddViewModel model)
+        {
             return RedirectToAction("GetCompetition", new { competitionId = competitionId });
         }
     }

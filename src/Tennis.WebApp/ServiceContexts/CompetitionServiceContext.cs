@@ -16,13 +16,21 @@ namespace Tennis.WebApp.ServiceContexts
         /// </summary>
         /// <param name="mapperFactory"><see cref="IMapperFactory"/> instance.</param>
         /// <param name="districtService"><see cref="IDistrictService"/> instance.</param>
-        /// <param name="competitionService"><see cref="ICompetitionService"/> instance.</param>
+        /// <param name="venueService"><see cref="IVenueService"/> instance.</param>
         /// <param name="clubService"><see cref="IClubService"/> instance.</param>
+        /// <param name="competitionService"><see cref="ICompetitionService"/> instance.</param>
+        /// <param name="fixtureService"><see cref="IFixtureService"/> instance.</param>
         /// <exception cref="ArgumentNullException"><paramref name="mapperFactory"/> is <see langword="null" />.</exception>
         /// <exception cref="ArgumentNullException"><paramref name="districtService"/> is <see langword="null" />.</exception>
         /// <exception cref="ArgumentNullException"><paramref name="competitionService"/> is <see langword="null" />.</exception>
         /// <exception cref="ArgumentNullException"><paramref name="clubService"/> is <see langword="null" />.</exception>
-        public CompetitionServiceContext(IMapperFactory mapperFactory, IDistrictService districtService, ICompetitionService competitionService, IClubService clubService)
+        /// <exception cref="ArgumentNullException"><paramref name="fixtureService"/> is <see langword="null" />.</exception>
+        public CompetitionServiceContext(IMapperFactory mapperFactory,
+                                         IDistrictService districtService,
+                                         IVenueService venueService,
+                                         IClubService clubService,
+                                         ICompetitionService competitionService,
+                                         IFixtureService fixtureService)
             : base(mapperFactory)
         {
             if (districtService == null)
@@ -32,12 +40,12 @@ namespace Tennis.WebApp.ServiceContexts
 
             this.DistrictService = districtService;
 
-            if (competitionService == null)
+            if (venueService == null)
             {
-                throw new ArgumentNullException(nameof(competitionService));
+                throw new ArgumentNullException(nameof(venueService));
             }
 
-            this.CompetitionService = competitionService;
+            this.VenueService = venueService;
 
             if (clubService == null)
             {
@@ -45,6 +53,20 @@ namespace Tennis.WebApp.ServiceContexts
             }
 
             this.ClubService = clubService;
+
+            if (competitionService == null)
+            {
+                throw new ArgumentNullException(nameof(competitionService));
+            }
+
+            this.CompetitionService = competitionService;
+
+            if (fixtureService == null)
+            {
+                throw new ArgumentNullException(nameof(fixtureService));
+            }
+
+            this.FixtureService = fixtureService;
         }
 
         /// <summary>
@@ -53,13 +75,23 @@ namespace Tennis.WebApp.ServiceContexts
         public IDistrictService DistrictService { get; }
 
         /// <summary>
-        /// Gets the <see cref="ICompetitionService"/> instance.
+        /// Gets the <see cref="IVenueService"/> instance.
         /// </summary>
-        public ICompetitionService CompetitionService { get; }
+        public IVenueService VenueService { get; }
 
         /// <summary>
         /// Gets the <see cref="IClubService"/> instance.
         /// </summary>
         public IClubService ClubService { get; }
+
+        /// <summary>
+        /// Gets the <see cref="ICompetitionService"/> instance.
+        /// </summary>
+        public ICompetitionService CompetitionService { get; }
+
+        /// <summary>
+        /// Gets the <see cref="IFixtureService"/> instance.
+        /// </summary>
+        public IFixtureService FixtureService { get; }
     }
 }

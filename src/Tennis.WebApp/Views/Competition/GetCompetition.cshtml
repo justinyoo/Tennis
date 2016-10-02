@@ -1,5 +1,6 @@
 ﻿@using Tennis.Common.Extensions
-@model Tennis.ViewModels.CompetitionViewModel
+@using Tennis.ViewModels.Competitions
+@model Tennis.ViewModels.Competitions.CompetitionViewModel
 @{
     ViewData["Title"] = "Competition";
 
@@ -75,8 +76,7 @@
     @if (User.Identity.IsAuthenticated)
     {
         <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-            <a href="#">Add Fixture</a>
-            @*<a asp-controller="Club" asp-action="AddClub">Add Club</a>*@
+            <a asp-controller="Competition" asp-action="AddFixture">Add Fixture</a>
         </div>
     }
 </div>

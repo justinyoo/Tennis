@@ -6,7 +6,7 @@ using Competitions.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
-using Tennis.ViewModels;
+using Tennis.ViewModels.Competitions;
 using Tennis.WebApp.Mappers;
 using Tennis.WebApp.ServiceContexts;
 

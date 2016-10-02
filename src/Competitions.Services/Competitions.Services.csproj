@@ -50,6 +50,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ClubService.cs" />
+    <Compile Include="FixtureService.cs" />
+    <Compile Include="IFixtureService.cs" />
     <Compile Include="VenueService.cs" />
     <Compile Include="DistrictService.cs" />
     <Compile Include="CompetitionService.cs" />

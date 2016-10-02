@@ -4,8 +4,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
-using Tennis.ViewModels;
-
+using Tennis.ViewModels.Tournaments;
 using Tournaments.Services;
 
 namespace Tennis.WebApp.Controllers

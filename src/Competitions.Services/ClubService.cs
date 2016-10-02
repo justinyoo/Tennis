@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data.Entity;
+using System.Data.Entity.Migrations;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -110,7 +111,7 @@ namespace Competitions.Services
 
             var club = await this.GetOrCreateClubAsync(clubModel, venueModel).ConfigureAwait(false);
 
-            this._dbContext.Clubs.Add(club);
+            this._dbContext.Clubs.AddOrUpdate(club);
 
             var transaction = this._dbContext.Database.BeginTransaction();
             try
@@ -126,6 +127,19 @@ namespace Competitions.Services
                 throw;
             }
 
+        }
+
+        /// <summary>
+        /// Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.
+        /// </summary>
+        public void Dispose()
+        {
+            if (this._disposed)
+            {
+                return;
+            }
+
+            this._disposed = true;
         }
 
         private async Task<Club> GetOrCreateClubAsync(ClubModel clubModel, VenueModel venueModel = null)
@@ -183,19 +197,6 @@ namespace Competitions.Services
             venue.DateUpdated = now;
 
             return venue;
-        }
-
-        /// <summary>
-        /// Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.
-        /// </summary>
-        public void Dispose()
-        {
-            if (this._disposed)
-            {
-                return;
-            }
-
-            this._disposed = true;
         }
     }
 }

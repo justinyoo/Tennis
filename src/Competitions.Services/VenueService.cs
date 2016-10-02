@@ -47,9 +47,9 @@ namespace Competitions.Services
         }
 
         /// <summary>
-        /// Gets the list of districts.
+        /// Gets the list of venues.
         /// </summary>
-        /// <returns>Returns the list of districts.</returns>
+        /// <returns>Returns the list of venues.</returns>
         public async Task<List<VenueModel>> GetVenuesAsync()
         {
             var results = await this._dbContext.Venues

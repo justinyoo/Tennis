@@ -48,6 +48,7 @@
     <Compile Include="CompetitionModelToCompetitionMapper.cs" />
     <Compile Include="CompetitionToCompetitionModelMapper.cs" />
     <Compile Include="DistrictToDistrictModelMapper.cs" />
+    <Compile Include="FixtureToFixtureModelMapper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="VenueToVenueModelMapper.cs" />
   </ItemGroup>

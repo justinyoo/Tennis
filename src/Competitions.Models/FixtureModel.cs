@@ -31,5 +31,10 @@ namespace Competitions.Models
         /// Gets or sets the date when the fixture is scheduled.
         /// </summary>
         public DateTimeOffset DateScheduled { get; set; }
+
+        /// <summary>
+        /// Gets or sets the venue details.
+        /// </summary>
+        public VenueModel Venue { get; set; }
     }
 }
