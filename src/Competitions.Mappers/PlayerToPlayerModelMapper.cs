@@ -8,7 +8,7 @@ using Tennis.Mappers;
 namespace Competitions.Mappers
 {
     /// <summary>
-    /// This represents the mapper entity between <see cref="Club"/> and <see cref="ClubModel"/>.
+    /// This represents the mapper entity between <see cref="Player"/> and <see cref="PlayerModel"/>.
     /// </summary>
     public class PlayerToPlayerModelMapper : BaseMapper
     {
@@ -19,18 +19,7 @@ namespace Competitions.Mappers
         protected override void ConfigureMap(IMapperConfigurationExpression config)
         {
             config.CreateMap<Player, PlayerModel>()
-                  .ForMember(d => d.Club, o => o.MapFrom(s => s.Club))
-                ;
-
-            config.CreateMap<Club, ClubModel>()
-                  .ForMember(d => d.Contacts, o => o.MapFrom(s => ClubToClubModelMapper.GetContacts(s)))
-                  .ForMember(d => d.Players, o => o.Ignore())
-                  .ForMember(d => d.Venue, o => o.MapFrom(s => s.Venue))
-                ;
-
-            config.CreateMap<Venue, VenueModel>()
-                  .ForMember(d => d.FullAddress, o => o.MapFrom(s => VenueToVenueModelMapper.GetFullAddress(s)))
-                ;
+                  ;
         }
     }
 }

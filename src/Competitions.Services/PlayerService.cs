@@ -48,62 +48,62 @@ namespace Competitions.Services
             this._mapperFactory = mapperFactory;
         }
 
-        /// <summary>
-        /// Gets the list of players.
-        /// </summary>
-        /// <param name="clubId">Club Id.</param>
-        /// <returns>Returns the list of clubs.</returns>
-        /// <exception cref="ArgumentNullException"><paramref name="clubId"/> is <see langword="null" />.</exception>
-        public async Task<List<PlayerModel>> GetPlayersAsync(Guid clubId)
-        {
-            if (clubId == Guid.Empty)
-            {
-                throw new ArgumentNullException(nameof(clubId));
-            }
+        ///// <summary>
+        ///// Gets the list of players.
+        ///// </summary>
+        ///// <param name="clubId">Club Id.</param>
+        ///// <returns>Returns the list of clubs.</returns>
+        ///// <exception cref="ArgumentNullException"><paramref name="clubId"/> is <see langword="null" />.</exception>
+        //public async Task<List<PlayerModel>> GetPlayersAsync(Guid clubId)
+        //{
+        //    if (clubId == Guid.Empty)
+        //    {
+        //        throw new ArgumentNullException(nameof(clubId));
+        //    }
 
-            var results = await this._dbContext.Players
-                                    .Where(p => p.ClubId == clubId)
-                                    .Include(p => p.Club)
-                                    .Include(p => p.Club.Venue)
-                                    .OrderBy(p => p.LastName)
-                                    .ThenBy(p => p.FirstName)
-                                    .ToListAsync()
-                                    .ConfigureAwait(false);
+        //    var results = await this._dbContext.Players
+        //                            .Where(p => p.ClubId == clubId)
+        //                            .Include(p => p.Club)
+        //                            .Include(p => p.Club.Venue)
+        //                            .OrderBy(p => p.LastName)
+        //                            .ThenBy(p => p.FirstName)
+        //                            .ToListAsync()
+        //                            .ConfigureAwait(false);
 
-            using (var mapper = this._mapperFactory.Get<PlayerToPlayerModelMapper>())
-            {
-                var players = mapper.Map<List<PlayerModel>>(results);
+        //    using (var mapper = this._mapperFactory.Get<PlayerToPlayerModelMapper>())
+        //    {
+        //        var players = mapper.Map<List<PlayerModel>>(results);
 
-                return players;
-            }
-        }
+        //        return players;
+        //    }
+        //}
 
-        /// <summary>
-        /// Gets the player details.
-        /// </summary>
-        /// <param name="playerId">Player Id.</param>
-        /// <returns>Returns the player details.</returns>
-        /// <exception cref="ArgumentNullException"><paramref name="playerId"/> is <see langword="null" />.</exception>
-        public async Task<PlayerModel> GetPlayerAsync(Guid playerId)
-        {
-            if (playerId == Guid.Empty)
-            {
-                throw new ArgumentNullException(nameof(playerId));
-            }
+        ///// <summary>
+        ///// Gets the player details.
+        ///// </summary>
+        ///// <param name="playerId">Player Id.</param>
+        ///// <returns>Returns the player details.</returns>
+        ///// <exception cref="ArgumentNullException"><paramref name="playerId"/> is <see langword="null" />.</exception>
+        //public async Task<PlayerModel> GetPlayerAsync(Guid playerId)
+        //{
+        //    if (playerId == Guid.Empty)
+        //    {
+        //        throw new ArgumentNullException(nameof(playerId));
+        //    }
 
-            var result = await this._dbContext.Players
-                                   .Include(p => p.Club)
-                                   .Include(p => p.Club.Venue)
-                                   .SingleOrDefaultAsync(p => p.PlayerId == playerId)
-                                   .ConfigureAwait(false);
+        //    var result = await this._dbContext.Players
+        //                           .Include(p => p.Club)
+        //                           .Include(p => p.Club.Venue)
+        //                           .SingleOrDefaultAsync(p => p.PlayerId == playerId)
+        //                           .ConfigureAwait(false);
 
-            using (var mapper = this._mapperFactory.Get<PlayerToPlayerModelMapper>())
-            {
-                var player = mapper.Map<PlayerModel>(result);
+        //    using (var mapper = this._mapperFactory.Get<PlayerToPlayerModelMapper>())
+        //    {
+        //        var player = mapper.Map<PlayerModel>(result);
 
-                return player;
-            }
-        }
+        //        return player;
+        //    }
+        //}
 
         /// <summary>
         /// Saves the player details.
@@ -197,7 +197,7 @@ namespace Competitions.Services
                 player = new Player() { PlayerId = Guid.NewGuid(), DateCreated = now };
             }
 
-            player.ClubId = model.ClubId;
+            //player.ClubId = model.ClubId;
             player.FirstName = model.FirstName;
             player.LastName = model.LastName;
             player.DateUpdated = now;

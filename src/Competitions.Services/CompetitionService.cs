@@ -85,9 +85,10 @@ namespace Competitions.Services
 
             var result = await this._dbContext.Competitions
                                    .Include(p => p.District)
-                                   .Include(p => p.CompetitionClubs.Select(q => q.Club))
+                                   .Include(p => p.Teams)
                                    .Include(p => p.Fixtures)
-                                   .Include(p => p.Fixtures.Select(q => q.Venue))
+                                   .Include(p => p.Fixtures.Select(q => q.Club))
+                                   .Include(p => p.Fixtures.Select(q => q.Club.Venue))
                                    .SingleOrDefaultAsync(p => p.CompetitionId == competitionId)
                                    .ConfigureAwait(false);
 
@@ -114,8 +115,6 @@ namespace Competitions.Services
 
             var competition = await this.GetOrCreateCompetitionAsync(model).ConfigureAwait(false);
 
-            this._dbContext.Competitions.AddOrUpdate(competition);
-
             var transaction = this._dbContext.Database.BeginTransaction();
             try
             {
@@ -133,49 +132,50 @@ namespace Competitions.Services
 
 
         /// <summary>
-        /// Gets the list of competition-club details.
+        /// Gets the list of team details.
         /// </summary>
         /// <param name="competitionId">Competition Id.</param>
-        /// <returns>Returns the list of competition-club details.</returns>
+        /// <returns>Returns the list of team details.</returns>
         /// <exception cref="ArgumentNullException"><paramref name="competitionId"/> is <see langword="null" />.</exception>
-        public async Task<List<CompetitionClubModel>> GetCompetitionClubsAsync(Guid competitionId)
+        public async Task<List<TeamModel>> GetTeamsAsync(Guid competitionId)
         {
             if (competitionId == Guid.Empty)
             {
                 throw new ArgumentNullException(nameof(competitionId));
             }
 
-            var results = await this._dbContext.CompetitionClubs
+            var results = await this._dbContext.Teams
                                .Include(p => p.Club)
+                               .Include(p => p.Club.Venue)
                                .Where(p => p.CompetitionId == competitionId)
                                .OrderBy(p => p.Club.Name)
                                .ToListAsync()
                                .ConfigureAwait(false);
 
-            using (var mapper = this._mapperFactory.Get<CompetitionClubToCompetitionClubModelMapper>())
+            using (var mapper = this._mapperFactory.Get<TeamToTeamModelMapper>())
             {
-                var ccs = mapper.Map<List<CompetitionClubModel>>(results);
+                var teams = mapper.Map<List<TeamModel>>(results);
 
-                return ccs;
+                return teams;
             }
         }
 
         /// <summary>
-        /// Saves the competition-club details.
+        /// Saves the team details.
         /// </summary>
-        /// <param name="model"><see cref="CompetitionClubModel"/> instance.</param>
-        /// <returns>Returns the competition-club Id from the competition-club details.</returns>
+        /// <param name="model"><see cref="TeamModel"/> instance.</param>
+        /// <returns>Returns the team Id from the team details.</returns>
         /// <exception cref="ArgumentNullException"><paramref name="model"/> is <see langword="null" />.</exception>
-        public async Task<Guid> SaveCompetitionClubAsync(CompetitionClubModel model)
+        public async Task<Guid> SaveTeamAsync(TeamModel model)
         {
             if (model == null)
             {
                 throw new ArgumentNullException(nameof(model));
             }
 
-            var cc = await this.GetOrCreateCompetitionClubAsync(model).ConfigureAwait(false);
+            var team = await this.GetOrCreateTeamAsync(model).ConfigureAwait(false);
 
-            this._dbContext.CompetitionClubs.AddOrUpdate(cc);
+            this._dbContext.Teams.AddOrUpdate(team);
 
             var transaction = this._dbContext.Database.BeginTransaction();
             try
@@ -183,7 +183,7 @@ namespace Competitions.Services
                 await this._dbContext.SaveChangesAsync().ConfigureAwait(false);
                 transaction.Commit();
 
-                return cc.CompetitionClubId;
+                return team.TeamId;
             }
             catch
             {
@@ -228,29 +228,29 @@ namespace Competitions.Services
             competition.Level = model.Level;
             competition.DateUpdated = now;
 
+            this._dbContext.Competitions.AddOrUpdate(competition);
+
             return competition;
         }
 
-        private async Task<CompetitionClub> GetOrCreateCompetitionClubAsync(CompetitionClubModel model)
+        private async Task<Team> GetOrCreateTeamAsync(TeamModel model)
         {
-            var cc = await this._dbContext.CompetitionClubs
-                               .SingleOrDefaultAsync(p => p.CompetitionId == model.CompetitionId &&
-                                                          p.ClubId == model.ClubId)
-                               .ConfigureAwait(false);
+            var team = await this._dbContext.Teams
+                                 .SingleOrDefaultAsync(p => p.CompetitionId == model.CompetitionId)
+                                 .ConfigureAwait(false);
 
             var now = DateTimeOffset.Now;
 
-            if (cc == null)
+            if (team == null)
             {
-                cc = new CompetitionClub() { CompetitionClubId = Guid.NewGuid(), DateCreated = now };
+                team = new Team() { TeamId = Guid.NewGuid(), DateCreated = now };
             }
 
-            cc.CompetitionId = model.CompetitionId;
-            cc.ClubId = model.ClubId;
-            cc.ClubTag = model.Tag;
-            cc.DateUpdated = now;
+            team.CompetitionId = model.CompetitionId;
+            team.ClubId = model.ClubId;
+            team.DateUpdated = now;
 
-            return cc;
+            return team;
         }
     }
 }

@@ -41,7 +41,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ClubModel.cs" />
-    <Compile Include="CompetitionClubModel.cs" />
     <Compile Include="CompetitionModel.cs" />
     <Compile Include="DistrictModel.cs" />
     <Compile Include="FixtureModel.cs" />
@@ -49,6 +48,8 @@
     <Compile Include="MatchPlayerModel.cs" />
     <Compile Include="PlayerModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="TeamModel.cs" />
+    <Compile Include="TeamPlayerModel.cs" />
     <Compile Include="VenueModel.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

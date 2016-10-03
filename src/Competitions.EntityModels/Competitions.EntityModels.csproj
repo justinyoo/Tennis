@@ -51,10 +51,8 @@
   <ItemGroup>
     <Compile Include="Club.cs" />
     <Compile Include="Competition.cs" />
-    <Compile Include="CompetitionTeam.cs" />
     <Compile Include="District.cs" />
     <Compile Include="ICompetitionDbContext.cs" />
-    <Compile Include="Mapping\CompetitionTeamMap.cs" />
     <Compile Include="Mapping\MatchPlayerMap.cs" />
     <Compile Include="Mapping\MatchMap.cs" />
     <Compile Include="Mapping\FixtureMap.cs" />
@@ -67,9 +65,17 @@
     <Compile Include="Mapping\PlayerMap.cs" />
     <Compile Include="Match.cs" />
     <Compile Include="MatchPlayer.cs" />
-    <Compile Include="Migrations\201610022318139_InitialMigration.cs" />
-    <Compile Include="Migrations\201610022318139_InitialMigration.Designer.cs">
-      <DependentUpon>201610022318139_InitialMigration.cs</DependentUpon>
+    <Compile Include="Migrations\201610030107350_InitialMigration.cs" />
+    <Compile Include="Migrations\201610030107350_InitialMigration.Designer.cs">
+      <DependentUpon>201610030107350_InitialMigration.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201610031103253_UpdateTeam.cs" />
+    <Compile Include="Migrations\201610031103253_UpdateTeam.Designer.cs">
+      <DependentUpon>201610031103253_UpdateTeam.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201610032240398_UpdateTeamTag.cs" />
+    <Compile Include="Migrations\201610032240398_UpdateTeamTag.Designer.cs">
+      <DependentUpon>201610032240398_UpdateTeamTag.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Player.cs" />
@@ -86,8 +92,14 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201610022318139_InitialMigration.resx">
-      <DependentUpon>201610022318139_InitialMigration.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201610030107350_InitialMigration.resx">
+      <DependentUpon>201610030107350_InitialMigration.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201610031103253_UpdateTeam.resx">
+      <DependentUpon>201610031103253_UpdateTeam.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201610032240398_UpdateTeamTag.resx">
+      <DependentUpon>201610032240398_UpdateTeamTag.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

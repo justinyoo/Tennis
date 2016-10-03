@@ -6,6 +6,7 @@ using Competitions.Models;
 
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 using Tennis.ViewModels.Competitions;
 using Tennis.WebApp.Mappers;
@@ -44,7 +45,9 @@ namespace Tennis.WebApp.Controllers
         [HttpGet]
         public async Task<IActionResult> GetClubs()
         {
-            var clubs = await this._context.ClubService.GetClubsAsync().ConfigureAwait(false);
+            var clubs = await this._context.ClubService
+                                  .GetClubsAsync()
+                                  .ConfigureAwait(false);
 
             var vm = new ClubCollectionViewModel() { Clubs = clubs };
 
@@ -60,7 +63,9 @@ namespace Tennis.WebApp.Controllers
         [HttpGet]
         public async Task<IActionResult> GetClub(Guid clubId)
         {
-            var club = await this._context.ClubService.GetClubAsync(clubId).ConfigureAwait(false);
+            var club = await this._context.ClubService
+                                 .GetClubAsync(clubId)
+                                 .ConfigureAwait(false);
 
             var vm = new ClubViewModel() { Club = club };
 
@@ -74,9 +79,13 @@ namespace Tennis.WebApp.Controllers
         [Route("add")]
         [Authorize]
         [HttpGet]
-        public IActionResult AddClub()
+        public async Task<IActionResult> AddClub()
         {
-            var vm = new ClubAddViewModel() { };
+            var items = await this._context.VenueService.GetStatesAsync().ConfigureAwait(false);
+            var states = items.Select(p => new SelectListItem() { Text = p, Value = p }).ToList();
+            states.Insert(0, new SelectListItem() { Text = "Select State", Value = string.Empty, Selected = true });
+
+            var vm = new ClubAddViewModel() { States = states };
 
             return View("AddClub", vm);
         }
@@ -97,33 +106,129 @@ namespace Tennis.WebApp.Controllers
             }
 
             var club = this._context.Map<ClubAddViewModelToClubModelMapper, ClubModel>(model);
-            var venue = this._context.Map<ClubAddViewModelToVenueModelMapper, VenueModel>(model);
-            var clubId = await this._context.ClubService.SaveClubAsync(club, venue).ConfigureAwait(false);
+
+            var clubId = await this._context.ClubService.SaveClubAsync(club).ConfigureAwait(false);
 
             return RedirectToAction("GetClub", new { clubId = clubId });
         }
 
         /// <summary>
-        /// Gets the list of players.
+        /// Gets the list of teams in a club.
         /// </summary>
         /// <param name="clubId">Club Id.</param>
-        /// <returns>Returns the list of players.</returns>
-        [Route("{clubId}/players")]
-        [Authorize]
+        /// <returns>Returns the list of teams in a club.</returns>
+        [Route("{clubId}/teams")]
         [HttpGet]
-        public async Task<IActionResult> GetPlayers(Guid clubId)
+        public async Task<IActionResult> GetTeams(Guid clubId)
         {
             if (clubId == Guid.Empty)
             {
                 return NotFound();
             }
 
-            var players = await this._context.PlayerService.GetPlayersAsync(clubId).ConfigureAwait(false);
-            var sorted = players.OrderBy(p => p.FirstName)
-                                .ThenBy(p => p.LastName)
-                                .Select(p => new { PlayerId = p.PlayerId, Name = $"{p.FirstName} {p.LastName}" });
-            return new JsonResult(sorted);
+            throw new NotImplementedException();
         }
+
+        /// <summary>
+        /// Gets the team details.
+        /// </summary>
+        /// <param name="clubId">Club Id.</param>
+        /// <param name="teamId">Team Id.</param>
+        /// <returns>Returns the team details.</returns>
+        [Route("{clubId}/teams/{teamId}")]
+        [HttpGet]
+        public async Task<IActionResult> GetTeam(Guid clubId, Guid teamId)
+        {
+            if (clubId == Guid.Empty)
+            {
+                return NotFound();
+            }
+
+            if (teamId == Guid.Empty)
+            {
+                return NotFound();
+            }
+
+            var team = await this._context.TeamService.GetTeamAsync(teamId).ConfigureAwait(false);
+            
+            var vm = new TeamViewModel() { Team = team };
+
+            return View("GetTeam", vm);
+        }
+
+        /// <summary>
+        /// Adds the team.
+        /// </summary>
+        /// <param name="clubId">Club Id.</param>
+        /// <returns>Returns the team input form.</returns>
+        [Route("{clubId}/teams/add")]
+        [Authorize]
+        [HttpGet]
+        public async Task<IActionResult> AddTeam(Guid clubId)
+        {
+            if (clubId == Guid.Empty)
+            {
+                return NotFound();
+            }
+
+            var club = await this._context.ClubService.GetClubAsync(clubId).ConfigureAwait(false);
+
+            var vm = new TeamAddViewModel() { ClubId = clubId, ClubName = club.Name };
+
+            return View("AddTeam", vm);
+        }
+
+        /// <summary>
+        /// Adds the team.
+        /// </summary>
+        /// <param name="clubId">Club Id.</param>
+        /// <param name="model"><see cref="TeamAddViewModel"/> instance.</param>
+        /// <returns>Returns the team details.</returns>
+        [Route("{clubId}/teams/add")]
+        [Authorize]
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> AddTeam(Guid clubId, TeamAddViewModel model)
+        {
+            if (clubId == Guid.Empty)
+            {
+                return NotFound();
+            }
+
+            if (model == null)
+            {
+                return BadRequest();
+            }
+
+            var team = this._context.Map<TeamAddViewModelToTeamModelMapper, TeamModel>(model);
+            team.ClubId = clubId;
+
+            var teamId = await this._context.TeamService.SaveTeamAsync(team).ConfigureAwait(false);
+
+            return RedirectToAction("GetTeam", new { clubId = clubId, teamId = teamId });
+        }
+
+        ///// <summary>
+        ///// Gets the list of players.
+        ///// </summary>
+        ///// <param name="clubId">Club Id.</param>
+        ///// <returns>Returns the list of players.</returns>
+        //[Route("{clubId}/players")]
+        //[Authorize]
+        //[HttpGet]
+        //public async Task<IActionResult> GetPlayers(Guid clubId)
+        //{
+        //    if (clubId == Guid.Empty)
+        //    {
+        //        return NotFound();
+        //    }
+
+        //    var players = await this._context.PlayerService.GetPlayersAsync(clubId).ConfigureAwait(false);
+        //    var sorted = players.OrderBy(p => p.FirstName)
+        //                        .ThenBy(p => p.LastName)
+        //                        .Select(p => new { PlayerId = p.PlayerId, Name = $"{p.FirstName} {p.LastName}" });
+        //    return new JsonResult(sorted);
+        //}
 
         /// <summary>
         /// Adds the player.
@@ -170,7 +275,7 @@ namespace Tennis.WebApp.Controllers
             }
 
             var player = this._context.Map<PlayerAddViewModelToPlayerModelMapper, PlayerModel>(model);
-            player.ClubId = clubId;
+            //player.ClubId = clubId;
 
             await this._context.PlayerService.SavePlayerAsync(player).ConfigureAwait(false);
 

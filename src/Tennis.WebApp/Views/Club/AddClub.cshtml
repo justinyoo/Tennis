@@ -1,5 +1,4 @@
-﻿@using Tennis.ViewModels.Competitions
-@model Tennis.ViewModels.Competitions.ClubAddViewModel
+﻿@model Tennis.ViewModels.Competitions.ClubAddViewModel
 @{
     ViewData["Title"] = "Club";
 }
@@ -79,7 +78,7 @@
             <div class="form-group">
                 <label class="col-xs-12 col-sm-2 col-md-1 col-lg-1 control-label" asp-for="@Model.State"></label>
                 <div class="col-xs-12 col-sm-10 col-md-11 col-lg-11">
-                    <input class="form-control" asp-for="State" value="@Model.State" />
+                    <select class="form-control" asp-for="State" asp-items="@Model.States"></select>
                 </div>
             </div>
 

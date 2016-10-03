@@ -16,12 +16,14 @@ namespace Tennis.WebApp.ServiceContexts
         /// </summary>
         /// <param name="mapperFactory"><see cref="IMapperFactory"/> instance.</param>
         /// <param name="playerService"><see cref="IPlayerService"/> insntance.</param>
+        /// <param name="teamService"><see cref="ITeamService"/> insntance.</param>
         /// <param name="clubService"><see cref="IClubService"/> insntance.</param>
         /// <param name="venueService"><see cref="IVenueService"/> insntance.</param>
         /// <exception cref="ArgumentNullException"><paramref name="venueService"/> is <see langword="null" />.</exception>
         /// <exception cref="ArgumentNullException"><paramref name="clubService"/> is <see langword="null" />.</exception>
         public ClubServiceContext(IMapperFactory mapperFactory,
                                   IPlayerService playerService,
+                                  ITeamService teamService,
                                   IClubService clubService,
                                   IVenueService venueService)
             : base(mapperFactory)
@@ -32,6 +34,13 @@ namespace Tennis.WebApp.ServiceContexts
             }
 
             this.PlayerService = playerService;
+
+            if (teamService == null)
+            {
+                throw new ArgumentNullException(nameof(teamService));
+            }
+
+            this.TeamService = teamService;
 
             if (clubService == null)
             {
@@ -52,6 +61,11 @@ namespace Tennis.WebApp.ServiceContexts
         /// Gets the <see cref="IPlayerService"/> instance.
         /// </summary>
         public IPlayerService PlayerService { get; }
+
+        /// <summary>
+        /// Gets the <see cref="ITeamService"/> instance.
+        /// </summary>
+        public ITeamService TeamService { get; }
 
         /// <summary>
         /// Gets the <see cref="IClubService"/> instance.

@@ -14,14 +14,14 @@ namespace Competitions.Models
         public Guid FixtureId { get; set; }
 
         /// <summary>
+        /// Gets or sets the clubId Id as a venue.
+        /// </summary>
+        public Guid ClubId { get; set; }
+
+        /// <summary>
         /// Gets or sets the competition Id.
         /// </summary>
         public Guid CompetitionId { get; set; }
-
-        /// <summary>
-        /// Gets or sets the venue Id.
-        /// </summary>
-        public Guid VenueId { get; set; }
 
         /// <summary>
         /// Gets or sets the week of the fixture.
@@ -41,7 +41,7 @@ namespace Competitions.Models
         /// <summary>
         /// Gets or sets the venue details.
         /// </summary>
-        public VenueModel Venue { get; set; }
+        public ClubModel Club { get; set; }
 
         /// <summary>
         /// Gets or sets the list of match details.

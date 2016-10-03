@@ -11,19 +11,19 @@ namespace Competitions.Services
     /// </summary>
     public interface IPlayerService : IDisposable
     {
-        /// <summary>
-        /// Gets the list of players.
-        /// </summary>
-        /// <param name="clubId">Club Id.</param>
-        /// <returns>Returns the list of clubs.</returns>
-        Task<List<PlayerModel>> GetPlayersAsync(Guid clubId);
+        ///// <summary>
+        ///// Gets the list of players.
+        ///// </summary>
+        ///// <param name="clubId">Club Id.</param>
+        ///// <returns>Returns the list of clubs.</returns>
+        //Task<List<PlayerModel>> GetPlayersAsync(Guid clubId);
 
-        /// <summary>
-        /// Gets the player details.
-        /// </summary>
-        /// <param name="playerId">Player Id.</param>
-        /// <returns>Returns the player details.</returns>
-        Task<PlayerModel> GetPlayerAsync(Guid playerId);
+        ///// <summary>
+        ///// Gets the player details.
+        ///// </summary>
+        ///// <param name="playerId">Player Id.</param>
+        ///// <returns>Returns the player details.</returns>
+        //Task<PlayerModel> GetPlayerAsync(Guid playerId);
 
         /// <summary>
         /// Saves the player details.

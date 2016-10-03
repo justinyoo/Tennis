@@ -1,4 +1,8 @@
-﻿namespace Tennis.ViewModels.Competitions
+﻿using System.Collections.Generic;
+
+using Microsoft.AspNetCore.Mvc.Rendering;
+
+namespace Tennis.ViewModels.Competitions
 {
     /// <summary>
     /// This represents the view model entity for competition to add.
@@ -44,6 +48,11 @@
         /// Gets or sets the suburb.
         /// </summary>
         public string Suburb { get; set; }
+
+        /// <summary>
+        /// Gets or sets the list of states.
+        /// </summary>
+        public List<SelectListItem> States { get; set; }
 
         /// <summary>
         /// Gets or sets the state.

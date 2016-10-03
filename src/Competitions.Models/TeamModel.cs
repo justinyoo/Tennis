@@ -1,12 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace Competitions.EntityModels
+namespace Competitions.Models
 {
     /// <summary>
-    /// This represents the entity for team.
+    /// This represents the model entity for team.
     /// </summary>
-    public class Team
+    public class TeamModel
     {
         /// <summary>
         /// Gets or sets the team Id.
@@ -22,7 +22,7 @@ namespace Competitions.EntityModels
         /// Gets or sets the competition Id.
         /// </summary>
         public Guid? CompetitionId { get; set; }
-        
+
         /// <summary>
         /// Gets or sets the team name.
         /// </summary>
@@ -34,28 +34,18 @@ namespace Competitions.EntityModels
         public string Tag { get; set; }
 
         /// <summary>
-        /// Gets or sets the date when the record was created.
+        /// Gets or sets the club details.
         /// </summary>
-        public DateTimeOffset DateCreated { get; set; }
+        public ClubModel Club { get; set; }
 
         /// <summary>
-        /// Gets or sets the date when the record was updated.
+        /// Gets or sets the list of team-players.
         /// </summary>
-        public DateTimeOffset DateUpdated { get; set; }
+        public List<TeamPlayerModel> TeamPlayers { get; set; }
 
         /// <summary>
-        /// Gets or sets the <see cref="EntityModels.Club"/> instance.
+        /// Gets or sets the list of players.
         /// </summary>
-        public virtual Club Club { get; set; }
-
-        /// <summary>
-        /// Gets or sets the <see cref="EntityModels.Competition"/> instance.
-        /// </summary>
-        public virtual Competition Competition { get; set; }
-
-        /// <summary>
-        /// Gets or sets the list of <see cref="TeamPlayer"/> instance.
-        /// </summary>
-        public virtual List<TeamPlayer> TeamPlayers { get; set; }
+        public List<PlayerModel> Players { get; set; }
     }
 }

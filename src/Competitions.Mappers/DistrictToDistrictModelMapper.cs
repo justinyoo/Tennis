@@ -19,7 +19,7 @@ namespace Competitions.Mappers
         protected override void ConfigureMap(IMapperConfigurationExpression config)
         {
             config.CreateMap<District, DistrictModel>()
-                ;
+                  ;
         }
     }
 }

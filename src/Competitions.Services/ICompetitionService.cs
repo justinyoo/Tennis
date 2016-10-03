@@ -32,17 +32,17 @@ namespace Competitions.Services
         Task<Guid> SaveCompetitionAsync(CompetitionModel model);
 
         /// <summary>
-        /// Gets the list of competition-club details.
+        /// Gets the list of team details.
         /// </summary>
         /// <param name="competitionId">Competition Id.</param>
-        /// <returns>Returns the list of competition-club details.</returns>
-        Task<List<CompetitionClubModel>> GetCompetitionClubsAsync(Guid competitionId);
+        /// <returns>Returns the list of team details.</returns>
+        Task<List<TeamModel>> GetTeamsAsync(Guid competitionId);
 
         /// <summary>
-        /// Saves the competition-club details.
+        /// Saves the team details.
         /// </summary>
-        /// <param name="model"><see cref="CompetitionClubModel"/> instance.</param>
-        /// <returns>Returns the competition-club Id from the competition-club details.</returns>
-        Task<Guid> SaveCompetitionClubAsync(CompetitionClubModel model);
+        /// <param name="model"><see cref="TeamModel"/> instance.</param>
+        /// <returns>Returns the team Id from the team details.</returns>
+        Task<Guid> SaveTeamAsync(TeamModel model);
     }
 }

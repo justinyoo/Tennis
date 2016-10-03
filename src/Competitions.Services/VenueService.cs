@@ -47,6 +47,18 @@ namespace Competitions.Services
         }
 
         /// <summary>
+        /// Gets the list of states.
+        /// </summary>
+        /// <returns></returns>
+        public async Task<List<string>> GetStatesAsync()
+        {
+            var states = await Task.Factory
+                                   .StartNew(() => new[] { "ACT", "NSW", "NT", "QLD", "SA", "TAS", "VIC", "WA" }.OrderBy(p => p).ToList())
+                                   .ConfigureAwait(false);
+            return states;
+        }
+
+        /// <summary>
         /// Gets the list of venues.
         /// </summary>
         /// <returns>Returns the list of venues.</returns>

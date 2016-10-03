@@ -54,8 +54,10 @@ namespace Competitions.Services
         public async Task<List<ClubModel>> GetClubsAsync()
         {
             var results = await this._dbContext.Clubs
-                                    .Include(p => p.Players)
                                     .Include(p => p.Venue)
+                                    .Include(p => p.Teams)
+                                    .Include(p => p.Teams.Select(q => q.TeamPlayers))
+                                    .Include(p => p.Teams.Select(q => q.TeamPlayers.Select(r => r.Player)))
                                     .OrderBy(p => p.Name)
                                     .ToListAsync()
                                     .ConfigureAwait(false);
@@ -82,8 +84,10 @@ namespace Competitions.Services
             }
 
             var result = await this._dbContext.Clubs
-                                   .Include(p => p.Players)
                                    .Include(p => p.Venue)
+                                   .Include(p => p.Teams)
+                                   .Include(p => p.Teams.Select(q => q.TeamPlayers))
+                                   .Include(p => p.Teams.Select(q => q.TeamPlayers.Select(r => r.Player)))
                                    .SingleOrDefaultAsync(p => p.ClubId == clubId)
                                    .ConfigureAwait(false);
 
@@ -98,26 +102,17 @@ namespace Competitions.Services
         /// <summary>
         /// Saves the club details.
         /// </summary>
-        /// <param name="clubModel"><see cref="ClubModel"/> instance.</param>
-        /// <param name="venueModel"><see cref="VenueModel"/> instance.</param>
+        /// <param name="model"><see cref="ClubModel"/> instance.</param>
         /// <returns>Returns the club Id from the club details.</returns>
-        /// <exception cref="ArgumentNullException"><paramref name="clubModel"/> is <see langword="null" />.</exception>
-        /// <exception cref="ArgumentException">At least venue Id should be provided</exception>
-        public async Task<Guid> SaveClubAsync(ClubModel clubModel, VenueModel venueModel = null)
+        /// <exception cref="ArgumentNullException"><paramref name="model"/> is <see langword="null" />.</exception>
+        public async Task<Guid> SaveClubAsync(ClubModel model)
         {
-            if (clubModel == null)
+            if (model == null)
             {
-                throw new ArgumentNullException(nameof(clubModel));
+                throw new ArgumentNullException(nameof(model));
             }
 
-            if (venueModel == null && clubModel.VenueId == Guid.Empty)
-            {
-                throw new ArgumentException("At least venue Id should be provided");
-            }
-
-            var club = await this.GetOrCreateClubAsync(clubModel, venueModel).ConfigureAwait(false);
-
-            this._dbContext.Clubs.AddOrUpdate(club);
+            var club = await this.GetOrCreateClubAsync(model).ConfigureAwait(false);
 
             var transaction = this._dbContext.Database.BeginTransaction();
             try
@@ -148,10 +143,10 @@ namespace Competitions.Services
             this._disposed = true;
         }
 
-        private async Task<Club> GetOrCreateClubAsync(ClubModel clubModel, VenueModel venueModel = null)
+        private async Task<Club> GetOrCreateClubAsync(ClubModel model)
         {
             var club = await this._dbContext.Clubs
-                                 .SingleOrDefaultAsync(p => p.ClubId == clubModel.ClubId)
+                                 .SingleOrDefaultAsync(p => p.ClubId == model.ClubId)
                                  .ConfigureAwait(false);
 
             var now = DateTimeOffset.Now;
@@ -161,23 +156,18 @@ namespace Competitions.Services
                 club = new Club() { ClubId = Guid.NewGuid(), DateCreated = now };
             }
 
-            club.VenueId = clubModel.VenueId;
-            club.Name = clubModel.Name;
-            club.Manager = clubModel.Manager;
-            club.Phone = clubModel.Phone.Replace(" ", "");
-            club.Mobile = clubModel.Mobile.Replace(" ", "");
-            club.Email = clubModel.Email;
+            club.Name = model.Name;
+            club.Manager = model.Manager;
+            club.Phone = model.Phone.Replace(" ", "");
+            club.Mobile = model.Mobile.Replace(" ", "");
+            club.Email = model.Email;
             club.DateUpdated = now;
 
-            if (venueModel == null)
-            {
-                return club;
-            }
+            var venue = await this.GetOrCreateVenueAsync(model.Venue).ConfigureAwait(false);
 
-            var venue = await this.GetOrCreateVenueAsync(venueModel).ConfigureAwait(false);
-
-            club.VenueId = venue.VenueId;
             club.Venue = venue;
+
+            this._dbContext.Clubs.AddOrUpdate(club);
 
             return club;
         }
@@ -201,6 +191,8 @@ namespace Competitions.Services
             venue.State = model.State;
             venue.Postcode = model.Postcode;
             venue.DateUpdated = now;
+
+            this._dbContext.Venues.AddOrUpdate(venue);
 
             return venue;
         }

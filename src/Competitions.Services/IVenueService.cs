@@ -12,6 +12,12 @@ namespace Competitions.Services
     public interface IVenueService : IDisposable
     {
         /// <summary>
+        /// Gets the list of states.
+        /// </summary>
+        /// <returns></returns>
+        Task<List<string>> GetStatesAsync();
+
+        /// <summary>
         /// Gets the list of venues.
         /// </summary>
         /// <returns>Returns the list of venues.</returns>

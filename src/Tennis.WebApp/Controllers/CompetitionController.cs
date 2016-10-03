@@ -136,35 +136,35 @@ namespace Tennis.WebApp.Controllers
             return RedirectToAction("GetCompetition", new { competitionId = competitionId });
         }
 
-        /// <summary>
-        /// Adds club to competition.
-        /// </summary>
-        /// <param name="competitionId">Competition Id.</param>
-        /// <param name="model"><see cref="CompetitionViewModel"/> instance.</param>
-        /// <returns>Returns the competition details page.</returns>
-        [Route("{competitionId}/clubs/add")]
-        [Authorize]
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> AddClub(Guid competitionId, CompetitionViewModel model)
-        {
-            if (competitionId == Guid.Empty)
-            {
-                return NotFound();
-            }
+        ///// <summary>
+        ///// Adds club to competition.
+        ///// </summary>
+        ///// <param name="competitionId">Competition Id.</param>
+        ///// <param name="model"><see cref="CompetitionViewModel"/> instance.</param>
+        ///// <returns>Returns the competition details page.</returns>
+        //[Route("{competitionId}/clubs/add")]
+        //[Authorize]
+        //[HttpPost]
+        //[ValidateAntiForgeryToken]
+        //public async Task<IActionResult> AddClub(Guid competitionId, CompetitionViewModel model)
+        //{
+        //    if (competitionId == Guid.Empty)
+        //    {
+        //        return NotFound();
+        //    }
 
-            if (model == null)
-            {
-                return BadRequest();
-            }
+        //    if (model == null)
+        //    {
+        //        return BadRequest();
+        //    }
 
-            var cc = this._context.Map<CompetitionViewModelToCompetitionClubModelMapper, CompetitionClubModel>(model);
-            cc.CompetitionId = competitionId;
+        //    var cc = this._context.Map<CompetitionViewModelToCompetitionClubModelMapper, CompetitionClubModel>(model);
+        //    cc.CompetitionId = competitionId;
 
-            await this._context.CompetitionService.SaveCompetitionClubAsync(cc).ConfigureAwait(false);
+        //    await this._context.CompetitionService.SaveCompetitionClubAsync(cc).ConfigureAwait(false);
 
-            return RedirectToAction("GetCompetition", new { competitionId = competitionId });
-        }
+        //    return RedirectToAction("GetCompetition", new { competitionId = competitionId });
+        //}
 
         /// <summary>
         /// Gets the fixture details.
@@ -239,35 +239,35 @@ namespace Tennis.WebApp.Controllers
             return RedirectToAction("GetCompetition", new { competitionId = competitionId });
         }
 
-        /// <summary>
-        /// Adds matches details.
-        /// </summary>
-        /// <param name="competitionId">Competition Id.</param>
-        /// <param name="fixtureId">Fixture Id.</param>
-        /// <returns></returns>
-        [Route("{competitionId}/fixtures/{fixtureId}/matches/add")]
-        [Authorize]
-        [HttpGet]
-        public async Task<IActionResult> AddMatches(Guid competitionId, Guid fixtureId)
-        {
-            if (competitionId == Guid.Empty)
-            {
-                return NotFound();
-            }
+        ///// <summary>
+        ///// Adds matches details.
+        ///// </summary>
+        ///// <param name="competitionId">Competition Id.</param>
+        ///// <param name="fixtureId">Fixture Id.</param>
+        ///// <returns></returns>
+        //[Route("{competitionId}/fixtures/{fixtureId}/matches/add")]
+        //[Authorize]
+        //[HttpGet]
+        //public async Task<IActionResult> AddMatches(Guid competitionId, Guid fixtureId)
+        //{
+        //    if (competitionId == Guid.Empty)
+        //    {
+        //        return NotFound();
+        //    }
 
-            if (fixtureId == Guid.Empty)
-            {
-                return NotFound();
-            }
+        //    if (fixtureId == Guid.Empty)
+        //    {
+        //        return NotFound();
+        //    }
 
-            var items = await this._context.CompetitionService.GetCompetitionClubsAsync(competitionId).ConfigureAwait(false);
-            var clubs = this._context.Map<CompetitionClubModelToSelectListItemMapper, List<SelectListItem>>(items);
-            clubs.Insert(0, new SelectListItem() { Text = "Select Club", Value = string.Empty, Selected = true });
+        //    var items = await this._context.CompetitionService.GetCompetitionClubsAsync(competitionId).ConfigureAwait(false);
+        //    var clubs = this._context.Map<CompetitionClubModelToSelectListItemMapper, List<SelectListItem>>(items);
+        //    clubs.Insert(0, new SelectListItem() { Text = "Select Club", Value = string.Empty, Selected = true });
 
-            var vm = new MatchesAddViewModel() { CompetitionId = competitionId, FixtureId = fixtureId, Clubs = clubs, NumberOfPlayers = 3 };
+        //    var vm = new MatchesAddViewModel() { CompetitionId = competitionId, FixtureId = fixtureId, Clubs = clubs, NumberOfPlayers = 3 };
 
-            return View("AddMatches", vm);
-        }
+        //    return View("AddMatches", vm);
+        //}
 
         /// <summary>
         /// Adds matches details.

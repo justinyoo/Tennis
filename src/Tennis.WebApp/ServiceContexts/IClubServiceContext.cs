@@ -13,6 +13,11 @@ namespace Tennis.WebApp.ServiceContexts
         IPlayerService PlayerService { get; }
 
         /// <summary>
+        /// Gets the <see cref="ITeamService"/> instance.
+        /// </summary>
+        ITeamService TeamService { get; }
+
+        /// <summary>
         /// Gets the <see cref="IClubService"/> instance.
         /// </summary>
         IClubService ClubService { get; }

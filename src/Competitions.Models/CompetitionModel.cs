@@ -59,9 +59,9 @@ namespace Competitions.Models
         public string TrolsUrl { get; set; }
 
         /// <summary>
-        /// Gets or sets the list of participating clubs.
+        /// Gets or sets the list of teams.
         /// </summary>
-        public List<ClubModel> ParticipatingClubs { get; set; }
+        public List<TeamModel> Teams { get; set; }
 
         /// <summary>
         /// Gets or sets the list of fixtures.

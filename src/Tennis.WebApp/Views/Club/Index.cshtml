@@ -1,4 +1,4 @@
-﻿@using Tennis.ViewModels.Competitions
+﻿@using Tennis.Common.Extensions
 @model Tennis.ViewModels.Competitions.ClubCollectionViewModel
 @{
     ViewData["Title"] = "Clubs";
@@ -8,12 +8,30 @@
     <h2>Clubs</h2>
 
     <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-        <ul>
-            @foreach (var club in Model.Clubs)
-            {
-                <li><a asp-controller="Club" asp-action="GetClub" asp-route-clubId="@club.ClubId">@club.Name</a></li>
-            }
-        </ul>
+        <div class="table-responsive">
+            <table class="table">
+                <tr>
+                    <th>Club</th>
+                    <th>Address</th>
+                </tr>
+                @if (Model.Clubs.IsNullOrEmpty())
+                {
+                    <tr>
+                        <td colspan="2">There is no club</td>
+                    </tr>
+                }
+                else
+                {
+                    foreach (var club in Model.Clubs)
+                    {
+                        <tr>
+                            <td><a asp-controller="Club" asp-action="GetClub" asp-route-clubId="@club.ClubId">@club.Name</a></td>
+                            <td>@club.Venue.FullAddress</td>
+                        </tr>
+                    }
+                }
+            </table>
+        </div>
     </div>
 
     @if (User.Identity.IsAuthenticated)

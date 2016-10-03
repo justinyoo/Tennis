@@ -61,7 +61,11 @@ namespace Competitions.Services
             }
 
             var results = await this._dbContext.Fixtures
-                                    .Include(p => p.Venue)
+                                    .Include(p => p.Club)
+                                    .Include(p => p.Club.Venue)
+                                    .Include(p => p.Matches)
+                                    .Include(p => p.Matches.Select(q => q.MatchPlayers))
+                                    .Include(p => p.Matches.Select(q => q.MatchPlayers.Select(r => r.Player)))
                                     .Where(p => p.CompetitionId == competitionId)
                                     .OrderBy(p => p.Week)
                                     .ToListAsync()
@@ -89,10 +93,11 @@ namespace Competitions.Services
             }
 
             var result = await this._dbContext.Fixtures
+                                   .Include(p => p.Club)
+                                   .Include(p => p.Club.Venue)
                                    .Include(p => p.Matches)
                                    .Include(p => p.Matches.Select(q => q.MatchPlayers))
                                    .Include(p => p.Matches.Select(q => q.MatchPlayers.Select(r => r.Player)))
-                                   .Include(p => p.Venue)
                                    .SingleOrDefaultAsync(p => p.FixtureId == fixtureId)
                                    .ConfigureAwait(false);
 
@@ -164,7 +169,7 @@ namespace Competitions.Services
             }
 
             fixture.CompetitionId = model.CompetitionId;
-            fixture.VenueId = model.VenueId;
+            fixture.ClubId = model.ClubId;
             fixture.Week = model.Week;
             fixture.DateScheduled = model.DateScheduled;
             fixture.DateUpdated = now;

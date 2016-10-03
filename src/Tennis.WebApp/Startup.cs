@@ -104,6 +104,7 @@ namespace Tennis.WebApp
             services.AddTransient<IDistrictService, DistrictService>();
             services.AddTransient<IFixtureService, FixtureService>();
             services.AddTransient<Competitions.Services.IPlayerService, Competitions.Services.PlayerService>();
+            services.AddTransient<ITeamService, TeamService>();
             services.AddTransient<IVenueService, VenueService>();
 
             services.AddTransient<Tournaments.Services.IPlayerService, Tournaments.Services.PlayerService>();

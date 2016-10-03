@@ -49,6 +49,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ITeamService.cs" />
+    <Compile Include="TeamService.cs" />
     <Compile Include="IPlayerService.cs" />
     <Compile Include="PlayerService.cs" />
     <Compile Include="ClubService.cs" />

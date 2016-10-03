@@ -19,7 +19,11 @@ namespace Tennis.WebApp.Mappers
         protected override void ConfigureMap(IMapperConfigurationExpression config)
         {
             config.CreateMap<ClubAddViewModel, ClubModel>()
-                ;
+                  .ForMember(d => d.Venue, o => o.MapFrom(s => s))
+                  ;
+
+            config.CreateMap<ClubAddViewModel, VenueModel>()
+                  ;
         }
     }
 }

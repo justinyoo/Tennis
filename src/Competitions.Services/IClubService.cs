@@ -27,9 +27,8 @@ namespace Competitions.Services
         /// <summary>
         /// Saves the club details.
         /// </summary>
-        /// <param name="clubModel"><see cref="ClubModel"/> instance.</param>
-        /// <param name="venueModel"><see cref="VenueModel"/> instance.</param>
+        /// <param name="model"><see cref="ClubModel"/> instance.</param>
         /// <returns>Returns the club Id from the club details.</returns>
-        Task<Guid> SaveClubAsync(ClubModel clubModel, VenueModel venueModel = null);
+        Task<Guid> SaveClubAsync(ClubModel model);
     }
 }

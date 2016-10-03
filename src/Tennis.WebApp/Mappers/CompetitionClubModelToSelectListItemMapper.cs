@@ -19,10 +19,10 @@ namespace Tennis.WebApp.Mappers
         /// <param name="config"><see cref="IMapperConfigurationExpression"/> instance.</param>
         protected override void ConfigureMap(IMapperConfigurationExpression config)
         {
-            config.CreateMap<CompetitionClubModel, SelectListItem>()
-                  .ForMember(d => d.Text, o => o.MapFrom(s => $"{s.Club.Name} - {s.Club.Manager}"))
-                  .ForMember(d => d.Value, o => o.MapFrom(s => s.ClubId))
-                ;
+            //config.CreateMap<CompetitionClubModel, SelectListItem>()
+            //      .ForMember(d => d.Text, o => o.MapFrom(s => $"{s.Club.Name} - {s.Club.Manager}"))
+            //      .ForMember(d => d.Value, o => o.MapFrom(s => s.ClubId))
+            //    ;
         }
     }
 }

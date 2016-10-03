@@ -1,15 +1,15 @@
 ﻿@using Tennis.Common.Extensions
-@model Tennis.ViewModels.Competitions.ClubViewModel
+@model Tennis.ViewModels.Competitions.TeamViewModel
 @{
-    ViewData["Title"] = "Club";
+    ViewData["Title"] = "Team";
 
-    var club = Model.Club;
+    var team = Model.Team;
 }
 
 <div class="row">
-    <h2>Club Details</h2>
+    <h2>Team Details</h2>
 
-    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+    @*<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
         <ul>
             <li>Name: @club.Name</li>
             <li>Manager: @club.Manager (@string.Join(" | ", club.Contacts))</li>
@@ -55,5 +55,5 @@
         <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
             <a asp-controller="Club" asp-action="AddTeam" asp-route-clubId="@club.ClubId">Add Team</a>
         </div>
-    }
+    }*@
 </div>

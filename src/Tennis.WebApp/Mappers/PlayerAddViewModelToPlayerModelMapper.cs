@@ -1,5 +1,4 @@
-﻿using System;
-using AutoMapper;
+﻿using AutoMapper;
 
 using Competitions.Models;
 
@@ -20,7 +19,7 @@ namespace Tennis.WebApp.Mappers
         protected override void ConfigureMap(IMapperConfigurationExpression config)
         {
             config.CreateMap<PlayerAddViewModel, PlayerModel>()
-                ;
+                  ;
         }
     }
 }
