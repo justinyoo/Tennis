@@ -32,7 +32,7 @@ namespace Tennis.ViewModels.Competitions
         /// <summary>
         /// Gets or sets the list of clubs.
         /// </summary>
-        public List<SelectListItem> Clubs { get; set; }
+        public List<SelectListItem> Teams { get; set; }
 
         /// <summary>
         /// Gets or sets the number of players for a match.
@@ -42,7 +42,7 @@ namespace Tennis.ViewModels.Competitions
         /// <summary>
         /// Gets or sets the home club details.
         /// </summary>
-        public Guid HomeClub { get; set; }
+        public Guid HomeTeam { get; set; }
 
         /// <summary>
         /// Gets or sets the list of home players.
@@ -52,7 +52,7 @@ namespace Tennis.ViewModels.Competitions
         /// <summary>
         /// Gets or sets the away club details.
         /// </summary>
-        public Guid AwayClub { get; set; }
+        public Guid AwayTeam { get; set; }
 
         /// <summary>
         /// Gets or sets the list of away players.

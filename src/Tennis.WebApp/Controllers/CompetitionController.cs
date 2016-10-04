@@ -167,36 +167,6 @@ namespace Tennis.WebApp.Controllers
             return RedirectToAction("GetCompetition", new { competitionId = competitionId });
         }
 
-        ///// <summary>
-        ///// Adds club to competition.
-        ///// </summary>
-        ///// <param name="competitionId">Competition Id.</param>
-        ///// <param name="model"><see cref="CompetitionViewModel"/> instance.</param>
-        ///// <returns>Returns the competition details page.</returns>
-        //[Route("{competitionId}/clubs/add")]
-        //[Authorize]
-        //[HttpPost]
-        //[ValidateAntiForgeryToken]
-        //public async Task<IActionResult> AddClub(Guid competitionId, CompetitionViewModel model)
-        //{
-        //    if (competitionId == Guid.Empty)
-        //    {
-        //        return NotFound();
-        //    }
-
-        //    if (model == null)
-        //    {
-        //        return BadRequest();
-        //    }
-
-        //    var cc = this._context.Map<CompetitionViewModelToCompetitionClubModelMapper, CompetitionClubModel>(model);
-        //    cc.CompetitionId = competitionId;
-
-        //    await this._context.CompetitionService.SaveCompetitionClubAsync(cc).ConfigureAwait(false);
-
-        //    return RedirectToAction("GetCompetition", new { competitionId = competitionId });
-        //}
-
         /// <summary>
         /// Gets the fixture details.
         /// </summary>
@@ -270,35 +240,61 @@ namespace Tennis.WebApp.Controllers
             return RedirectToAction("GetCompetition", new { competitionId = competitionId });
         }
 
-        ///// <summary>
-        ///// Adds matches details.
-        ///// </summary>
-        ///// <param name="competitionId">Competition Id.</param>
-        ///// <param name="fixtureId">Fixture Id.</param>
-        ///// <returns></returns>
-        //[Route("{competitionId}/fixtures/{fixtureId}/matches/add")]
-        //[Authorize]
-        //[HttpGet]
-        //public async Task<IActionResult> AddMatches(Guid competitionId, Guid fixtureId)
-        //{
-        //    if (competitionId == Guid.Empty)
-        //    {
-        //        return NotFound();
-        //    }
+        /// <summary>
+        /// Gets the list of players belong to the team.
+        /// </summary>
+        /// <param name="competitionId">Competition Id.</param>
+        /// <param name="teamId">Team Id.</param>
+        /// <returns>Returns the list of players belong to the team.</returns>
+        [Route("{competitionId}/teams/{teamId}/players")]
+        [Authorize]
+        [HttpGet]
+        public async Task<IActionResult> GetPlayers(Guid competitionId, Guid teamId)
+        {
+            if (competitionId == Guid.Empty)
+            {
+                return NotFound();
+            }
 
-        //    if (fixtureId == Guid.Empty)
-        //    {
-        //        return NotFound();
-        //    }
+            if (teamId == Guid.Empty)
+            {
+                return NotFound();
+            }
 
-        //    var items = await this._context.CompetitionService.GetCompetitionClubsAsync(competitionId).ConfigureAwait(false);
-        //    var clubs = this._context.Map<CompetitionClubModelToSelectListItemMapper, List<SelectListItem>>(items);
-        //    clubs.Insert(0, new SelectListItem() { Text = "Select Club", Value = string.Empty, Selected = true });
+            var players = await this._context.PlayerService.GetPlayersByTeamIdAsync(teamId).ConfigureAwait(false);
 
-        //    var vm = new MatchesAddViewModel() { CompetitionId = competitionId, FixtureId = fixtureId, Clubs = clubs, NumberOfPlayers = 3 };
+            return new JsonResult(players.Select(p => new { name = $"{p.FirstName} {p.LastName}", playerId = p.PlayerId }));
+        }
 
-        //    return View("AddMatches", vm);
-        //}
+        /// <summary>
+        /// Adds matches details.
+        /// </summary>
+        /// <param name="competitionId">Competition Id.</param>
+        /// <param name="fixtureId">Fixture Id.</param>
+        /// <returns></returns>
+        [Route("{competitionId}/fixtures/{fixtureId}/matches/add")]
+        [Authorize]
+        [HttpGet]
+        public async Task<IActionResult> AddMatches(Guid competitionId, Guid fixtureId)
+        {
+            if (competitionId == Guid.Empty)
+            {
+                return NotFound();
+            }
+
+            if (fixtureId == Guid.Empty)
+            {
+                return NotFound();
+            }
+
+            var items = await this._context.TeamService.GetTeamsByCompetitionIdAsync(competitionId).ConfigureAwait(false);
+            var teams = this._context.Map<TeamModelToSelectListItemMapper, List<SelectListItem>>(items);
+            teams.Insert(0, new SelectListItem() { Text = "Select Team", Value = string.Empty, Selected = true });
+
+            var vm = new MatchesAddViewModel() { CompetitionId = competitionId, FixtureId = fixtureId, Teams = teams, NumberOfPlayers = 3 };
+
+            return View("AddMatches", vm);
+        }
 
         /// <summary>
         /// Adds matches details.
