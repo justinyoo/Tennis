@@ -151,8 +151,6 @@ namespace Competitions.Services
 
             var matches = await this.GetOrCreateMatchesAsync(fixtureId, homePlayers, awayPlayers).ConfigureAwait(false);
 
-            this._dbContext.Matches.AddOrUpdate(matches.ToArray());
-
             var transaction = this._dbContext.Database.BeginTransaction();
             try
             {
@@ -233,9 +231,11 @@ namespace Competitions.Services
                                          };
                 }
 
+                var index = (i - 1)/2;
+
                 if (!homePlayers.IsNullOrEmpty())
                 {
-                    match.MatchPlayers[0].PlayerId = homePlayers[i - 1];
+                    match.MatchPlayers[0].PlayerId = homePlayers[index];
                 }
 
                 match.MatchPlayers[0].HomeOrAway = "Home";
@@ -243,7 +243,7 @@ namespace Competitions.Services
 
                 if (!awayPlayers.IsNullOrEmpty())
                 {
-                    match.MatchPlayers[1].PlayerId = awayPlayers[i - 1];
+                    match.MatchPlayers[1].PlayerId = awayPlayers[index];
                 }
 
                 match.MatchPlayers[1].HomeOrAway = "Away";
@@ -267,8 +267,8 @@ namespace Competitions.Services
                                          };
                 }
 
-                var first = i % 3;
-                var next = (i + 1) % 3;
+                var first = (i/2)%3;
+                var next = (i/2 + 1)%3;
 
                 if (!homePlayers.IsNullOrEmpty())
                 {
@@ -296,6 +296,8 @@ namespace Competitions.Services
 
                 match.DateUpdated = now;
             }
+
+            this._dbContext.Matches.AddOrUpdate(matches.ToArray());
 
             return matches;
         }
