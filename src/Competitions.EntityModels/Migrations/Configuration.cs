@@ -16,9 +16,9 @@ namespace Competitions.EntityModels.Migrations
 
         protected override void Seed(Competitions.EntityModels.CompetitionDbContext context)
         {
-            var now = DateTimeOffset.Now;
+            //var now = DateTimeOffset.Now;
 
-            context.SeedDistricts(now);
+            //context.SeedDistricts(now);
         }
     }
 }

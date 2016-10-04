@@ -23,7 +23,6 @@ namespace Tennis.WebApp.Mappers
         {
             config.CreateMap<TeamAddViewModel, TeamModel>()
                   .ForMember(d => d.TeamPlayers, o => o.MapFrom(s => GetTeamPlayers(s)))
-                  .ForMember(d => d.Players, o => o.MapFrom(s => GetPlayers(s)))
                   ;
         }
 
@@ -40,14 +39,6 @@ namespace Tennis.WebApp.Mappers
                            .ToList();
 
             return tps;
-        }
-
-        private static List<PlayerModel> GetPlayers(TeamAddViewModel model)
-        {
-            var players = model.FirstNames
-                               .Select((fn, i) => new PlayerModel() { FirstName = fn, LastName = model.LastNames[i] })
-                               .ToList();
-            return players;
         }
     }
 }

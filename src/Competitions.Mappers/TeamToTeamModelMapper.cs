@@ -20,17 +20,23 @@ namespace Competitions.Mappers
         {
             config.CreateMap<Team, TeamModel>()
                   .ForMember(d => d.Club, o => o.MapFrom(s => s.Club))
+                  .ForMember(d => d.Competition, o => o.Condition(s => s.Competition != null))
                   .ForMember(d => d.TeamPlayers, o => o.MapFrom(s => s.TeamPlayers))
-                  .ForMember(d => d.Players, o => o.Ignore())
                   ;
 
             config.CreateMap<Club, ClubModel>()
                   .ForMember(d => d.Contacts, o => o.MapFrom(s => ClubToClubModelMapper.GetContacts(s)))
                   .ForMember(d => d.Venue, o => o.MapFrom(s => s.Venue))
+                  .ForMember(d => d.Teams, o => o.Ignore())
                   ;
 
             config.CreateMap<Venue, VenueModel>()
                   .ForMember(d => d.FullAddress, o => o.MapFrom(s => VenueToVenueModelMapper.GetFullAddress(s)))
+                  ;
+
+            config.CreateMap<Competition, CompetitionModel>()
+                  .ForMember(d => d.Fixtures, o => o.Ignore())
+                  .ForMember(d => d.Teams, o => o.Ignore())
                   ;
 
             config.CreateMap<TeamPlayer, TeamPlayerModel>()

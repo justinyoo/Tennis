@@ -56,6 +56,12 @@ namespace Competitions.Services
         {
             var results = await this._dbContext.Competitions
                                     .Include(p => p.District)
+                                    .Include(p => p.Teams)
+                                    .Include(p => p.Teams.Select(q => q.Club))
+                                    .Include(p => p.Teams.Select(q => q.Club.Venue))
+                                    .Include(p => p.Fixtures)
+                                    .Include(p => p.Fixtures.Select(q => q.Club))
+                                    .Include(p => p.Fixtures.Select(q => q.Club.Venue))
                                     .OrderByDescending(p => p.Year)
                                     .ThenBy(p => p.Season)
                                     .ThenBy(p => p.Name)
@@ -86,6 +92,8 @@ namespace Competitions.Services
             var result = await this._dbContext.Competitions
                                    .Include(p => p.District)
                                    .Include(p => p.Teams)
+                                   .Include(p => p.Teams.Select(q => q.Club))
+                                   .Include(p => p.Teams.Select(q => q.Club.Venue))
                                    .Include(p => p.Fixtures)
                                    .Include(p => p.Fixtures.Select(q => q.Club))
                                    .Include(p => p.Fixtures.Select(q => q.Club.Venue))

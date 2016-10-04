@@ -9,51 +9,73 @@
 <div class="row">
     <h2>Team Details</h2>
 
-    @*<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
         <ul>
-            <li>Name: @club.Name</li>
-            <li>Manager: @club.Manager (@string.Join(" | ", club.Contacts))</li>
-            <li>Address: @club.Venue.FullAddress</li>
-            @if (!string.IsNullOrWhiteSpace(club.Url))
+            <li>Name: @team.Name @(string.IsNullOrWhiteSpace(team.Tag) ? string.Empty : $"- {team.Tag}")</li>
+            <li>Manager: @team.Club.Manager (@string.Join(" | ", team.Club.Contacts))</li>
+            <li>Address: @team.Club.Venue.FullAddress</li>
+            @if (!string.IsNullOrWhiteSpace(team.Club.Url))
             {
-                <li>Website: <a href="@club.Url" target="_blank">@club.Url</a></li>
+                <li>Website: <a href="@team.Club.Url" target="_blank">@team.Club.Url</a></li>
             }
         </ul>
     </div>
-    
-    <h2>Teams</h2>
+
+    <h2>Players</h2>
 
     <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
         <div class="table-responsive">
             <table class="table">
                 <tr>
-                    <th>Team</th>
-                    <th>Players</th>
+                    <th>Number</th>
+                    <th>Name</th>
                 </tr>
-                @if (club.Teams.IsNullOrEmpty())
+                @if (team.TeamPlayers.IsNullOrEmpty())
                 {
                     <tr>
-                        <td colspan="2">There is no team</td>
+                        <td colspan="2">There is no player</td>
                     </tr>
                 }
                 else
                 {
-                    foreach (var team in club.Teams.OrderBy(p => p.Name))
+                    foreach (var tp in team.TeamPlayers.OrderBy(p => p.Order))
                     {
                         <tr>
-                            <td>@team.Name</td>
-                            <td>@team.TeamPlayers.OrderBy(p => p.Order).Select(p => $"{p.Player.FirstName} {p.Player.LastName}")</td>
+                            <td>@tp.Order</td>
+                            <td>@tp.Player.FirstName @tp.Player.LastName</td>
                         </tr>
                     }
                 }
             </table>
         </div>
     </div>
-    
+
+    <h2>Competition</h2>
+
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+        <ul>
+            @if (team.Competition == null)
+            {
+                <li>No competition allocated</li>
+            }
+            else
+            {
+                <li><a asp-controller="Competition" asp-action="GetCompetition" asp-route-competitionId="@team.CompetitionId">@team.Competition.Name</a></li>
+            }
+        </ul>
+    </div>
+
     @if (User.Identity.IsAuthenticated)
     {
         <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-            <a asp-controller="Club" asp-action="AddTeam" asp-route-clubId="@club.ClubId">Add Team</a>
+            <form asp-controller="Club" asp-action="AddCompetition" asp-route-clubId="@team.ClubId" asp-route-teamId="@team.TeamId" method="post">
+                <div class="form-group">
+                    <input type="hidden" asp-for="Name" value="@team.Name"/>
+                    <input type="hidden" asp-for="Tag" value="@team.Tag"/>
+                    <select class="form-control" style="display: inline-block !important" asp-for="Competition" asp-items="@Model.Competitions"></select>
+                    <button type="submit" class="btn btn-primary" style="display: inline-block !important">Allocate Competition</button>
+                </div>
+            </form>
         </div>
-    }*@
+    }
 </div>

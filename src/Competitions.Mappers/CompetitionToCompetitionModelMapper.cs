@@ -26,15 +26,19 @@ namespace Competitions.Mappers
 
             config.CreateMap<Team, TeamModel>()
                   .ForMember(d => d.Club, o => o.MapFrom(s => s.Club))
+                  .ForMember(d => d.Competition, o => o.Ignore())
                   .ForMember(d => d.TeamPlayers, o => o.Ignore())
                   ;
 
             config.CreateMap<Fixture, FixtureModel>()
                   .ForMember(d => d.Club, o => o.MapFrom(s => s.Club))
+                  .ForMember(d => d.Matches, o => o.Ignore())
                   ;
 
             config.CreateMap<Club, ClubModel>()
+                  .ForMember(d => d.Contacts, o => o.MapFrom(s => ClubToClubModelMapper.GetContacts(s)))
                   .ForMember(d => d.Venue, o => o.MapFrom(s => s.Venue))
+                  .ForMember(d => d.Teams, o => o.Ignore())
                   ;
 
             config.CreateMap<Venue, VenueModel>()

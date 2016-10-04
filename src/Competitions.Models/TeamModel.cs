@@ -39,13 +39,13 @@ namespace Competitions.Models
         public ClubModel Club { get; set; }
 
         /// <summary>
+        /// Gets or sets the competition details.
+        /// </summary>
+        public CompetitionModel Competition { get; set; }
+
+        /// <summary>
         /// Gets or sets the list of team-players.
         /// </summary>
         public List<TeamPlayerModel> TeamPlayers { get; set; }
-
-        /// <summary>
-        /// Gets or sets the list of players.
-        /// </summary>
-        public List<PlayerModel> Players { get; set; }
     }
 }

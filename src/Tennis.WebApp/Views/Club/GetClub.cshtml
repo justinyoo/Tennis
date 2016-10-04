@@ -41,8 +41,8 @@
                     foreach (var team in club.Teams.OrderBy(p => p.Name))
                     {
                         <tr>
-                            <td>@team.Name</td>
-                            <td>@team.TeamPlayers.OrderBy(p => p.Order).Select(p => $"{p.Player.FirstName} {p.Player.LastName}")</td>
+                            <td><a asp-controller="Club" asp-action="GetTeam" asp-route-clubId="@team.ClubId" asp-route-teamId="@team.TeamId">@team.Name</a></td>
+                            <td>@string.Join(", ", team.TeamPlayers.OrderBy(p => p.Order).Select(p => $"{p.Player.FirstName} {p.Player.LastName}"))</td>
                         </tr>
                     }
                 }

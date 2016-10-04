@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 using Competitions.EntityModels;
 using Competitions.Mappers;
 using Competitions.Models;
-
+using Tennis.Common.Extensions;
 using Tennis.Mappers;
 
 namespace Competitions.Services
@@ -63,6 +63,7 @@ namespace Competitions.Services
             var results = await this._dbContext.Teams
                                     .Include(p => p.Club)
                                     .Include(p => p.Club.Venue)
+                                    .Include(p => p.Competition)
                                     .Include(p => p.TeamPlayers)
                                     .Include(p => p.TeamPlayers.Select(q => q.Player))
                                     .Where(p => p.ClubId == clubId)
@@ -94,6 +95,7 @@ namespace Competitions.Services
             var results = await this._dbContext.Teams
                                     .Include(p => p.Club)
                                     .Include(p => p.Club.Venue)
+                                    .Include(p => p.Competition)
                                     .Include(p => p.TeamPlayers)
                                     .Include(p => p.TeamPlayers.Select(q => q.Player))
                                     .Where(p => p.CompetitionId == competitionId)
@@ -125,6 +127,7 @@ namespace Competitions.Services
             var result = await this._dbContext.Teams
                                    .Include(p => p.Club)
                                    .Include(p => p.Club.Venue)
+                                   .Include(p => p.Competition)
                                    .Include(p => p.TeamPlayers)
                                    .Include(p => p.TeamPlayers.Select(q => q.Player))
                                    .SingleOrDefaultAsync(p => p.TeamId == teamId)
@@ -200,14 +203,17 @@ namespace Competitions.Services
             team.Tag = model.Tag;
             team.DateUpdated = now;
 
-            var teamPlayers = new List<TeamPlayer>();
-            foreach (var tp in model.TeamPlayers)
+            if (!model.TeamPlayers.IsNullOrEmpty())
             {
-                var teamPlayer = await this.GetOrCreateTeamPlayerAsync(tp).ConfigureAwait(false);
-                teamPlayers.Add(teamPlayer);
-            }
+                var teamPlayers = new List<TeamPlayer>();
+                foreach (var tp in model.TeamPlayers)
+                {
+                    var teamPlayer = await this.GetOrCreateTeamPlayerAsync(tp).ConfigureAwait(false);
+                    teamPlayers.Add(teamPlayer);
+                }
 
-            team.TeamPlayers = teamPlayers;
+                team.TeamPlayers = teamPlayers;
+            }
 
             this._dbContext.Teams.AddOrUpdate(team);
 
