@@ -26,6 +26,7 @@ namespace Competitions.Mappers
             config.CreateMap<Club, ClubModel>()
                   .ForMember(d => d.Contacts, o => o.MapFrom(s => ClubToClubModelMapper.GetContacts(s)))
                   .ForMember(d => d.Venue, o => o.MapFrom(s => s.Venue))
+                  .ForMember(d => d.Teams, o => o.Ignore())
                   ;
 
             config.CreateMap<Venue, VenueModel>()

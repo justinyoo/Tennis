@@ -7,84 +7,114 @@
 }
 
 <div class="row">
-    <h2>Fixture Details</h2>
-
     <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-        <ul>
-            <li>Round: @fixture.Week.ToString("00")</li>
-            <li>Venue: @fixture.Venue.FullAddress</li>
-            <li>Schedule: @fixture.DateScheduled.ToString("dd/MM/yyyy HH:mm")</li>
-        </ul>
-    </div>
+        <div class="row">
+            <h2>Round @fixture.Week.ToString("00")</h2>
 
-    <h2>Matches</h2>
-    
-    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-        <div class="table-responsive">
-            <table class="table table-bordered">
-                <tr>
-                    <th rowspan="2">Set</th>
-                    <th colspan="3">Home</th>
-                    <th colspan="3">Away</th>
-                </tr>
-                <tr>
-                    <th>Player(s)</th>
-                    <th>Set</th>
-                    <th>Game</th>
-                    <th>Game</th>
-                    <th>Set</th>
-                    <th>Player(s)</th>
-                </tr>
-                @if (fixture.Matches.IsNullOrEmpty())
-                {
+            <div class="table-responsive">
+                <table class="table">
                     <tr>
-                        <td colspan="7" class="text-center">There is no match</td>
+                        <th>Schedule</th>
+                        <th>Venue</th>
                     </tr>
-                }
-                else
-                {
-                    foreach (var match in fixture.Matches.OrderBy(p => p.SetNumber))
-                    {
-                        var homePlayers = match.MatchPlayers.Where(p => p.HomeOrAway.Equals("home", StringComparison.CurrentCultureIgnoreCase));
-                        var awayPlayers = match.MatchPlayers.Where(p => p.HomeOrAway.Equals("away", StringComparison.CurrentCultureIgnoreCase));
+                    <tr>
+                        <td>@fixture.DateScheduled.ToString("dd/MM/yyyy HH:mm")</td>
+                        <td>@fixture.Club.Name, @fixture.Club.Venue.FullAddress</td>
+                    </tr>
+                </table>
+            </div>
+        </div>
 
+        <div class="row">
+            <h2>Matches</h2>
+
+            <div class="table-responsive">
+                <table class="table table-bordered">
+                    <tr>
+                        <th rowspan="2">Set</th>
+                        <th colspan="3">Home</th>
+                        <th colspan="3">Away</th>
+                    </tr>
+                    <tr>
+                        <th>Player(s)</th>
+                        <th>Set</th>
+                        <th>Game</th>
+                        <th>Game</th>
+                        <th>Set</th>
+                        <th>Player(s)</th>
+                    </tr>
+                    @if (fixture.Matches.IsNullOrEmpty())
+                    {
                         <tr>
-                            <td class="text-center">@match.SetNumber</td>
-                            <td>@Html.Raw(string.Join("<br />", homePlayers.Select(p => p.Player == null ? string.Empty : $"{p.Player.FirstName} {p.Player.LastName}")))</td>
-                            <td class="text-center">@match.HomeSetScore</td>
-                            <td class="text-center">@match.HomeGameScore</td>
-                            <td class="text-center">@match.AwayGameScore</td>
-                            <td class="text-center">@match.AwaySetScore</td>
-                            <td>@Html.Raw(string.Join("<br />", awayPlayers.Select(p => p.Player == null ? string.Empty : $"{p.Player.FirstName} {p.Player.LastName}")))</td>
+                            <td colspan="7" class="text-center">There is no match</td>
                         </tr>
                     }
-                    <tr>
-                        <td class="text-center">Total</td>
-                        <td></td>
-                        <td class="text-center">@fixture.Matches.Sum(p => p.HomeSetScore)</td>
-                        <td class="text-center">@fixture.Matches.Sum(p => p.HomeGameScore)</td>
-                        <td class="text-center">@fixture.Matches.Sum(p => p.AwayGameScore)</td>
-                        <td class="text-center">@fixture.Matches.Sum(p => p.AwaySetScore)</td>
-                        <td></td>
-                    </tr>
-                }
-            </table>
+                    else
+                    {
+                        foreach (var match in fixture.Matches.OrderBy(p => p.SetNumber))
+                        {
+                            var homePlayers = match.MatchPlayers.Where(p => p.HomeOrAway.Equals("home", StringComparison.CurrentCultureIgnoreCase));
+                            var awayPlayers = match.MatchPlayers.Where(p => p.HomeOrAway.Equals("away", StringComparison.CurrentCultureIgnoreCase));
+
+                            <tr>
+                                <td class="text-center">@match.SetNumber</td>
+                                <td>@Html.Raw(string.Join("<br />", homePlayers.Select(p => p.Player == null ? string.Empty : $"{p.Player.FirstName} {p.Player.LastName}")))</td>
+                                <td class="text-center">@match.HomeSetScore</td>
+                                <td class="text-center">@match.HomeGameScore</td>
+                                <td class="text-center">@match.AwayGameScore</td>
+                                <td class="text-center">@match.AwaySetScore</td>
+                                <td>@Html.Raw(string.Join("<br />", awayPlayers.Select(p => p.Player == null ? string.Empty : $"{p.Player.FirstName} {p.Player.LastName}")))</td>
+                            </tr>
+                        }
+                        <tr>
+                            <td class="text-center">Total</td>
+                            <td></td>
+                            <td class="text-center">@fixture.Matches.Sum(p => p.HomeSetScore)</td>
+                            <td class="text-center">@fixture.Matches.Sum(p => p.HomeGameScore)</td>
+                            <td class="text-center">@fixture.Matches.Sum(p => p.AwayGameScore)</td>
+                            <td class="text-center">@fixture.Matches.Sum(p => p.AwaySetScore)</td>
+                            <td></td>
+                        </tr>
+                    }
+                </table>
+            </div>
+
+            @if (User.Identity.IsAuthenticated)
+            {
+                <div class="row">
+                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                        <a class="btn btn-primary" asp-controller="Competition" asp-action="AddMatches" asp-route-competitionId="@fixture.CompetitionId" asp-route-fixtureId="@fixture.FixtureId">Add Matches</a>
+                    </div>
+                </div>
+            }
+        </div>
+
+        <div class="row">
+            <h2>Score Sheet</h2>
+
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                <div class="row">
+                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                        @if (string.IsNullOrWhiteSpace(fixture.ScoreSheet))
+                        {
+                            <p>There is no score sheet</p>
+
+                            if (User.Identity.IsAuthenticated)
+                            {
+                                <div class="row">
+                                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                                        <button type="button" class="btn btn-primary">Upload Score Sheet</button>
+                                    </div>
+                                </div>
+                            }
+                        }
+                        else
+                        {
+                            <img class="img-responsive center-block" src="@fixture.ScoreSheet" />
+                        }
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
-
-    @if (!string.IsNullOrWhiteSpace(fixture.ScoreSheet))
-    {
-        <h2>Score Sheet</h2>
-
-        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-            <img class="img-responsive center-block" src="@fixture.ScoreSheet" />
-        </div>
-    }
-
-    @if (User.Identity.IsAuthenticated)
-    {
-        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-            <a asp-controller="Competition" asp-action="AddMatches" asp-route-competitionId="@fixture.CompetitionId" asp-route-fixtureId="@fixture.FixtureId">Add Matches</a>
-        </div>
-    }
 </div>
