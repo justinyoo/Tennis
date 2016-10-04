@@ -12,32 +12,32 @@
     <script>
         "use strict";
 
-        (function($) {
+        (function ($) {
             var url = $.validator.format("/clubs/{0}/teams");
 
-            var emptyOption = function(elementId) {
+            var emptyOption = function (elementId) {
                 var $option = $("<option></option>")
                     .attr("value", "")
                     .text("Select Team");
                 $("#" + elementId).empty().append($option);
             };
 
-            var appendTeam = function(elementId, team) {
+            var appendTeam = function (elementId, team) {
                 var $option = $("<option></option>")
                     .attr("value", team.teamId)
                     .text(team.name);
                 $("#" + elementId).append($option);
             };
 
-            var appendTeams = function(elementId, teams) {
+            var appendTeams = function (elementId, teams) {
                 $.each(teams,
-                    function(i, team) {
+                    function (i, team) {
                         appendTeam(elementId, team);
                     });
             };
 
             $("#Club")
-                .change(function() {
+                .change(function () {
                     emptyOption("club-team");
 
                     var clubId = $(this).val();
@@ -46,7 +46,7 @@
                     }
 
                     $.getJSON(url(clubId),
-                        function(teams) {
+                        function (teams) {
                             appendTeams("club-team", teams);
                         });
                 });
@@ -55,88 +55,126 @@
 }
 
 <div class="row">
-    <h2>Competition Details</h2>
+    <h2>@competition.Name</h2>
 
     <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-        <ul>
-            <li>Name: @competition.Name</li>
-            <li>Year: @competition.Year</li>
-            <li>Season: @competition.Season</li>
-            <li>Day: @competition.Day</li>
-            <li>Type: @competition.Type</li>
-            <li>Grade: @competition.Grade</li>
-            <li>Level: @competition.Level</li>
-            <li><a href="@competition.TrolsUrl" target="_blank">Official TROLS page</a></li>
-        </ul>
+        <div class="row">
+            <div class="table-responsive">
+                <table class="table">
+                    <tr>
+                        <th>Year</th>
+                        <th>Season</th>
+                        <th>Day</th>
+                        <th>Type</th>
+                        <th>Grade</th>
+                        <th>Level</th>
+                        <th>TROLS</th>
+                    </tr>
+                    <tr>
+                        <td>@competition.Year</td>
+                        <td>@competition.Season</td>
+                        <td>@competition.Day</td>
+                        <td>@competition.Type</td>
+                        <td>@competition.Grade</td>
+                        <td>@competition.Level</td>
+                        <td><a href="@competition.TrolsUrl" target="_blank">@competition.TrolsUrl</a></td>
+                    </tr>
+                </table>
+            </div>
+        </div>
     </div>
 
     <h2>Participating Teams</h2>
 
     <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-        <div class="table-responsive">
-            <table class="table">
-                <tr>
-                    <th>Team</th>
-                    <th>Address</th>
-                    <th>Supervisor</th>
-                </tr>
-                @if (competition.Teams.IsNullOrEmpty())
-                {
+        <div class="row">
+            <div class="table-responsive">
+                <table class="table">
                     <tr>
-                        <td colspan="3">There is no participating team</td>
+                        <th>Team</th>
+                        <th>Address</th>
+                        <th>Supervisor</th>
                     </tr>
-                }
-                else
-                {
-                    foreach (var team in competition.Teams)
+                    @if (competition.Teams.IsNullOrEmpty())
                     {
                         <tr>
-                            <td><a asp-controller="Club" asp-action="GetTeam" asp-route-clubId="@team.ClubId" asp-route-teamId="@team.TeamId">@team.Club.Name @(string.IsNullOrWhiteSpace(team.Tag) ? string.Empty : $"- {team.Tag}")</a></td>
-                            <td>@team.Club.Venue.FullAddress</td>
-                            <td>@team.Club.Manager (@string.Join(" | ", team.Club.Contacts))</td>
+                            <td colspan="3">There is no participating team</td>
                         </tr>
                     }
-                }
-            </table>
+                    else
+                    {
+                        foreach (var team in competition.Teams)
+                        {
+                            <tr>
+                                <td><a asp-controller="Club" asp-action="GetTeam" asp-route-clubId="@team.ClubId" asp-route-teamId="@team.TeamId">@team.Club.Name @(string.IsNullOrWhiteSpace(team.Tag) ? string.Empty : $"- {team.Tag}")</a></td>
+                                <td>@team.Club.Venue.FullAddress</td>
+                                <td>@team.Club.Manager (@string.Join(" | ", team.Club.Contacts))</td>
+                            </tr>
+                        }
+                    }
+                </table>
+            </div>
         </div>
 
-        @if (User.Identity.IsAuthenticated)
-        {
-            <form class="form-inline" asp-controller="Competition" asp-action="AddTeam" asp-route-competitionId="@competition.CompetitionId" method="post">
-                <div class="form-group">
-                    <select class="form-control" style="display: inline-block !important" asp-for="Club" asp-items="@Model.Clubs"></select>
-                    <select class="form-control" style="display: inline-block !important" name="Team" id="club-team">
-                        <option value="">Select Team</option>
-                    </select>
-                    <button type="submit" class="btn btn-primary">Add Team</button>
-                </div>
-            </form>
-        }
+        <div class="row">
+            @if (User.Identity.IsAuthenticated)
+            {
+                <form class="form-inline" asp-controller="Competition" asp-action="AddTeam" asp-route-competitionId="@competition.CompetitionId" method="post">
+                    <div class="form-group">
+                        <select class="form-control" style="display: inline-block !important" asp-for="Club" asp-items="@Model.Clubs"></select>
+                        <select class="form-control" style="display: inline-block !important" name="Team" id="club-team">
+                            <option value="">Select Team</option>
+                        </select>
+                        <button type="submit" class="btn btn-primary">Add Team</button>
+                    </div>
+                </form>
+            }
+        </div>
     </div>
 
+    <div class="clearfix"></div>
 
     <h2>Fixtures</h2>
 
     <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-        @*<ul>
-                @if (competition.Fixtures.IsNullOrEmpty())
-                {
-                    <li>There is no fixture</li>
-                }
-                else
-                {
-                    foreach (var fixture in competition.Fixtures)
+        <div class="row">
+            <div class="table-responsive">
+                <table class="table">
+                    <tr>
+                        <th>Round</th>
+                        <th>Date</th>
+                        <th>Venue</th>
+                        <th>Details</th>
+                    </tr>
+                    @if (competition.Fixtures.IsNullOrEmpty())
                     {
-                        <li>Round @fixture.Week.ToString("00"): @fixture.DateScheduled.ToString("dd/MM/yyyy HH:mm") at @fixture.Venue.FullAddress [<a asp-controller="Competition" asp-action="GetFixture" asp-route-competitionId="@fixture.CompetitionId" asp-route-fixtureId="@fixture.FixtureId">Result</a>]</li>
+                        <tr>
+                            <td colspan="4">There is no fixture</td>
+                        </tr>
                     }
-                }
-            </ul>*@
-    </div>
-
-    @if (User.Identity.IsAuthenticated)
-    {
-        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-            <a asp-controller="Competition" asp-action="AddFixture">Add Fixture</a>
+                    else
+                    {
+                        foreach (var fixture in competition.Fixtures)
+                        {
+                            <tr>
+                                <td>@fixture.Week.ToString("00")</td>
+                                <td>@fixture.DateScheduled.ToString("dd/MM/yyyy HH:mm")</td>
+                                <td>@fixture.Club.Name &ndash; @fixture.Club.Venue.FullAddress</td>
+                                <td><a asp-controller="Competition" asp-action="GetFixture" asp-route-competitionId="@fixture.CompetitionId" asp-route-fixtureId="@fixture.FixtureId">View</a></td>
+                            </tr>
+                        }
+                    }
+                </table>
+            </div>
         </div>
-    }
+
+        @if (User.Identity.IsAuthenticated)
+        {
+            <div class="row">
+                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                    <a class="btn btn-primary" asp-controller="Competition" asp-action="AddFixture">Add Fixture</a>
+                </div>
+            </div>
+        }
+    </div>
 </div>

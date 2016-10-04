@@ -18,11 +18,11 @@ namespace Tennis.WebApp.Mappers
         /// <param name="config"><see cref="IMapperConfigurationExpression"/> instance.</param>
         protected override void ConfigureMap(IMapperConfigurationExpression config)
         {
-            //config.CreateMap<FixtureAddViewModel, FixtureModel>()
-            //      .ForMember(d => d.VenueId, o => o.MapFrom(s => s.Venue))
-            //      .ForMember(d => d.Venue, o => o.Ignore())
-            //      .ForMember(d => d.Week, o => o.MapFrom(s => s.Week.GetValueOrDefault()))
-            //    ;
+            config.CreateMap<FixtureAddViewModel, FixtureModel>()
+                  .ForMember(d => d.ClubId, o => o.MapFrom(s => s.Club))
+                  .ForMember(d => d.Club, o => o.Ignore())
+                  .ForMember(d => d.Week, o => o.MapFrom(s => s.Round.GetValueOrDefault()))
+                  ;
         }
     }
 }

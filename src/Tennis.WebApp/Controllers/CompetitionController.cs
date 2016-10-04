@@ -231,11 +231,11 @@ namespace Tennis.WebApp.Controllers
 
             var competition = await this._context.CompetitionService.GetCompetitionAsync(competitionId).ConfigureAwait(false);
 
-            var items = await this._context.VenueService.GetVenuesAsync().ConfigureAwait(false);
-            var venues = this._context.Map<VenueModelToSelectListItemMapper, List<SelectListItem>>(items);
-            venues.Insert(0, new SelectListItem() { Text = "Select Venue", Selected = true });
+            var items = await this._context.ClubService.GetClubsAsync().ConfigureAwait(false);
+            var clubs = this._context.Map<ClubModelToSelectListItemMapper, List<SelectListItem>>(items);
+            clubs.Insert(0, new SelectListItem() { Text = "Select Venue", Selected = true });
 
-            var vm = new FixtureAddViewModel() { CompetitionId = competitionId, CompetitionName = competition.Name, Venues = venues };
+            var vm = new FixtureAddViewModel() { CompetitionId = competitionId, CompetitionName = competition.Name, Clubs = clubs };
 
             return View("AddFixture", vm);
         }

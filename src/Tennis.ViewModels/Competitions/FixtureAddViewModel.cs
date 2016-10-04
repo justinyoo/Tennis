@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 
 using Microsoft.AspNetCore.Mvc.Rendering;
 
@@ -18,26 +19,28 @@ namespace Tennis.ViewModels.Competitions
         /// <summary>
         /// Gets or sets the competition name.
         /// </summary>
+        [DisplayName("Competition")]
         public string CompetitionName { get; set; }
 
         /// <summary>
-        /// Gets or sets the list of venues.
+        /// Gets or sets the list of club.
         /// </summary>
-        public List<SelectListItem> Venues { get; set; }
+        public List<SelectListItem> Clubs { get; set; }
 
         /// <summary>
-        /// Gets or sets the venue details.
+        /// Gets or sets the club details.
         /// </summary>
-        public Guid Venue { get; set; }
+        public Guid Club { get; set; }
 
         /// <summary>
         /// Gets or sets the week number that the fixture is scheduled.
         /// </summary>
-        public int? Week { get; set; }
+        public int? Round { get; set; }
 
         /// <summary>
         /// Gets or sets the date when the fixture is scheduled.
         /// </summary>
+        [DisplayName("Date Scheduled")]
         public DateTimeOffset DateScheduled { get; set; }
     }
 }
