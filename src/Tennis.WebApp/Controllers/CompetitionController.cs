@@ -78,7 +78,7 @@ namespace Tennis.WebApp.Controllers
                                   .ConfigureAwait(false);
 
             var clubs = this._context.Map<ClubModelToSelectListItemMapper, List<SelectListItem>>(items);
-            clubs.Insert(0, new SelectListItem() { Text = "Select Club", Selected = true });
+            clubs.Insert(0, new SelectListItem() { Text = "Select Club", Value = string.Empty, Selected = true });
 
             var vm = new CompetitionViewModel() { Competition = competition, Clubs = clubs };
 
@@ -132,6 +132,37 @@ namespace Tennis.WebApp.Controllers
 
             var competition = this._context.Map<CompetitionAddViewModelToCompetitionModelMapper, CompetitionModel>(model);
             var competitionId = await this._context.CompetitionService.SaveCompetitionAsync(competition).ConfigureAwait(false);
+
+            return RedirectToAction("GetCompetition", new { competitionId = competitionId });
+        }
+
+        /// <summary>
+        /// Adds a team to competition.
+        /// </summary>
+        /// <param name="competitionId">Competition Id.</param>
+        /// <param name="model"><see cref="CompetitionViewModel"/> instance.</param>
+        /// <returns>Returns the competition details.</returns>
+        [Route("{competitionId}/teams/add")]
+        [Authorize]
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> AddTeam(Guid competitionId, CompetitionViewModel model)
+        {
+            if (competitionId == Guid.Empty)
+            {
+                return NotFound();
+            }
+
+            if (model == null)
+            {
+                return BadRequest();
+            }
+
+            var team = this._context.Map<CompetitionViewModelToTeamModelMapper, TeamModel>(model);
+            team.ClubId = model.Club;
+            team.CompetitionId = competitionId;
+
+            await this._context.TeamService.SaveTeamAsync(team).ConfigureAwait(false);
 
             return RedirectToAction("GetCompetition", new { competitionId = competitionId });
         }

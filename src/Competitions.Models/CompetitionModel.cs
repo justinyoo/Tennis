@@ -59,6 +59,11 @@ namespace Competitions.Models
         public string TrolsUrl { get; set; }
 
         /// <summary>
+        /// Gets or sets the team details.
+        /// </summary>
+        public Guid TeamId { get; set; }
+
+        /// <summary>
         /// Gets or sets the list of teams.
         /// </summary>
         public List<TeamModel> Teams { get; set; }

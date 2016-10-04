@@ -6,6 +6,54 @@
     var competition = Model.Competition;
 }
 
+@section scripts
+{
+    <script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
+    <script>
+        "use strict";
+
+        (function($) {
+            var url = $.validator.format("/clubs/{0}/teams");
+
+            var emptyOption = function(elementId) {
+                var $option = $("<option></option>")
+                    .attr("value", "")
+                    .text("Select Team");
+                $("#" + elementId).empty().append($option);
+            };
+
+            var appendTeam = function(elementId, team) {
+                var $option = $("<option></option>")
+                    .attr("value", team.teamId)
+                    .text(team.name);
+                $("#" + elementId).append($option);
+            };
+
+            var appendTeams = function(elementId, teams) {
+                $.each(teams,
+                    function(i, team) {
+                        appendTeam(elementId, team);
+                    });
+            };
+
+            $("#Club")
+                .change(function() {
+                    emptyOption("club-team");
+
+                    var clubId = $(this).val();
+                    if (clubId === "") {
+                        return;
+                    }
+
+                    $.getJSON(url(clubId),
+                        function(teams) {
+                            appendTeams("club-team", teams);
+                        });
+                });
+        })(jQuery);
+    </script>
+}
+
 <div class="row">
     <h2>Competition Details</h2>
 
@@ -23,7 +71,7 @@
     </div>
 
     <h2>Participating Teams</h2>
-    
+
     <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
         <div class="table-responsive">
             <table class="table">
@@ -51,43 +99,38 @@
                 }
             </table>
         </div>
-    </div>
 
-    @if (User.Identity.IsAuthenticated)
-    {
-        @*<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+        @if (User.Identity.IsAuthenticated)
+        {
             <form class="form-inline" asp-controller="Competition" asp-action="AddTeam" asp-route-competitionId="@competition.CompetitionId" method="post">
                 <div class="form-group">
-                    <select class="form-control" asp-for="Team" asp-items="@Model.Teams"></select>
-                </div>
-
-                <div class="form-group">
+                    <select class="form-control" style="display: inline-block !important" asp-for="Club" asp-items="@Model.Clubs"></select>
+                    <select class="form-control" style="display: inline-block !important" name="Team" id="club-team">
+                        <option value="">Select Team</option>
+                    </select>
                     <button type="submit" class="btn btn-primary">Add Team</button>
                 </div>
             </form>
-        </div>*@
+        }
+    </div>
 
-        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-            @*<a asp-controller="Club" asp-action="AddTeam">New Team</a>*@
-        </div>
-    }
 
     <h2>Fixtures</h2>
 
     <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
         @*<ul>
-            @if (competition.Fixtures.IsNullOrEmpty())
-            {
-                <li>There is no fixture</li>
-            }
-            else
-            {
-                foreach (var fixture in competition.Fixtures)
+                @if (competition.Fixtures.IsNullOrEmpty())
                 {
-                    <li>Round @fixture.Week.ToString("00"): @fixture.DateScheduled.ToString("dd/MM/yyyy HH:mm") at @fixture.Venue.FullAddress [<a asp-controller="Competition" asp-action="GetFixture" asp-route-competitionId="@fixture.CompetitionId" asp-route-fixtureId="@fixture.FixtureId">Result</a>]</li>
+                    <li>There is no fixture</li>
                 }
-            }
-        </ul>*@
+                else
+                {
+                    foreach (var fixture in competition.Fixtures)
+                    {
+                        <li>Round @fixture.Week.ToString("00"): @fixture.DateScheduled.ToString("dd/MM/yyyy HH:mm") at @fixture.Venue.FullAddress [<a asp-controller="Competition" asp-action="GetFixture" asp-route-competitionId="@fixture.CompetitionId" asp-route-fixtureId="@fixture.FixtureId">Result</a>]</li>
+                    }
+                }
+            </ul>*@
     </div>
 
     @if (User.Identity.IsAuthenticated)

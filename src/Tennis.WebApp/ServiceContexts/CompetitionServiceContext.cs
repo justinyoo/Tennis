@@ -18,6 +18,7 @@ namespace Tennis.WebApp.ServiceContexts
         /// <param name="districtService"><see cref="IDistrictService"/> instance.</param>
         /// <param name="venueService"><see cref="IVenueService"/> instance.</param>
         /// <param name="clubService"><see cref="IClubService"/> instance.</param>
+        /// <param name="teamService"><see cref="ITeamService"/> instance.</param>
         /// <param name="competitionService"><see cref="ICompetitionService"/> instance.</param>
         /// <param name="fixtureService"><see cref="IFixtureService"/> instance.</param>
         /// <param name="playerService"><see cref="IPlayerService"/> instance.</param>
@@ -31,6 +32,7 @@ namespace Tennis.WebApp.ServiceContexts
                                          IDistrictService districtService,
                                          IVenueService venueService,
                                          IClubService clubService,
+                                         ITeamService teamService,
                                          ICompetitionService competitionService,
                                          IFixtureService fixtureService,
                                          IPlayerService playerService)
@@ -56,6 +58,13 @@ namespace Tennis.WebApp.ServiceContexts
             }
 
             this.ClubService = clubService;
+
+            if (teamService == null)
+            {
+                throw new ArgumentNullException(nameof(teamService));
+            }
+
+            this.TeamService = teamService;
 
             if (competitionService == null)
             {
@@ -93,6 +102,11 @@ namespace Tennis.WebApp.ServiceContexts
         /// Gets the <see cref="IClubService"/> instance.
         /// </summary>
         public IClubService ClubService { get; }
+
+        /// <summary>
+        /// Gets the <see cref="ITeamService"/> instance.
+        /// </summary>
+        public ITeamService TeamService { get; set; }
 
         /// <summary>
         /// Gets the <see cref="ICompetitionService"/> instance.

@@ -121,14 +121,16 @@ namespace Tennis.WebApp.Controllers
         /// <returns>Returns the list of teams in a club.</returns>
         [Route("{clubId}/teams")]
         [HttpGet]
-        public IActionResult GetTeams(Guid clubId)
+        public async Task<IActionResult> GetTeams(Guid clubId)
         {
             if (clubId == Guid.Empty)
             {
                 return NotFound();
             }
 
-            return RedirectToAction("GetClub", new { clubId = clubId });
+            var teams = await this._context.TeamService.GetTeamsByClubIdAsync(clubId).ConfigureAwait(false);
+
+            return new JsonResult(teams.Select(p => new { name = $"{p.Name} {p.Tag}", teamId = p.TeamId}));
         }
 
         /// <summary>

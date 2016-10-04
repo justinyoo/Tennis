@@ -28,8 +28,8 @@ namespace Tennis.ViewModels.Competitions
         public Guid Club { get; set; }
 
         /// <summary>
-        /// Gets or sets the club tag used, if multiple teams from one club participate in.
+        /// Gets or sets the team.
         /// </summary>
-        public string Tag { get; set; }
+        public Guid Team { get; set; }
     }
 }

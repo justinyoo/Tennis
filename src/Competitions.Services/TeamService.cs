@@ -199,8 +199,14 @@ namespace Competitions.Services
 
             team.ClubId = model.ClubId;
             team.CompetitionId = model.CompetitionId.GetValueOrDefault() == Guid.Empty ? null : model.CompetitionId;
-            team.Name = model.Name;
-            team.Tag = model.Tag;
+            if (!string.IsNullOrWhiteSpace(model.Name))
+            {
+                team.Name = model.Name;
+            }
+            if (!string.IsNullOrWhiteSpace(model.Tag))
+            {
+                team.Tag = model.Tag;
+            }
             team.DateUpdated = now;
 
             if (!model.TeamPlayers.IsNullOrEmpty())
