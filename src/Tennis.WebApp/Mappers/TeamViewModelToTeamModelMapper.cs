@@ -19,8 +19,8 @@ namespace Tennis.WebApp.Mappers
         protected override void ConfigureMap(IMapperConfigurationExpression config)
         {
             config.CreateMap<TeamViewModel, TeamModel>()
-                  .ForMember(d => d.CompetitionId, o => o.MapFrom(s => s.Competition))
-                  .ForMember(d => d.Competition, o => o.Ignore())
+                  //.ForMember(d => d.CompetitionId, o => o.MapFrom(s => s.Competition))
+                  //.ForMember(d => d.Competition, o => o.Ignore())
                   .ForMember(d => d.Club, o => o.Ignore())
                   .ForMember(d => d.TeamPlayers, o => o.Ignore())
                 ;

@@ -19,11 +19,6 @@ namespace Competitions.Models
         public Guid ClubId { get; set; }
 
         /// <summary>
-        /// Gets or sets the competition Id.
-        /// </summary>
-        public Guid? CompetitionId { get; set; }
-
-        /// <summary>
         /// Gets or sets the team name.
         /// </summary>
         public string Name { get; set; }
@@ -39,9 +34,9 @@ namespace Competitions.Models
         public ClubModel Club { get; set; }
 
         /// <summary>
-        /// Gets or sets the competition details.
+        /// Gets or sets the list of competition-teams.
         /// </summary>
-        public CompetitionModel Competition { get; set; }
+        public List<CompetitionTeamModel> CompetitionTeams { get; set; }
 
         /// <summary>
         /// Gets or sets the list of team-players.

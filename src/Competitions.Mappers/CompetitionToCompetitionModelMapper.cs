@@ -20,13 +20,11 @@ namespace Competitions.Mappers
         {
             config.CreateMap<Competition, CompetitionModel>()
                   .ForMember(d => d.TrolsUrl, o => o.MapFrom(s => s.District.TrolsUrl))
-                  .ForMember(d => d.Teams, o => o.MapFrom(s => s.Teams))
                   .ForMember(d => d.Fixtures, o => o.MapFrom(s => s.Fixtures))
                   ;
 
             config.CreateMap<Team, TeamModel>()
                   .ForMember(d => d.Club, o => o.MapFrom(s => s.Club))
-                  .ForMember(d => d.Competition, o => o.Ignore())
                   .ForMember(d => d.TeamPlayers, o => o.Ignore())
                   ;
 

@@ -34,7 +34,6 @@ namespace Competitions.Mappers
 
             config.CreateMap<Team, TeamModel>()
                   .ForMember(d => d.Club, o => o.Ignore())
-                  .ForMember(d => d.Competition, o => o.Ignore())
                   .ForMember(d => d.TeamPlayers, o => o.MapFrom(s => s.TeamPlayers))
                   ;
 

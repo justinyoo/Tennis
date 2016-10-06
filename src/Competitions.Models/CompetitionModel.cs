@@ -64,9 +64,9 @@ namespace Competitions.Models
         public Guid TeamId { get; set; }
 
         /// <summary>
-        /// Gets or sets the list of teams.
+        /// Gets or sets the list of competition-teams.
         /// </summary>
-        public List<TeamModel> Teams { get; set; }
+        public List<CompetitionTeamModel> CompetitionTeams { get; set; }
 
         /// <summary>
         /// Gets or sets the list of fixtures.

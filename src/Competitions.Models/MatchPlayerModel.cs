@@ -28,6 +28,11 @@ namespace Competitions.Models
         public string HomeOrAway { get; set; }
 
         /// <summary>
+        /// Gets or sets the player number.
+        /// </summary>
+        public int PlayerNumber { get; set; }
+
+        /// <summary>
         /// Gets or sets the player details.
         /// </summary>
         public PlayerModel Player { get; set; }

@@ -155,7 +155,7 @@ namespace Competitions.Services
             var results = await this._dbContext.Teams
                                .Include(p => p.Club)
                                .Include(p => p.Club.Venue)
-                               .Where(p => p.CompetitionId == competitionId)
+                               //.Where(p => p.CompetitionId == competitionId)
                                .OrderBy(p => p.Club.Name)
                                .ToListAsync()
                                .ConfigureAwait(false);
@@ -243,8 +243,8 @@ namespace Competitions.Services
 
         private async Task<Team> GetOrCreateTeamAsync(TeamModel model)
         {
-            var team = await this._dbContext.Teams
-                                 .SingleOrDefaultAsync(p => p.CompetitionId == model.CompetitionId)
+            var team = await this._dbContext.Teams.FirstAsync()
+                                 //.SingleOrDefaultAsync(p => p.CompetitionId == model.CompetitionId)
                                  .ConfigureAwait(false);
 
             var now = DateTimeOffset.Now;
@@ -254,7 +254,7 @@ namespace Competitions.Services
                 team = new Team() { TeamId = Guid.NewGuid(), DateCreated = now };
             }
 
-            team.CompetitionId = model.CompetitionId;
+            //team.CompetitionId = model.CompetitionId;
             team.ClubId = model.ClubId;
             team.DateUpdated = now;
 

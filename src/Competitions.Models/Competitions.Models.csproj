@@ -41,7 +41,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ClubModel.cs" />
+    <Compile Include="ClubPlayerModel.cs" />
     <Compile Include="CompetitionModel.cs" />
+    <Compile Include="CompetitionTeamModel.cs" />
     <Compile Include="DistrictModel.cs" />
     <Compile Include="FixtureModel.cs" />
     <Compile Include="MatchModel.cs" />

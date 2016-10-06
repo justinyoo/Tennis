@@ -63,7 +63,6 @@ namespace Competitions.Services
             var results = await this._dbContext.Teams
                                     .Include(p => p.Club)
                                     .Include(p => p.Club.Venue)
-                                    .Include(p => p.Competition)
                                     .Include(p => p.TeamPlayers)
                                     .Include(p => p.TeamPlayers.Select(q => q.Player))
                                     .Where(p => p.ClubId == clubId)
@@ -95,10 +94,9 @@ namespace Competitions.Services
             var results = await this._dbContext.Teams
                                     .Include(p => p.Club)
                                     .Include(p => p.Club.Venue)
-                                    .Include(p => p.Competition)
                                     .Include(p => p.TeamPlayers)
                                     .Include(p => p.TeamPlayers.Select(q => q.Player))
-                                    .Where(p => p.CompetitionId == competitionId)
+                                    //.Where(p => p.CompetitionId == competitionId)
                                     .OrderBy(p => p.Name)
                                     .ToListAsync()
                                     .ConfigureAwait(false);
@@ -127,7 +125,6 @@ namespace Competitions.Services
             var result = await this._dbContext.Teams
                                    .Include(p => p.Club)
                                    .Include(p => p.Club.Venue)
-                                   .Include(p => p.Competition)
                                    .Include(p => p.TeamPlayers)
                                    .Include(p => p.TeamPlayers.Select(q => q.Player))
                                    .SingleOrDefaultAsync(p => p.TeamId == teamId)
@@ -198,7 +195,7 @@ namespace Competitions.Services
             }
 
             team.ClubId = model.ClubId;
-            team.CompetitionId = model.CompetitionId.GetValueOrDefault() == Guid.Empty ? null : model.CompetitionId;
+            //team.CompetitionId = model.CompetitionId.GetValueOrDefault() == Guid.Empty ? null : model.CompetitionId;
             if (!string.IsNullOrWhiteSpace(model.Name))
             {
                 team.Name = model.Name;

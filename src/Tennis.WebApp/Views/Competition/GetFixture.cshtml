@@ -53,8 +53,8 @@
                     {
                         foreach (var match in fixture.Matches.OrderBy(p => p.SetNumber))
                         {
-                            var homePlayers = match.MatchPlayers.Where(p => p.HomeOrAway.Equals("home", StringComparison.CurrentCultureIgnoreCase));
-                            var awayPlayers = match.MatchPlayers.Where(p => p.HomeOrAway.Equals("away", StringComparison.CurrentCultureIgnoreCase));
+                            var homePlayers = match.MatchPlayers.OrderBy(p => p.PlayerNumber).Where(p => p.HomeOrAway.Equals("home", StringComparison.CurrentCultureIgnoreCase));
+                            var awayPlayers = match.MatchPlayers.OrderBy(p => p.PlayerNumber).Where(p => p.HomeOrAway.Equals("away", StringComparison.CurrentCultureIgnoreCase));
 
                             <tr>
                                 <td class="text-center">@match.SetNumber</td>

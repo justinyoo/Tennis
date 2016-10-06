@@ -17,11 +17,6 @@ namespace Competitions.EntityModels
         /// Gets or sets the club Id.
         /// </summary>
         public Guid ClubId { get; set; }
-
-        /// <summary>
-        /// Gets or sets the competition Id.
-        /// </summary>
-        public Guid? CompetitionId { get; set; }
         
         /// <summary>
         /// Gets or sets the team name.
@@ -48,10 +43,11 @@ namespace Competitions.EntityModels
         /// </summary>
         public virtual Club Club { get; set; }
 
+
         /// <summary>
-        /// Gets or sets the <see cref="EntityModels.Competition"/> instance.
+        /// Gets or sets the list of <see cref="CompetitionTeam"/> instances.
         /// </summary>
-        public virtual Competition Competition { get; set; }
+        public virtual List<CompetitionTeam> CompetitionTeams { get; set; }
 
         /// <summary>
         /// Gets or sets the list of <see cref="TeamPlayer"/> instance.

@@ -1,36 +1,26 @@
-using System;
+﻿using System;
 
 namespace Competitions.EntityModels
 {
     /// <summary>
-    /// This represents the entity for match-player.
+    /// This represents the entity for club-player.
     /// </summary>
-    public class MatchPlayer
+    public class ClubPlayer
     {
         /// <summary>
-        /// Gets or sets the match player Id.
+        /// Gets or sets the club-player Id.
         /// </summary>
-        public Guid MatchPlayerId { get; set; }
+        public Guid ClubPlayerId { get; set; }
 
         /// <summary>
-        /// Gets or sets the match Id.
+        /// Gets or sets the club Id.
         /// </summary>
-        public Guid MatchId { get; set; }
+        public Guid ClubId { get; set; }
 
         /// <summary>
         /// Gets or sets the player Id.
         /// </summary>
-        public Guid? PlayerId { get; set; }
-
-        /// <summary>
-        /// Gets or sets the value that specifies whether the player belongs to home or away.
-        /// </summary>
-        public string HomeOrAway { get; set; }
-
-        /// <summary>
-        /// Gets or sets the player number.
-        /// </summary>
-        public int PlayerNumber { get; set; }
+        public Guid PlayerId { get; set; }
 
         /// <summary>
         /// Gets or sets the date when the record was created.
@@ -43,9 +33,9 @@ namespace Competitions.EntityModels
         public DateTimeOffset DateUpdated { get; set; }
 
         /// <summary>
-        /// Gets or sets the <see cref="EntityModels.Match"/> instance.
+        /// Gets or sets the <see cref="EntityModels.Club"/> instance.
         /// </summary>
-        public virtual Match Match { get; set; }
+        public virtual Club Club { get; set; }
 
         /// <summary>
         /// Gets or sets the <see cref="EntityModels.Player"/> instance.

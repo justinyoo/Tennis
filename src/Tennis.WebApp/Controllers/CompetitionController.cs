@@ -160,7 +160,7 @@ namespace Tennis.WebApp.Controllers
 
             var team = this._context.Map<CompetitionViewModelToTeamModelMapper, TeamModel>(model);
             team.ClubId = model.Club;
-            team.CompetitionId = competitionId;
+            //team.CompetitionId = competitionId;
 
             await this._context.TeamService.SaveTeamAsync(team).ConfigureAwait(false);
 

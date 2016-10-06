@@ -34,6 +34,11 @@ namespace Competitions.EntityModels
         public DateTimeOffset DateUpdated { get; set; }
 
         /// <summary>
+        /// Gets or sets the list of <see cref="ClubPlayer"/> instances.
+        /// </summary>
+        public virtual List<ClubPlayer> ClubPlayers { get; set; }
+
+        /// <summary>
         /// Gets or sets the list of <see cref="MatchPlayer"/> instances.
         /// </summary>
         public virtual List<MatchPlayer> MatchPlayers { get; set; }

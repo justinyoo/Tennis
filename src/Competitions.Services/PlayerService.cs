@@ -239,6 +239,7 @@ namespace Competitions.Services
                 }
 
                 match.MatchPlayers[0].HomeOrAway = "Home";
+                match.MatchPlayers[0].PlayerNumber = index + 1;
                 match.MatchPlayers[0].DateUpdated = now;
 
                 if (!awayPlayers.IsNullOrEmpty())
@@ -247,6 +248,7 @@ namespace Competitions.Services
                 }
 
                 match.MatchPlayers[1].HomeOrAway = "Away";
+                match.MatchPlayers[1].PlayerNumber = index + 1;
                 match.MatchPlayers[1].DateUpdated = now;
 
                 match.DateUpdated = now;
@@ -277,9 +279,11 @@ namespace Competitions.Services
                 }
 
                 match.MatchPlayers[0].HomeOrAway = "Home";
+                match.MatchPlayers[0].PlayerNumber = first + 1;
                 match.MatchPlayers[0].DateUpdated = now;
 
                 match.MatchPlayers[1].HomeOrAway = "Home";
+                match.MatchPlayers[1].PlayerNumber = next + 1;
                 match.MatchPlayers[1].DateUpdated = now;
 
                 if (!awayPlayers.IsNullOrEmpty())
@@ -289,9 +293,11 @@ namespace Competitions.Services
                 }
 
                 match.MatchPlayers[2].HomeOrAway = "Away";
+                match.MatchPlayers[2].PlayerNumber = first + 1;
                 match.MatchPlayers[2].DateUpdated = now;
 
                 match.MatchPlayers[3].HomeOrAway = "Away";
+                match.MatchPlayers[3].PlayerNumber = next + 1;
                 match.MatchPlayers[3].DateUpdated = now;
 
                 match.DateUpdated = now;

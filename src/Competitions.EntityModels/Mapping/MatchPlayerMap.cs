@@ -20,6 +20,7 @@ namespace Competitions.EntityModels.Mapping
             this.Property(p => p.MatchId).IsRequired();
             this.Property(p => p.PlayerId).IsOptional();
             this.Property(p => p.HomeOrAway).IsRequired().HasMaxLength(8);
+            this.Property(p => p.PlayerNumber).IsRequired();
             this.Property(p => p.DateCreated).IsRequired();
             this.Property(p => p.DateUpdated).IsRequired();
 
@@ -29,6 +30,7 @@ namespace Competitions.EntityModels.Mapping
             this.Property(p => p.MatchId).HasColumnName("MatchId");
             this.Property(p => p.PlayerId).HasColumnName("PlayerId");
             this.Property(p => p.HomeOrAway).HasColumnName("HomeOrAway");
+            this.Property(p => p.PlayerNumber).HasColumnName("PlayerNumber");
             this.Property(p => p.DateCreated).HasColumnName("DateCreated");
             this.Property(p => p.DateUpdated).HasColumnName("DateUpdated");
 

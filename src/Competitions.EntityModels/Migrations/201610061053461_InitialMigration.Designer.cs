@@ -7,13 +7,13 @@ namespace Competitions.EntityModels.Migrations
     using System.Resources;
     
     [GeneratedCode("EntityFramework.Migrations", "6.1.3-40302")]
-    public sealed partial class UpdateTeamTag : IMigrationMetadata
+    public sealed partial class InitialMigration : IMigrationMetadata
     {
-        private readonly ResourceManager Resources = new ResourceManager(typeof(UpdateTeamTag));
+        private readonly ResourceManager Resources = new ResourceManager(typeof(InitialMigration));
         
         string IMigrationMetadata.Id
         {
-            get { return "201610032240398_UpdateTeamTag"; }
+            get { return "201610061053461_InitialMigration"; }
         }
         
         string IMigrationMetadata.Source
