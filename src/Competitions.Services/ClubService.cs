@@ -157,8 +157,9 @@ namespace Competitions.Services
 
             club.Name = model.Name;
             club.Manager = model.Manager;
-            club.Phone = model.Phone.Replace(" ", "");
-            club.Mobile = model.Mobile.Replace(" ", "");
+            club.ClubHousePhone = string.IsNullOrWhiteSpace(model.ClubHousePhone) ? null : model.ClubHousePhone.Replace(" ", "");
+            club.Phone = string.IsNullOrWhiteSpace(model.Phone) ? null : model.Phone.Replace(" ", "");
+            club.Mobile = string.IsNullOrWhiteSpace(model.Mobile) ? null : model.Mobile.Replace(" ", "");
             club.Email = model.Email;
             club.DateUpdated = now;
 

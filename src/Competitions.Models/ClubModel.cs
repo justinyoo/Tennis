@@ -31,15 +31,20 @@ namespace Competitions.Models
         /// <summary>
         /// Gets or sets the phone number of the club.
         /// </summary>
+        public string ClubHousePhone { get; set; }
+
+        /// <summary>
+        /// Gets or sets the phone number of the club manager.
+        /// </summary>
         public string Phone { get; set; }
 
         /// <summary>
-        /// Gets or sets the mobile number of the club.
+        /// Gets or sets the mobile number of the club manager.
         /// </summary>
         public string Mobile { get; set; }
 
         /// <summary>
-        /// Gets or sets the email of the club.
+        /// Gets or sets the email of the club manager.
         /// </summary>
         public string Email { get; set; }
 

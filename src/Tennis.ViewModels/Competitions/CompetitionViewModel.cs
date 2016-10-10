@@ -31,5 +31,10 @@ namespace Tennis.ViewModels.Competitions
         /// Gets or sets the team.
         /// </summary>
         public Guid Team { get; set; }
+
+        /// <summary>
+        /// Gets or sets the team number in the competition.
+        /// </summary>
+        public int TeamNumber { get; set; }
     }
 }

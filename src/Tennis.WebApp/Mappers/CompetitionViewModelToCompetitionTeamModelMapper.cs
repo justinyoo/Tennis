@@ -8,9 +8,9 @@ using Tennis.ViewModels.Competitions;
 namespace Tennis.WebApp.Mappers
 {
     /// <summary>
-    /// This represents the mapper entity between <see cref="CompetitionViewModel"/> and <see cref="TeamModel"/>.
+    /// This represents the mapper entity between <see cref="CompetitionViewModel"/> and <see cref="CompetitionTeamModel"/>.
     /// </summary>
-    public class CompetitionViewModelToTeamModelMapper : BaseMapper
+    public class CompetitionViewModelToCompetitionTeamModelMapper : BaseMapper
     {
         /// <summary>
         /// Configures the mapping information between source and destination.
@@ -18,11 +18,10 @@ namespace Tennis.WebApp.Mappers
         /// <param name="config"><see cref="IMapperConfigurationExpression"/> instance.</param>
         protected override void ConfigureMap(IMapperConfigurationExpression config)
         {
-            config.CreateMap<CompetitionViewModel, TeamModel>()
+            config.CreateMap<CompetitionViewModel, CompetitionTeamModel>()
                   .ForMember(d => d.TeamId, o => o.MapFrom(s => s.Team))
-                  //.ForMember(d => d.Competition, o => o.Ignore())
-                  .ForMember(d => d.Club, o => o.Ignore())
-                  .ForMember(d => d.TeamPlayers, o => o.Ignore())
+                  .ForMember(d => d.Competition, o => o.Ignore())
+                  .ForMember(d => d.Team, o => o.Ignore())
                 ;
         }
     }

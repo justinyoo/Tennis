@@ -1,5 +1,5 @@
 ﻿using System.Collections.Generic;
-
+using System.ComponentModel;
 using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace Tennis.ViewModels.Competitions
@@ -22,15 +22,21 @@ namespace Tennis.ViewModels.Competitions
         /// <summary>
         /// Gets or sets the phone number of the club.
         /// </summary>
+        [DisplayName("Club House")]
+        public string ClubHousePhone { get; set; }
+
+        /// <summary>
+        /// Gets or sets the phone number of the club manager.
+        /// </summary>
         public string Phone { get; set; }
 
         /// <summary>
-        /// Gets or sets the mobile number of the club.
+        /// Gets or sets the mobile number of the club manager.
         /// </summary>
         public string Mobile { get; set; }
 
         /// <summary>
-        /// Gets or sets the email of the club.
+        /// Gets or sets the email of the club manager.
         /// </summary>
         public string Email { get; set; }
 

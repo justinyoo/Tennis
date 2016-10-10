@@ -158,11 +158,10 @@ namespace Tennis.WebApp.Controllers
                 return BadRequest();
             }
 
-            var team = this._context.Map<CompetitionViewModelToTeamModelMapper, TeamModel>(model);
-            team.ClubId = model.Club;
-            //team.CompetitionId = competitionId;
+            var ct = this._context.Map<CompetitionViewModelToCompetitionTeamModelMapper, CompetitionTeamModel>(model);
+            ct.CompetitionId = competitionId;
 
-            await this._context.TeamService.SaveTeamAsync(team).ConfigureAwait(false);
+            await this._context.CompetitionService.SaveCompetitionTeamAsync(ct).ConfigureAwait(false);
 
             return RedirectToAction("GetCompetition", new { competitionId = competitionId });
         }

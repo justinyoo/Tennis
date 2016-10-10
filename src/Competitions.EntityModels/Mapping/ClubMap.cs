@@ -20,6 +20,7 @@ namespace Competitions.EntityModels.Mapping
             this.Property(p => p.VenueId).IsRequired();
             this.Property(p => p.Name).IsRequired().HasMaxLength(256);
             this.Property(p => p.Manager).IsOptional().HasMaxLength(128);
+            this.Property(p => p.ClubHousePhone).IsOptional().HasMaxLength(16);
             this.Property(p => p.Phone).IsOptional().HasMaxLength(16);
             this.Property(p => p.Mobile).IsOptional().HasMaxLength(16);
             this.Property(p => p.Email).IsOptional().HasMaxLength(256);
@@ -33,6 +34,7 @@ namespace Competitions.EntityModels.Mapping
             this.Property(p => p.VenueId).HasColumnName("VenueId");
             this.Property(p => p.Name).HasColumnName("Name");
             this.Property(p => p.Manager).HasColumnName("Manager");
+            this.Property(p => p.ClubHousePhone).HasColumnName("ClubHousePhone");
             this.Property(p => p.Phone).HasColumnName("Phone");
             this.Property(p => p.Mobile).HasColumnName("Mobile");
             this.Property(p => p.Email).HasColumnName("Email");

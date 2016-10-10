@@ -12,12 +12,16 @@
             <table class="table">
                 <tr>
                     <th>Club</th>
+                    <th>Supervisor</th>
                     <th>Address</th>
+                    <th>Contact</th>
+                    <th>Phone</th>
+                    <th>Mobile</th>
                 </tr>
                 @if (Model.Clubs.IsNullOrEmpty())
                 {
                     <tr>
-                        <td colspan="2">There is no club</td>
+                        <td colspan="6">There is no club</td>
                     </tr>
                 }
                 else
@@ -26,7 +30,11 @@
                     {
                         <tr>
                             <td><a asp-controller="Club" asp-action="GetClub" asp-route-clubId="@club.ClubId">@club.Name</a></td>
+                            <td>@club.Manager</td>
                             <td>@club.Venue.FullAddress</td>
+                            <td>@club.ClubHousePhone</td>
+                            <td>@club.Phone</td>
+                            <td>@club.Mobile</td>
                         </tr>
                     }
                 }

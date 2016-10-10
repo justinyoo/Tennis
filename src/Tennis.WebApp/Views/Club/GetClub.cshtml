@@ -18,11 +18,19 @@
                 <tr>
                     <th>Address</th>
                     <th>Supervisor</th>
+                    <th>Club</th>
+                    <th>Phone</th>
+                    <th>Mobile</th>
+                    <th>Email</th>
                     <th>Website</th>
                 </tr>
                 <tr>
                     <td>@club.Venue.FullAddress</td>
-                    <td>@club.Manager (@string.Join(" | ", club.Contacts))</td>
+                    <td>@club.Manager</td>
+                    <td>@club.ClubHousePhone</td>
+                    <td>@club.Phone</td>
+                    <td>@club.Mobile</td>
+                    <td>@club.Email</td>
                     <td>
                         @if (!string.IsNullOrWhiteSpace(club.Url))
                         {

@@ -23,6 +23,9 @@ namespace Competitions.Mappers
         protected override void ConfigureMap(IMapperConfigurationExpression config)
         {
             config.CreateMap<Club, ClubModel>()
+                  .ForMember(d => d.ClubHousePhone, o => o.MapFrom(s => s.ClubHousePhone.ToPhone()))
+                  .ForMember(d => d.Phone, o => o.MapFrom(s => s.Phone.ToPhone()))
+                  .ForMember(d => d.Mobile, o => o.MapFrom(s => s.Mobile.ToMobile()))
                   .ForMember(d => d.Contacts, o => o.MapFrom(s => GetContacts(s)))
                   .ForMember(d => d.Venue, o => o.MapFrom(s => s.Venue))
                   .ForMember(d => d.ClubPlayers, o => o.MapFrom(s => s.ClubPlayers))
@@ -40,6 +43,7 @@ namespace Competitions.Mappers
 
             config.CreateMap<Team, TeamModel>()
                   .ForMember(d => d.Club, o => o.Ignore())
+                  .ForMember(d => d.CompetitionTeams, o => o.Ignore())
                   .ForMember(d => d.TeamPlayers, o => o.MapFrom(s => s.TeamPlayers))
                   ;
 
@@ -59,7 +63,7 @@ namespace Competitions.Mappers
         /// <returns>Returns the list of contacts.</returns>
         public static List<string> GetContacts(Club club)
         {
-            var contacts = new List<string>() { club.Phone.ToPhone(), club.Mobile.ToMobile(), club.Email }.Where(p => !string.IsNullOrWhiteSpace(p)).ToList();
+            var contacts = new List<string>() { club.ClubHousePhone.ToPhone(), club.Phone.ToPhone(), club.Mobile.ToMobile(), club.Email }.Where(p => !string.IsNullOrWhiteSpace(p)).ToList();
             return contacts;
         }
     }

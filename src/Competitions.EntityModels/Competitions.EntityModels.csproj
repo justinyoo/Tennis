@@ -73,6 +73,10 @@
     <Compile Include="Migrations\201610100426481_InitialMigration.Designer.cs">
       <DependentUpon>201610100426481_InitialMigration.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201610101307371_UpdateClubByAddingClubHousePhone.cs" />
+    <Compile Include="Migrations\201610101307371_UpdateClubByAddingClubHousePhone.Designer.cs">
+      <DependentUpon>201610101307371_UpdateClubByAddingClubHousePhone.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Player.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -91,6 +95,9 @@
   <ItemGroup>
     <EmbeddedResource Include="Migrations\201610100426481_InitialMigration.resx">
       <DependentUpon>201610100426481_InitialMigration.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201610101307371_UpdateClubByAddingClubHousePhone.resx">
+      <DependentUpon>201610101307371_UpdateClubByAddingClubHousePhone.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

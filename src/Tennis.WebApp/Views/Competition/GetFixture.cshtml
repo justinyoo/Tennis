@@ -58,12 +58,12 @@
 
                             <tr>
                                 <td class="text-center">@match.SetNumber</td>
-                                <td>@Html.Raw(string.Join("<br />", homePlayers.Select(p => p.Player == null ? string.Empty : $"{p.Player.FirstName} {p.Player.LastName}")))</td>
+                                <td>@Html.Raw(string.Join("<br />", homePlayers.Select(p => p.Player == null ? string.Empty : $"{p.PlayerNumber}. {p.Player.FirstName} {p.Player.LastName}")))</td>
                                 <td class="text-center">@match.HomeSetScore</td>
                                 <td class="text-center">@match.HomeGameScore</td>
                                 <td class="text-center">@match.AwayGameScore</td>
                                 <td class="text-center">@match.AwaySetScore</td>
-                                <td>@Html.Raw(string.Join("<br />", awayPlayers.Select(p => p.Player == null ? string.Empty : $"{p.Player.FirstName} {p.Player.LastName}")))</td>
+                                <td>@Html.Raw(string.Join("<br />", awayPlayers.Select(p => p.Player == null ? string.Empty : $"{p.PlayerNumber}. {p.Player.FirstName} {p.Player.LastName}")))</td>
                             </tr>
                         }
                         <tr>

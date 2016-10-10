@@ -44,5 +44,12 @@ namespace Competitions.Services
         /// <param name="model"><see cref="TeamModel"/> instance.</param>
         /// <returns>Returns the team Id from the team details.</returns>
         Task<Guid> SaveTeamAsync(TeamModel model);
+
+        /// <summary>
+        /// Saves the competition-team details.
+        /// </summary>
+        /// <param name="model"><see cref="CompetitionTeamModel"/> instance.</param>
+        /// <returns>Returns the competition-team Id from the competition-team details.</returns>
+        Task<Guid> SaveCompetitionTeamAsync(CompetitionTeamModel model);
     }
 }

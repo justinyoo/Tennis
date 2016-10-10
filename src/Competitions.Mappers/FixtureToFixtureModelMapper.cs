@@ -3,6 +3,7 @@
 using Competitions.EntityModels;
 using Competitions.Models;
 
+using Tennis.Common.Extensions;
 using Tennis.Mappers;
 
 namespace Competitions.Mappers
@@ -24,7 +25,10 @@ namespace Competitions.Mappers
                   ;
 
             config.CreateMap<Club, ClubModel>()
-                  .ForMember(d => d.Contacts, o => o.MapFrom(s => ClubToClubModelMapper.GetContacts(s)))
+                   .ForMember(d => d.ClubHousePhone, o => o.MapFrom(s => s.ClubHousePhone.ToPhone()))
+                  .ForMember(d => d.Phone, o => o.MapFrom(s => s.Phone.ToPhone()))
+                  .ForMember(d => d.Mobile, o => o.MapFrom(s => s.Mobile.ToMobile()))
+                 .ForMember(d => d.Contacts, o => o.MapFrom(s => ClubToClubModelMapper.GetContacts(s)))
                   .ForMember(d => d.Venue, o => o.MapFrom(s => s.Venue))
                   .ForMember(d => d.Teams, o => o.Ignore())
                   ;

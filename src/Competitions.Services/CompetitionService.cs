@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Data.Entity;
 using System.Data.Entity.Migrations;
 using System.Linq;
-using System.Linq.Expressions;
 using System.Threading.Tasks;
 
 using Competitions.EntityModels;
@@ -184,8 +183,6 @@ namespace Competitions.Services
 
             var team = await this.GetOrCreateTeamAsync(model).ConfigureAwait(false);
 
-            this._dbContext.Teams.AddOrUpdate(team);
-
             var transaction = this._dbContext.Database.BeginTransaction();
             try
             {
@@ -193,6 +190,36 @@ namespace Competitions.Services
                 transaction.Commit();
 
                 return team.TeamId;
+            }
+            catch
+            {
+                transaction.Rollback();
+                throw;
+            }
+        }
+
+        /// <summary>
+        /// Saves the competition-team details.
+        /// </summary>
+        /// <param name="model"><see cref="CompetitionTeamModel"/> instance.</param>
+        /// <returns>Returns the competition-team Id from the competition-team details.</returns>
+        /// <exception cref="ArgumentNullException"><paramref name="model"/> is <see langword="null" />.</exception>
+        public async Task<Guid> SaveCompetitionTeamAsync(CompetitionTeamModel model)
+        {
+            if (model == null)
+            {
+                throw new ArgumentNullException(nameof(model));
+            }
+
+            var ct = await this.GetOrCreateCompetitionTeamAsync(model).ConfigureAwait(false);
+
+            var transaction = this._dbContext.Database.BeginTransaction();
+            try
+            {
+                await this._dbContext.SaveChangesAsync().ConfigureAwait(false);
+                transaction.Commit();
+
+                return ct.CompetitionTeamId;
             }
             catch
             {
@@ -244,8 +271,8 @@ namespace Competitions.Services
 
         private async Task<Team> GetOrCreateTeamAsync(TeamModel model)
         {
-            var team = await this._dbContext.Teams.FirstAsync()
-                                 //.SingleOrDefaultAsync(p => p.CompetitionId == model.CompetitionId)
+            var team = await this._dbContext.Teams
+                                 .SingleOrDefaultAsync(p => p.TeamId == model.TeamId)
                                  .ConfigureAwait(false);
 
             var now = DateTimeOffset.Now;
@@ -255,11 +282,35 @@ namespace Competitions.Services
                 team = new Team() { TeamId = Guid.NewGuid(), DateCreated = now };
             }
 
-            //team.CompetitionId = model.CompetitionId;
             team.ClubId = model.ClubId;
             team.DateUpdated = now;
 
+            this._dbContext.Teams.AddOrUpdate(team);
+
             return team;
+        }
+
+        private async Task<CompetitionTeam> GetOrCreateCompetitionTeamAsync(CompetitionTeamModel model)
+        {
+            var ct = await this._dbContext.CompetitionTeams
+                               .SingleOrDefaultAsync(p => p.CompetitionTeamId == model.CompetitionTeamId)
+                               .ConfigureAwait(false);
+
+            var now = DateTimeOffset.Now;
+
+            if (ct == null)
+            {
+                ct = new CompetitionTeam() { CompetitionTeamId = Guid.NewGuid(), DateCreated = now };
+            }
+
+            ct.CompetitionId = model.CompetitionId;
+            ct.TeamId = model.TeamId;
+            ct.TeamNumber = model.TeamNumber;
+            ct.DateUpdated = now;
+
+            this._dbContext.CompetitionTeams.AddOrUpdate(ct);
+
+            return ct;
         }
     }
 }
