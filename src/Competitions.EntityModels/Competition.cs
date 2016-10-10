@@ -77,10 +77,5 @@ namespace Competitions.EntityModels
         /// Gets or sets the list of <see cref="Fixture"/> instances.
         /// </summary>
         public virtual List<Fixture> Fixtures { get; set; }
-
-        /// <summary>
-        /// Gets or sets the list of <see cref="Team"/> instances.
-        /// </summary>
-        public virtual List<Team> Teams { get; set; }
     }
 }

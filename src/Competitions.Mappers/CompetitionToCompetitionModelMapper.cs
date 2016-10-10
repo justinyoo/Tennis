@@ -20,7 +20,13 @@ namespace Competitions.Mappers
         {
             config.CreateMap<Competition, CompetitionModel>()
                   .ForMember(d => d.TrolsUrl, o => o.MapFrom(s => s.District.TrolsUrl))
+                  .ForMember(d => d.CompetitionTeams, o => o.MapFrom(s => s.CompetitionTeams))
                   .ForMember(d => d.Fixtures, o => o.MapFrom(s => s.Fixtures))
+                  ;
+
+            config.CreateMap<CompetitionTeam, CompetitionTeamModel>()
+                  .ForMember(d => d.Competition, o => o.Ignore())
+                  .ForMember(d => d.Team, o => o.MapFrom(s => s.Team))
                   ;
 
             config.CreateMap<Team, TeamModel>()

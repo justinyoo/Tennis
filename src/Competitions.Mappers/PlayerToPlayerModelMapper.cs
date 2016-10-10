@@ -19,6 +19,7 @@ namespace Competitions.Mappers
         protected override void ConfigureMap(IMapperConfigurationExpression config)
         {
             config.CreateMap<Player, PlayerModel>()
+                  .ForMember(d => d.TeamPlayers, o => o.Ignore())
                   ;
         }
     }

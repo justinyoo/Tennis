@@ -49,6 +49,36 @@ namespace Competitions.Services
         }
 
         /// <summary>
+        /// Gets the list of players belong to a club.
+        /// </summary>
+        /// <param name="clubId">Club Id.</param>
+        /// <returns>Returns the list of players belong to the club.</returns>
+        /// <exception cref="ArgumentNullException"><paramref name="clubId"/> is <see langword="null" />.</exception>
+        public async Task<List<PlayerModel>> GetPlayersByClubIdAsync(Guid clubId)
+        {
+            if (clubId == Guid.Empty)
+            {
+                throw new ArgumentNullException(nameof(clubId));
+            }
+
+            var results = await this._dbContext.ClubPlayers
+                                    .Include(p => p.Player)
+                                    .Where(p => p.ClubId == clubId)
+                                    .OrderBy(p => p.Player.FirstName)
+                                    .ThenBy(p => p.Player.LastName)
+                                    .Select(p => p.Player)
+                                    .ToListAsync()
+                                    .ConfigureAwait(false);
+
+            using (var mapper = this._mapperFactory.Get<PlayerToPlayerModelMapper>())
+            {
+                var players = mapper.Map<List<PlayerModel>>(results);
+
+                return players;
+            }
+        }
+
+        /// <summary>
         /// Gets the list of players belong to a team..
         /// </summary>
         /// <param name="teamId">Team Id.</param>
@@ -117,8 +147,6 @@ namespace Competitions.Services
 
             var player = await this.GetOrCreatePlayerAsync(model).ConfigureAwait(false);
 
-            this._dbContext.Players.AddOrUpdate(player);
-
             var transaction = this._dbContext.Database.BeginTransaction();
             try
             {
@@ -126,6 +154,36 @@ namespace Competitions.Services
                 transaction.Commit();
 
                 return player.PlayerId;
+            }
+            catch
+            {
+                transaction.Rollback();
+                throw;
+            }
+        }
+
+        /// <summary>
+        /// Saves the club-players details.
+        /// </summary>
+        /// <param name="model"><see cref="ClubPlayerCollectionModel"/> instance.</param>
+        /// <returns>Returns the list of club-player Id from the club-player details.</returns>
+        /// <exception cref="ArgumentNullException"><paramref name="model"/> is <see langword="null" />.</exception>
+        public async Task<List<Guid>> SaveClubPlayersAsync(ClubPlayerCollectionModel model)
+        {
+            if (model == null)
+            {
+                throw new ArgumentNullException(nameof(model));
+            }
+
+            var cps = await this.GetOrCreateClubPlayersAsync(model).ConfigureAwait(false);
+
+            var transaction = this._dbContext.Database.BeginTransaction();
+            try
+            {
+                await this._dbContext.SaveChangesAsync().ConfigureAwait(false);
+                transaction.Commit();
+
+                return cps.Select(p => p.ClubPlayerId).ToList();
             }
             catch
             {
@@ -192,12 +250,43 @@ namespace Competitions.Services
                 player = new Player() { PlayerId = Guid.NewGuid(), DateCreated = now };
             }
 
-            //player.ClubId = model.ClubId;
             player.FirstName = model.FirstName;
             player.LastName = model.LastName;
             player.DateUpdated = now;
 
+            this._dbContext.Players.AddOrUpdate(player);
+
             return player;
+        }
+
+        private async Task<List<ClubPlayer>> GetOrCreateClubPlayersAsync(ClubPlayerCollectionModel model)
+        {
+            var cps = await this._dbContext.ClubPlayers
+                                    .Include(p => p.Player)
+                                    .Where(p => p.ClubId == model.ClubId)
+                                    .ToListAsync()
+                                    .ConfigureAwait(false);
+
+            var now = DateTimeOffset.Now;
+
+            if (cps.IsNullOrEmpty())
+            {
+                cps = Enumerable.Range(1, model.ClubPlayers.Count)
+                                .Select(p => new ClubPlayer() { ClubPlayerId = Guid.NewGuid(), ClubId = model.ClubId, DateCreated = now })
+                                .ToList();
+            }
+
+            for (var i = 0; i < model.ClubPlayers.Count; i++)
+            {
+                var player = await this.GetOrCreatePlayerAsync(model.ClubPlayers[i].Player).ConfigureAwait(false);
+
+                cps[i].PlayerId = player.PlayerId;
+                cps[i].DateUpdated = now;
+            }
+
+            this._dbContext.ClubPlayers.AddOrUpdate(cps.ToArray());
+
+            return cps;
         }
 
         private async Task<List<Match>> GetOrCreateMatchesAsync(Guid fixtureId, List<Guid> homePlayers, List<Guid> awayPlayers)

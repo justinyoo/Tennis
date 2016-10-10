@@ -95,7 +95,7 @@
                         <th>Address</th>
                         <th>Supervisor</th>
                     </tr>
-                    @if (competition.Teams.IsNullOrEmpty())
+                    @if (competition.CompetitionTeams.IsNullOrEmpty())
                     {
                         <tr>
                             <td colspan="3">There is no participating team</td>
@@ -103,12 +103,12 @@
                     }
                     else
                     {
-                        foreach (var team in competition.Teams)
+                        foreach (var ct in competition.CompetitionTeams)
                         {
                             <tr>
-                                <td><a asp-controller="Club" asp-action="GetTeam" asp-route-clubId="@team.ClubId" asp-route-teamId="@team.TeamId">@team.Club.Name @(string.IsNullOrWhiteSpace(team.Tag) ? string.Empty : $"- {team.Tag}")</a></td>
-                                <td>@team.Club.Venue.FullAddress</td>
-                                <td>@team.Club.Manager (@string.Join(" | ", team.Club.Contacts))</td>
+                                <td><a asp-controller="Club" asp-action="GetTeam" asp-route-clubId="@ct.Team.ClubId" asp-route-teamId="@ct.Team.TeamId">@ct.Team.Club.Name @(string.IsNullOrWhiteSpace(ct.Team.Tag) ? string.Empty : $"- {ct.Team.Tag}")</a></td>
+                                <td>@ct.Team.Club.Venue.FullAddress</td>
+                                <td>@ct.Team.Club.Manager (@string.Join(" | ", ct.Team.Club.Contacts))</td>
                             </tr>
                         }
                     }

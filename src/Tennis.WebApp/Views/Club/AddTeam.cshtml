@@ -5,72 +5,39 @@
 
 @section scripts
 {
-    <script>
-        "use strict";
-
-        (function($) {
-            $("#add-team-member")
-                .click(function() {
-                    var $removeTeamMember = $("<span></span>")
-                        .addClass("glyphicon glyphicon-remove")
-                        .attr("aria-hidden", true)
-                        .bind("click",
-                            function() {
-                                var $parent = $(this).parent();
-                                $parent.remove();
-                            });
-
-                    var $formGroup = $("<div></div>")
-                        //.addClass("form-group")
-                        .append($("<input>")
-                            .addClass("form-control")
-                            .attr({ "name": "FirstNames", "placeholder": "First Name", "style": "display: inline-block !important" }))
-                        .append($("<input>")
-                            .addClass("form-control")
-                            .attr({ "name": "LastNames", "placeholder": "Last Name", "style": "display: inline-block !important" }))
-                        .append($removeTeamMember);
-
-                    $("#players").append($formGroup);
-                });
-        })(jQuery);
-    </script>
+    <script src="~/js/addPlayer.js"></script>
 }
 
 <div class="row">
-    <h2>Add Team to @Model.ClubName</h2>
-    
     <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+        <h2>Add Team to @Model.ClubName</h2>
+
         <form asp-controller="Club" asp-action="AddTeam" asp-route-clubId="@Model.ClubId" method="post">
             <h3>Team Details</h3>
 
-            <div class="form-group">
-                <label class="col-xs-12 col-sm-2 col-md-1 col-lg-1 control-label" asp-for="@Model.Name"></label>
-                <div class="col-xs-12 col-sm-10 col-md-11 col-lg-11">
-                    <input class="form-control" asp-for="Name" value="@Model.Name"/>
-                </div>
-            </div>
-
-            <div class="form-group">
-                <label class="col-xs-12 col-sm-2 col-md-1 col-lg-1 control-label" asp-for="@Model.Tag"></label>
-                <div class="col-xs-12 col-sm-10 col-md-11 col-lg-11">
-                    <input class="form-control" asp-for="Tag" value="@Model.Tag"/>
-                </div>
-            </div>
-            
-            <h3>Team Members</h3>
-            
             <div class="row">
-                <div class="col-xs-12 col-sm-offset-2 col-sm-10 col-md-offset-1 col-md-11 col-lg-offset-1 col-lg-11" id="players"></div>
-                <div class="col-xs-12 col-sm-offset-2 col-sm-10 col-md-offset-1 col-md-11 col-lg-offset-1 col-lg-11">
-                    <button type="button" class="btn btn-default" id="add-team-member">Add Team Member</button>
+                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                    <div class="form-group">
+                        <label class="col-xs-12 col-sm-2 col-md-1 col-lg-1 control-label" asp-for="@Model.Name"></label>
+                        <div class="col-xs-12 col-sm-10 col-md-11 col-lg-11">
+                            <input class="form-control" asp-for="Name" value="@Model.Name" />
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="col-xs-12 col-sm-2 col-md-1 col-lg-1 control-label" asp-for="@Model.Tag"></label>
+                        <div class="col-xs-12 col-sm-10 col-md-11 col-lg-11">
+                            <input class="form-control" asp-for="Tag" value="@Model.Tag" />
+                        </div>
+                    </div>
                 </div>
             </div>
 
-            <div class="form-group">
-                <div class="col-xs-12 col-sm-offset-2 col-sm-10 col-md-offset-1 col-md-11 col-lg-offset-1 col-lg-11">
-                    <button type="submit" class="btn btn-primary">Add</button>
-                </div>
-            </div>
+            <h3>Team Members</h3>
+
+            @{
+                await Html.RenderPartialAsync("_AddPlayers").ConfigureAwait(false);
+            }
         </form>
     </div>
 </div>

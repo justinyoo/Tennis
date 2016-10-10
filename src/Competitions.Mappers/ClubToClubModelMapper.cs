@@ -25,11 +25,17 @@ namespace Competitions.Mappers
             config.CreateMap<Club, ClubModel>()
                   .ForMember(d => d.Contacts, o => o.MapFrom(s => GetContacts(s)))
                   .ForMember(d => d.Venue, o => o.MapFrom(s => s.Venue))
+                  .ForMember(d => d.ClubPlayers, o => o.MapFrom(s => s.ClubPlayers))
                   .ForMember(d => d.Teams, o => o.MapFrom(s => s.Teams))
                   ;
 
             config.CreateMap<Venue, VenueModel>()
                   .ForMember(d => d.FullAddress, o => o.MapFrom(s => VenueToVenueModelMapper.GetFullAddress(s)))
+                  ;
+
+            config.CreateMap<ClubPlayer, ClubPlayerModel>()
+                  .ForMember(d => d.Club, o => o.Ignore())
+                  .ForMember(d => d.Player, o => o.MapFrom(s => s.Player))
                   ;
 
             config.CreateMap<Team, TeamModel>()
@@ -42,6 +48,7 @@ namespace Competitions.Mappers
                   ;
 
             config.CreateMap<Player, PlayerModel>()
+                  .ForMember(d => d.TeamPlayers, o => o.Ignore())
                   ;
         }
 

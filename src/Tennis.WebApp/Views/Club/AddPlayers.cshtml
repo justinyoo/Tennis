@@ -1,0 +1,53 @@
+﻿@using Tennis.Common.Extensions
+@model Tennis.ViewModels.Competitions.PlayersAddViewModel
+@{
+    ViewData["Title"] = "Players";
+
+    var numberOfColumns = 3;
+    var numberOfPlayersPerColumn = (int) Math.Ceiling((decimal) Model.Players.Count/3);
+}
+
+@section scripts
+{
+    <script src="~/js/addPlayer.js"></script>
+}
+
+
+<div class="row">
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+        <h2>Add Players to @Model.ClubName</h2>
+        
+        <h3>List of existing players</h3>
+        
+        <div class="row">
+            @if (Model.Players.IsNullOrEmpty())
+            {
+                <div class="col-xs-12 col-sm-4 col-md-4 col-lg-4">
+                    This is no player
+                </div>
+            }
+            else
+            {
+                for (var i = 0; i < numberOfColumns; i++)
+                {
+                    <div class="col-xs-12 col-sm-4 col-md-4 col-lg-4">
+                        <ul>
+                            @foreach (var player in Model.Players.Skip(i * numberOfPlayersPerColumn).Take(numberOfPlayersPerColumn))
+                            {
+                                <li>@player.FirstName @player.LastName</li>
+                            }
+                        </ul>
+                    </div>
+                }
+            }
+        </div>
+        
+        <hr/>
+
+        <form asp-controller="Club" asp-action="AddPlayers" asp-route-clubId="@Model.ClubId">
+            @{
+                await Html.RenderPartialAsync("_AddPlayers").ConfigureAwait(false);
+            }
+        </form>
+    </div>
+</div>

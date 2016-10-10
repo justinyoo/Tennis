@@ -40,9 +40,19 @@ namespace Competitions.EntityModels
         public DbSet<Club> Clubs { get; set; }
 
         /// <summary>
+        /// Gets or sets the set of <see cref="ClubPlayer"/> instances.
+        /// </summary>
+        public DbSet<ClubPlayer> ClubPlayers { get; set; }
+
+        /// <summary>
         /// Gets or sets the set of <see cref="Competition"/> instances.
         /// </summary>
         public DbSet<Competition> Competitions { get; set; }
+
+        /// <summary>
+        /// Gets or sets the set of <see cref="CompetitionTeam"/> instances.
+        /// </summary>
+        public DbSet<CompetitionTeam> CompetitionTeams { get; set; }
 
         /// <summary>
         /// Gets or sets the set of <see cref="District"/> instances.
@@ -91,7 +101,9 @@ namespace Competitions.EntityModels
         protected override void OnModelCreating(DbModelBuilder builder)
         {
             builder.Configurations.Add(new ClubMap());
+            builder.Configurations.Add(new ClubPlayerMap());
             builder.Configurations.Add(new CompetitionMap());
+            builder.Configurations.Add(new CompetitionTeamMap());
             builder.Configurations.Add(new DistrictMap());
             builder.Configurations.Add(new FixtureMap());
             builder.Configurations.Add(new MatchMap());

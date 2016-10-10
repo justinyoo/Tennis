@@ -4,56 +4,119 @@
     ViewData["Title"] = "Club";
 
     var club = Model.Club;
+
+    var numberOfColumns = 3;
+    var numberOfPlayersPerColumn = (int)Math.Ceiling((decimal)club.ClubPlayers.Count / 3);
 }
 
 <div class="row">
-    <h2>Club Details</h2>
-
     <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-        <ul>
-            <li>Name: @club.Name</li>
-            <li>Manager: @club.Manager (@string.Join(" | ", club.Contacts))</li>
-            <li>Address: @club.Venue.FullAddress</li>
-            @if (!string.IsNullOrWhiteSpace(club.Url))
-            {
-                <li>Website: <a href="@club.Url" target="_blank">@club.Url</a></li>
-            }
-        </ul>
-    </div>
-    
-    <h2>Teams</h2>
+        <h2>@club.Name</h2>
 
-    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
         <div class="table-responsive">
             <table class="table">
                 <tr>
-                    <th>Team</th>
-                    <th>Players</th>
+                    <th>Address</th>
+                    <th>Supervisor</th>
+                    <th>Website</th>
                 </tr>
-                @if (club.Teams.IsNullOrEmpty())
-                {
-                    <tr>
-                        <td colspan="2">There is no team</td>
-                    </tr>
-                }
-                else
-                {
-                    foreach (var team in club.Teams.OrderBy(p => p.Name))
-                    {
-                        <tr>
-                            <td><a asp-controller="Club" asp-action="GetTeam" asp-route-clubId="@team.ClubId" asp-route-teamId="@team.TeamId">@team.Name</a></td>
-                            <td>@string.Join(", ", team.TeamPlayers.OrderBy(p => p.Order).Select(p => $"{p.Player.FirstName} {p.Player.LastName}"))</td>
-                        </tr>
-                    }
-                }
+                <tr>
+                    <td>@club.Venue.FullAddress</td>
+                    <td>@club.Manager (@string.Join(" | ", club.Contacts))</td>
+                    <td>
+                        @if (!string.IsNullOrWhiteSpace(club.Url))
+                        {
+                            <a href="@club.Url" target="_blank">@club.Url</a>
+                        }
+                    </td>
+                </tr>
             </table>
         </div>
     </div>
-    
-    @if (User.Identity.IsAuthenticated)
-    {
-        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-            <a asp-controller="Club" asp-action="AddTeam" asp-route-clubId="@club.ClubId">Add Team</a>
+</div>
+
+<div class="row">
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+        <div class="row">
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                <h2>Teams</h2>
+
+                <div class="table-responsive">
+                    <table class="table">
+                        <tr>
+                            <th>Team</th>
+                            <th>Players</th>
+                        </tr>
+                        @if (club.Teams.IsNullOrEmpty())
+                        {
+                            <tr>
+                                <td colspan="2">There is no team</td>
+                            </tr>
+                        }
+                        else
+                        {
+                            foreach (var team in club.Teams.OrderBy(p => p.Name))
+                            {
+                                <tr>
+                                    <td><a asp-controller="Club" asp-action="GetTeam" asp-route-clubId="@team.ClubId" asp-route-teamId="@team.TeamId">@team.Name</a></td>
+                                    <td>@string.Join(", ", team.TeamPlayers.OrderBy(p => p.Order).Select(p => $"{p.Player.FirstName} {p.Player.LastName}"))</td>
+                                </tr>
+                            }
+                        }
+                    </table>
+                </div>
+            </div>
         </div>
-    }
+
+        @if (User.Identity.IsAuthenticated)
+        {
+            <div class="row">
+                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                    <a asp-controller="Club" asp-action="AddTeam" asp-route-clubId="@club.ClubId">Add Team</a>
+                </div>
+            </div>
+        }
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+        <div class="row">
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                <h2>Players</h2>
+                
+                <div class="row">
+                    @if (club.ClubPlayers.IsNullOrEmpty())
+                    {
+                        <div class="col-xs-12 col-sm-4 col-md-4 col-lg-4">
+                            This is no player
+                        </div>
+                    }
+                    else
+                    {
+                        for (var i = 0; i < numberOfColumns; i++)
+                        {
+                            <div class="col-xs-12 col-sm-4 col-md-4 col-lg-4">
+                                <ul>
+                                    @foreach (var player in club.ClubPlayers.Skip(i * numberOfPlayersPerColumn).Take(numberOfPlayersPerColumn).Select(p => p.Player))
+                                    {
+                                        <li>@player.FirstName @player.LastName</li>
+                                    }
+                                </ul>
+                            </div>
+                        }
+                    }
+                </div>
+            </div>
+        </div>
+
+        @if (User.Identity.IsAuthenticated)
+        {
+            <div class="row">
+                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                    <a asp-controller="Club" asp-action="AddPlayers" asp-route-clubId="@club.ClubId">Add Players</a>
+                </div>
+            </div>
+        }
+    </div>
 </div>

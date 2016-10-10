@@ -49,6 +49,7 @@ namespace Competitions.Mappers
                   ;
 
             config.CreateMap<Player, PlayerModel>()
+                  .ForMember(d => d.TeamPlayers, o => o.Ignore())
                   ;
         }
     }

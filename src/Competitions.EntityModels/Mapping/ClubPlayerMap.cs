@@ -35,7 +35,7 @@ namespace Competitions.EntityModels.Mapping
                 .WithMany(p => p.ClubPlayers)
                 .HasForeignKey(p => p.ClubId);
 
-            this.HasOptional(p => p.Player)
+            this.HasRequired(p => p.Player)
                 .WithMany(p => p.ClubPlayers)
                 .HasForeignKey(p => p.PlayerId);
         }

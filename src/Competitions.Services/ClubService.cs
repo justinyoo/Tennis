@@ -55,9 +55,6 @@ namespace Competitions.Services
         {
             var results = await this._dbContext.Clubs
                                     .Include(p => p.Venue)
-                                    .Include(p => p.Teams)
-                                    .Include(p => p.Teams.Select(q => q.TeamPlayers))
-                                    .Include(p => p.Teams.Select(q => q.TeamPlayers.Select(r => r.Player)))
                                     .OrderBy(p => p.Name)
                                     .ToListAsync()
                                     .ConfigureAwait(false);
@@ -85,6 +82,8 @@ namespace Competitions.Services
 
             var result = await this._dbContext.Clubs
                                    .Include(p => p.Venue)
+                                   .Include(p => p.ClubPlayers)
+                                   .Include(p => p.ClubPlayers.Select(q => q.Player))
                                    .Include(p => p.Teams)
                                    .Include(p => p.Teams.Select(q => q.TeamPlayers))
                                    .Include(p => p.Teams.Select(q => q.TeamPlayers.Select(r => r.Player)))
