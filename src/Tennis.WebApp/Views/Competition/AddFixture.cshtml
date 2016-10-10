@@ -15,7 +15,7 @@
     <script type="text/javascript">
         "use strict";
 
-        $(function() {
+        $(function () {
             $('#date-scheduled').datetimepicker({
                 "format": "DD/MM/YYYY HH:mm",
                 "sideBySide": true,
@@ -26,46 +26,54 @@
 }
 
 <div class="row">
-    <h2>Add Fixture</h2>
-
     <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+        <h2>Add Fixture</h2>
+
         <form asp-controller="Competition" asp-action="AddFixture" asp-route-competitionId="@Model.CompetitionId" method="post">
-            <div class="form-group">
-                <label class="col-xs-12 col-sm-3 col-md-2 col-lg-2 control-label" asp-for="@Model.CompetitionName"></label>
-                <div class="col-xs-12 col-sm-9 col-md-10 col-lg-10">
-                    <input class="form-control" asp-for="CompetitionName" readonly="readonly" value="@Model.CompetitionName" />
-                </div>
-            </div>
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                <div>
+                    <div class="form-group">
+                        <label class="col-xs-12 col-sm-3 col-md-2 col-lg-2 control-label" asp-for="@Model.CompetitionName"></label>
+                        <div class="col-xs-12 col-sm-9 col-md-10 col-lg-10">
+                            <input class="form-control" asp-for="CompetitionName" readonly="readonly" value="@Model.CompetitionName" />
+                        </div>
+                    </div>
 
-            <div class="form-group">
-                <label class="col-xs-12 col-sm-3 col-md-2 col-lg-2 control-label">Venue</label>
-                <div class="col-xs-12 col-sm-9 col-md-10 col-lg-10">
-                    <select class="form-control" asp-for="Club" asp-items="@Model.Clubs"></select>
-                </div>
-            </div>
+                    <div class="form-group">
+                        <label class="col-xs-12 col-sm-3 col-md-2 col-lg-2 control-label">Venue</label>
+                        <div class="col-xs-12 col-sm-9 col-md-10 col-lg-10">
+                            <select class="form-control" asp-for="Club" asp-items="@Model.Clubs"></select>
+                        </div>
+                    </div>
 
-            <div class="form-group">
-                <label class="col-xs-12 col-sm-3 col-md-2 col-lg-2 control-label" asp-for="@Model.Round"></label>
-                <div class="col-xs-12 col-sm-9 col-md-10 col-lg-10">
-                    <input class="form-control" asp-for="Round" value="@Model.Round" />
-                </div>
-            </div>
+                    <div class="form-group">
+                        <label class="col-xs-12 col-sm-3 col-md-2 col-lg-2 control-label" asp-for="@Model.Round"></label>
+                        <div class="col-xs-12 col-sm-9 col-md-10 col-lg-10">
+                            <input class="form-control" asp-for="Round" value="@Model.Round" />
+                        </div>
+                    </div>
 
-            <div class="form-group">
-                <label class="col-xs-12 col-sm-3 col-md-2 col-lg-2 control-label" asp-for="@Model.DateScheduled"></label>
-                <div class="col-xs-6 col-sm-5 col-md-4 col-lg-3">
-                    <div class='input-group date' id='date-scheduled'>
-                        <input class="form-control" asp-for="DateScheduled" />
-                        <span class="input-group-addon">
-                            <span class="glyphicon glyphicon-calendar"></span>
-                        </span>
+                    <div class="form-group">
+                        <label class="col-xs-12 col-sm-3 col-md-2 col-lg-2 control-label" asp-for="@Model.DateScheduled"></label>
+                        <div class="col-xs-6 col-sm-5 col-md-4 col-lg-3">
+                            <div class='input-group date' id='date-scheduled'>
+                                <input class="form-control" asp-for="DateScheduled" />
+                                <span class="input-group-addon">
+                                    <span class="glyphicon glyphicon-calendar"></span>
+                                </span>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
-
-            <div class="form-group">
-                <div class="col-xs-12 col-sm-offset-3 col-sm-9 col-md-offset-2 col-md-10 col-lg-offset-2 col-lg-10">
-                    <button type="submit" class="btn btn-primary">Add</button>
+            
+            <div class="row">
+                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                    <div class="form-group">
+                        <div class="col-xs-12 col-sm-offset-3 col-sm-9 col-md-offset-2 col-md-10 col-lg-offset-2 col-lg-10">
+                            <button type="submit" class="btn btn-primary">Add</button>
+                        </div>
+                    </div>
                 </div>
             </div>
         </form>

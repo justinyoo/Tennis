@@ -1,25 +1,30 @@
-﻿@using Tennis.ViewModels.Competitions
-@model Tennis.ViewModels.Competitions.CompetitionCollectionViewModel
+﻿@model Tennis.ViewModels.Competitions.CompetitionCollectionViewModel
 @{
     ViewData["Title"] = "Competitions";
 }
 
 <div class="row">
-    <h2>Competitions</h2>
-
     <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-        <ul>
-            @foreach (var competition in Model.Competitions)
-            {
-                <li><a asp-controller="Competition" asp-action="GetCompetition" asp-route-competitionId="@competition.CompetitionId">@competition.Name</a></li>
-            }
-        </ul>
-    </div>
+        <h2>Competitions</h2>
 
-    @if (User.Identity.IsAuthenticated)
-    {
-        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-            <a asp-controller="Competition" asp-action="AddCompetition">Add Competition</a>
+        <div class="row">
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                <ul>
+                    @foreach (var competition in Model.Competitions)
+            {
+                        <li><a asp-controller="Competition" asp-action="GetCompetition" asp-route-competitionId="@competition.CompetitionId">@competition.Name</a></li>
+                    }
+                </ul>
+            </div>
         </div>
-    }
+
+        @if (User.Identity.IsAuthenticated)
+        {
+            <div class="row">
+                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                    <a asp-controller="Competition" asp-action="AddCompetition">Add Competition</a>
+                </div>
+            </div>
+        }
+    </div>
 </div>

@@ -1,94 +1,101 @@
-﻿@using Tennis.ViewModels.Competitions
-@model Tennis.ViewModels.Competitions.CompetitionAddViewModel
+﻿@model Tennis.ViewModels.Competitions.CompetitionAddViewModel
 @{
     ViewData["Title"] = "Competition";
 }
 
 <div class="row">
-    <h2>Add Competition</h2>
-    
     <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+        <h2>Add Competition</h2>
+
         <form asp-controller="Competition" asp-action="AddCompetition" method="post">
-            <div class="form-group">
-                <label class="col-xs-12 col-sm-2 col-md-1 col-lg-1 control-label" asp-for="@Model.Districts"></label>
-                <div class="col-xs-12 col-sm-10 col-md-11 col-lg-11">
-                    <select class="form-control" asp-for="District" asp-items="@Model.Districts"></select>
-                </div>
-            </div>
+            <div class="row">
+                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                    <div class="form-group">
+                        <label class="col-xs-12 col-sm-2 col-md-1 col-lg-1 control-label" asp-for="@Model.Districts"></label>
+                        <div class="col-xs-12 col-sm-10 col-md-11 col-lg-11">
+                            <select class="form-control" asp-for="District" asp-items="@Model.Districts"></select>
+                        </div>
+                    </div>
 
-            <div class="form-group">
-                <label class="col-xs-12 col-sm-2 col-md-1 col-lg-1 control-label" asp-for="@Model.Name"></label>
-                <div class="col-xs-12 col-sm-10 col-md-11 col-lg-11">
-                    <input class="form-control" asp-for="Name" />
-                </div>
-            </div>
+                    <div class="form-group">
+                        <label class="col-xs-12 col-sm-2 col-md-1 col-lg-1 control-label" asp-for="@Model.Name"></label>
+                        <div class="col-xs-12 col-sm-10 col-md-11 col-lg-11">
+                            <input class="form-control" asp-for="Name" />
+                        </div>
+                    </div>
 
-            <div class="form-group">
-                <label class="col-xs-12 col-sm-2 col-md-1 col-lg-1 control-label" asp-for="@Model.Year"></label>
-                <div class="col-xs-12 col-sm-10 col-md-11 col-lg-11">
-                    <input class="form-control" asp-for="Year" readonly="readonly" value="@Model.Year" />
-                </div>
-            </div>
+                    <div class="form-group">
+                        <label class="col-xs-12 col-sm-2 col-md-1 col-lg-1 control-label" asp-for="@Model.Year"></label>
+                        <div class="col-xs-12 col-sm-10 col-md-11 col-lg-11">
+                            <input class="form-control" asp-for="Year" readonly="readonly" value="@Model.Year" />
+                        </div>
+                    </div>
 
-            <div class="form-group">
-                <label class="col-xs-12 col-sm-2 col-md-1 col-lg-1 control-label" asp-for="@Model.Season"></label>
-                <div class="col-xs-12 col-sm-10 col-md-11 col-lg-11">
-                    @foreach (var season in Model.Seasons)
-                    {
-                        <label class="radio-inline">
-                            <input type="radio" asp-for="Season" value="@season" /> @season
-                        </label>
-                    }
+                    <div class="form-group">
+                        <label class="col-xs-12 col-sm-2 col-md-1 col-lg-1 control-label" asp-for="@Model.Season"></label>
+                        <div class="col-xs-12 col-sm-10 col-md-11 col-lg-11">
+                            @foreach (var season in Model.Seasons)
+                            {
+                                <label class="radio-inline">
+                                    <input type="radio" asp-for="Season" value="@season" /> @season
+                                </label>
+                            }
+                        </div>
+                    </div>
+
+                    <div class="clearfix"></div>
+
+                    <div class="form-group">
+                        <label class="col-xs-12 col-sm-2 col-md-1 col-lg-1 control-label" asp-for="@Model.Day"></label>
+                        <div class="col-xs-12 col-sm-10 col-md-11 col-lg-11">
+                            @foreach (var day in Model.Days)
+                            {
+                                <label class="radio-inline">
+                                    <input type="radio" asp-for="Day" value="@day" /> @day
+                                </label>
+                            }
+                        </div>
+                    </div>
+
+                    <div class="clearfix"></div>
+
+                    <div class="form-group">
+                        <label class="col-xs-12 col-sm-2 col-md-1 col-lg-1 control-label" asp-for="@Model.Type"></label>
+                        <div class="col-xs-12 col-sm-10 col-md-11 col-lg-11">
+                            @foreach (var type in Model.Types)
+                            {
+                                <label class="radio-inline">
+                                    <input type="radio" asp-for="Type" value="@type" /> @type
+                                </label>
+                            }
+                        </div>
+                    </div>
+
+                    <div class="clearfix"></div>
+
+                    <div class="form-group">
+                        <label class="col-xs-12 col-sm-2 col-md-1 col-lg-1 control-label" asp-for="@Model.Grade"></label>
+                        <div class="col-xs-12 col-sm-10 col-md-11 col-lg-11">
+                            <input class="form-control" asp-for="Grade" />
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="col-xs-12 col-sm-2 col-md-1 col-lg-1 control-label" asp-for="@Model.Level"></label>
+                        <div class="col-xs-12 col-sm-10 col-md-11 col-lg-11">
+                            <input class="form-control" asp-for="Level" />
+                        </div>
+                    </div>
                 </div>
             </div>
             
-            <div class="clearfix"></div>
-
-            <div class="form-group">
-                <label class="col-xs-12 col-sm-2 col-md-1 col-lg-1 control-label" asp-for="@Model.Day"></label>
-                <div class="col-xs-12 col-sm-10 col-md-11 col-lg-11">
-                    @foreach (var day in Model.Days)
-                    {
-                        <label class="radio-inline">
-                            <input type="radio" asp-for="Day" value="@day" /> @day
-                        </label>
-                    }
-                </div>
-            </div>
-
-            <div class="clearfix"></div>
-
-            <div class="form-group">
-                <label class="col-xs-12 col-sm-2 col-md-1 col-lg-1 control-label" asp-for="@Model.Type"></label>
-                <div class="col-xs-12 col-sm-10 col-md-11 col-lg-11">
-                    @foreach (var type in Model.Types)
-                    {
-                        <label class="radio-inline">
-                            <input type="radio" asp-for="Type" value="@type" /> @type
-                        </label>
-                    }
-                </div>
-            </div>
-
-            <div class="clearfix"></div>
-
-            <div class="form-group">
-                <label class="col-xs-12 col-sm-2 col-md-1 col-lg-1 control-label" asp-for="@Model.Grade"></label>
-                <div class="col-xs-12 col-sm-10 col-md-11 col-lg-11">
-                    <input class="form-control" asp-for="Grade" />
-                </div>
-            </div>
-
-            <div class="form-group">
-                <label class="col-xs-12 col-sm-2 col-md-1 col-lg-1 control-label" asp-for="@Model.Level"></label>
-                <div class="col-xs-12 col-sm-10 col-md-11 col-lg-11">
-                    <input class="form-control" asp-for="Level" />
-                </div>
-            </div>
-
-            <div class="form-group">
-                <div class="col-xs-12 col-sm-offset-2 col-sm-10 col-md-offset-1 col-md-11 col-lg-offset-1 col-lg-11">
-                    <button type="submit" class="btn btn-primary">Add</button>
+            <div class="row">
+                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                    <div class="form-group">
+                        <div class="col-xs-12 col-sm-offset-2 col-sm-10 col-md-offset-1 col-md-11 col-lg-offset-1 col-lg-11">
+                            <button type="submit" class="btn btn-primary">Add</button>
+                        </div>
+                    </div>
                 </div>
             </div>
         </form>
