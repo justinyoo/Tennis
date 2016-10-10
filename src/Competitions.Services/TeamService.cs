@@ -125,6 +125,7 @@ namespace Competitions.Services
             var result = await this._dbContext.Teams
                                    .Include(p => p.Club)
                                    .Include(p => p.Club.Venue)
+                                   .Include(p => p.CompetitionTeams.Select(q => q.Competition))
                                    .Include(p => p.TeamPlayers)
                                    .Include(p => p.TeamPlayers.Select(q => q.Player))
                                    .SingleOrDefaultAsync(p => p.TeamId == teamId)
@@ -195,7 +196,6 @@ namespace Competitions.Services
             }
 
             team.ClubId = model.ClubId;
-            //team.CompetitionId = model.CompetitionId.GetValueOrDefault() == Guid.Empty ? null : model.CompetitionId;
             if (!string.IsNullOrWhiteSpace(model.Name))
             {
                 team.Name = model.Name;
@@ -211,7 +211,7 @@ namespace Competitions.Services
                 var teamPlayers = new List<TeamPlayer>();
                 foreach (var tp in model.TeamPlayers)
                 {
-                    var teamPlayer = await this.GetOrCreateTeamPlayerAsync(tp).ConfigureAwait(false);
+                    var teamPlayer = await this.GetOrCreateTeamPlayerAsync(tp, team.TeamId).ConfigureAwait(false);
                     teamPlayers.Add(teamPlayer);
                 }
 
@@ -223,7 +223,7 @@ namespace Competitions.Services
             return team;
         }
 
-        private async Task<TeamPlayer> GetOrCreateTeamPlayerAsync(TeamPlayerModel model)
+        private async Task<TeamPlayer> GetOrCreateTeamPlayerAsync(TeamPlayerModel model, Guid teamId)
         {
             var tp = await this._dbContext.TeamPlayers
                                .SingleOrDefaultAsync(p => p.TeamPlayerId == model.TeamPlayerId)
@@ -236,14 +236,10 @@ namespace Competitions.Services
                 tp = new TeamPlayer() { TeamPlayerId = Guid.NewGuid(), DateCreated = now };
             }
 
-            tp.TeamId = model.TeamId;
+            tp.TeamId = teamId;
             tp.PlayerId = model.PlayerId;
             tp.Order = model.Order;
             tp.DateUpdated = now;
-
-            var player = await this.GetOrCreatePlayerAsync(model.Player).ConfigureAwait(false);
-
-            tp.Player = player;
 
             this._dbContext.TeamPlayers.AddOrUpdate(tp);
 

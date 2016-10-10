@@ -28,13 +28,13 @@ namespace Tennis.WebApp.Mappers
 
         private static List<TeamPlayerModel> GetTeamPlayers(TeamAddViewModel model)
         {
-            var tps = model.FirstNames
+            var tps = model.PlayerIds
                            .Select(
-                                   (fn, i) =>
+                                   (playerId, i) =>
                                        new TeamPlayerModel()
                                        {
-                                           Order = i + 1,
-                                           Player = new PlayerModel() { FirstName = fn, LastName = model.LastNames[i] }
+                                           Order = model.PlayerOrders[i],
+                                           PlayerId = playerId,
                                        })
                            .ToList();
 

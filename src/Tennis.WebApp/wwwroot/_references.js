@@ -1,5 +1,6 @@
 ﻿/// <autosync enabled="true" />
 /// <reference path="js/addplayer.js" />
+/// <reference path="js/addteamplayer.js" />
 /// <reference path="js/site.js" />
 /// <reference path="lib/bootstrap/dist/js/bootstrap.js" />
 /// <reference path="lib/eonasdan-bootstrap-datetimepicker/build/js/bootstrap-datetimepicker.min.js" />

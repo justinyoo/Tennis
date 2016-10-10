@@ -5,7 +5,56 @@
 
 @section scripts
 {
-    <script src="~/js/addPlayer.js"></script>
+    <script>
+        "use strict";
+
+        (function($) {
+            $("#add-team-player")
+                .click(function() {
+                    var $playerOrders = $("<input>")
+                        .addClass("form-control")
+                        .attr({
+                            "name": "PlayerOrders",
+                            "placeholder": "Order",
+                            "style": "display: inline-block !important"
+                        });
+
+                    var $players = $("<select></select>")
+                        .addClass("form-control")
+                        .attr({
+                            "name": "PlayerIds",
+                            "style": "display: inline-block !important"
+                        });
+
+                    $players.append($("<option></option>").attr("value", "").text("Select Player"));
+                    @foreach (var player in Model.Players)
+                    {
+                        @Html.Raw($"$players.append($(\"<option></option>\").attr(\"value\", \"{player.PlayerId}\").text(\"{player.FirstName} {player.LastName}\"));")
+                    }
+
+                    var $removeTeamMember = $("<span></span>")
+                        .addClass("glyphicon glyphicon-remove")
+                        .attr("aria-hidden", true)
+                        .bind("click",
+                            function() {
+                                var $parent = $(this).parent().parent();
+                                $parent.remove();
+                            });
+
+                    var $column = $("<div></div>")
+                        .addClass("col-xs-12 col-sm-offset-2 col-sm-10 col-md-offset-1 col-md-11 col-lg-offset-1 col-lg-11")
+                        .append($playerOrders)
+                        .append($players)
+                        .append($removeTeamMember);
+
+                    var $formGroup = $("<div></div>")
+                        .addClass("form-group")
+                        .append($column);
+
+                    $("#players").append($formGroup);
+                });
+        })(jQuery);
+    </script>
 }
 
 <div class="row">
@@ -33,11 +82,31 @@
                 </div>
             </div>
 
-            <h3>Team Members</h3>
+            <h3>Team Players</h3>
 
-            @{
-                await Html.RenderPartialAsync("_AddPlayers").ConfigureAwait(false);
-            }
+            <div class="row">
+                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" id="players"></div>
+            </div>
+
+            <div class="row">
+                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                    <div class="form-group">
+                        <div class="col-xs-12 col-sm-offset-2 col-sm-10 col-md-offset-1 col-md-11 col-lg-offset-1 col-lg-11">
+                            <button type="button" class="btn btn-default" id="add-team-player">Add Team Player</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                    <div class="form-group">
+                        <div class="col-xs-12 col-sm-offset-2 col-sm-10 col-md-offset-1 col-md-11 col-lg-offset-1 col-lg-11">
+                            <button type="submit" class="btn btn-primary">Add</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </form>
     </div>
 </div>

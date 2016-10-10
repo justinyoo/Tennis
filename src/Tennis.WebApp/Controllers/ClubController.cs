@@ -180,8 +180,9 @@ namespace Tennis.WebApp.Controllers
             }
 
             var club = await this._context.ClubService.GetClubAsync(clubId).ConfigureAwait(false);
+            var players = await this._context.PlayerService.GetPlayersByClubIdAsync(clubId).ConfigureAwait(false);
 
-            var vm = new TeamAddViewModel() { ClubId = clubId, ClubName = club.Name };
+            var vm = new TeamAddViewModel() { ClubId = clubId, ClubName = club.Name, Players = players };
 
             return View("AddTeam", vm);
         }

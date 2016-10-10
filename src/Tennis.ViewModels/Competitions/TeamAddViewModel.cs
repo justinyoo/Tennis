@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Competitions.Models;
 
 namespace Tennis.ViewModels.Competitions
 {
@@ -34,13 +35,18 @@ namespace Tennis.ViewModels.Competitions
         public string Tag { get; set; }
 
         /// <summary>
-        /// Gets or sets the list of first names.
+        /// Gets or sets the list of player details.
         /// </summary>
-        public List<string> FirstNames { get; set; }
+        public List<PlayerModel> Players { get; set; }
 
         /// <summary>
-        /// Gets or sets the list of last names.
+        /// Gets or sets the list of player numbers.
         /// </summary>
-        public List<string> LastNames { get; set; }
+        public List<int> PlayerOrders { get; set; }
+
+        /// <summary>
+        /// Gets or sets the list of player Ids.
+        /// </summary>
+        public List<Guid> PlayerIds { get; set; }
     }
 }
