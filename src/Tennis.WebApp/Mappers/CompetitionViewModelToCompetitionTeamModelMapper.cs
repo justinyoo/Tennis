@@ -22,7 +22,7 @@ namespace Tennis.WebApp.Mappers
                   .ForMember(d => d.TeamId, o => o.MapFrom(s => s.Team))
                   .ForMember(d => d.Competition, o => o.Ignore())
                   .ForMember(d => d.Team, o => o.Ignore())
-                ;
+                  ;
         }
     }
 }

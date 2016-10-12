@@ -1,7 +1,10 @@
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+
 using Competitions.Models;
+
+using Tennis.Common.Blob;
 
 namespace Competitions.Services
 {
@@ -30,5 +33,12 @@ namespace Competitions.Services
         /// <param name="model"><see cref="FixtureModel"/> instance.</param>
         /// <returns>Returns the fixture Id from the fixture details.</returns>
         Task<Guid> SaveFixtureAsync(FixtureModel model);
+
+        /// <summary>
+        /// Uploads score sheet to Azure Blob Storage.
+        /// </summary>
+        /// <param name="request"><see cref="BlobUploadRequest"/> instance.</param>
+        /// <returns>Returns the <see cref="BlobUploadResponse"/> instance.</returns>
+        Task<BlobUploadResponse> UploadScoreSheetAsync(BlobUploadRequest request);
     }
 }

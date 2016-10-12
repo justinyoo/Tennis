@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 
 using Competitions.EntityModels;
@@ -19,6 +20,7 @@ using Newtonsoft.Json.Serialization;
 
 using Tennis.AppSettings;
 using Tennis.AppSettings.Extensions;
+using Tennis.Common.Blob;
 using Tennis.Mappers;
 using Tennis.WebApp.ServiceContexts;
 
@@ -65,6 +67,7 @@ namespace Tennis.WebApp
         public void ConfigureServices(IServiceCollection services)
         {
             var connectionStrings = this.Configuration.Get<List<ConnectionStringSettings>>("connectionStrings");
+            var blobStorage = this.Configuration.Get<BlobStorageSettings>("blobStorage");
 
             // Add framework services.
             services.AddMvc()
@@ -83,6 +86,12 @@ namespace Tennis.WebApp
             // DB Contexts
             services.AddScoped<ICompetitionDbContext, CompetitionDbContext>(_ => new CompetitionDbContext(connectionStrings.Single(p => p.Name.Equals("CompetitionDbContext")).ConnectionString));
             services.AddScoped<ITournamentDbContext, TournamentDbContext>(_ => new TournamentDbContext(connectionStrings.Single(p => p.Name.Equals("TournamentDbContext")).ConnectionString));
+
+            // Blob Contexts
+            var blobConnString = connectionStrings.Single(p => p.Name.Equals("BlobStorageContext", StringComparison.CurrentCultureIgnoreCase));
+            services.AddScoped<IBlobContainerConnectionOptions, BlobContainerConnectionOptions>(_ => new BlobContainerConnectionOptions(blobConnString, blobStorage));
+            services.AddTransient<IBlobContainerConnection, BlobContainerConnection>();
+            services.AddTransient<IBlobContainerContext, BlobContainerContext>();
 
             // Helpers
             services.AddTransient<IFeedHelper, FeedHelper>();

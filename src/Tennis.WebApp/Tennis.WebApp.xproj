@@ -25,6 +25,7 @@
     <ProjectReference Include="..\Competitions.Mappers\Competitions.Mappers.csproj" />
     <ProjectReference Include="..\Competitions.Models\Competitions.Models.csproj" />
     <ProjectReference Include="..\Competitions.Services\Competitions.Services.csproj" />
+    <ProjectReference Include="..\Tennis.Common.Blob\Tennis.Common.Blob.csproj" />
     <ProjectReference Include="..\Tennis.Mappers\Tennis.Mappers.csproj" />
     <ProjectReference Include="..\Tournaments.EntityModels\Tournaments.EntityModels.csproj" />
     <ProjectReference Include="..\Tournaments.Helpers\Tournaments.Helpers.csproj" />

@@ -16,5 +16,10 @@ namespace Tennis.AppSettings
         /// Gets or sets the list of the <see cref="ConnectionStringSettings"/> instances.
         /// </summary>
         public virtual List<ConnectionStringSettings> ConnectionStrings { get; set; }
+
+        /// <summary>
+        /// Gets or sets the <see cref="BlobStorageSettings"/> instance.
+        /// </summary>
+        public virtual BlobStorageSettings BlobStorage { get; set; }
     }
 }

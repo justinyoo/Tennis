@@ -50,6 +50,9 @@
         "Competitions.Services": {
           "target": "project"
         },
+        "Tennis.Common.Blob": {
+          "target": "project"
+        },
         "Tennis.Mappers": {
           "target": "project"
         },

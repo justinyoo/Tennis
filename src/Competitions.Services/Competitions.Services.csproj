@@ -78,6 +78,10 @@
       <Project>{5c1f980b-c20f-448b-bff2-bcdeac8ba76a}</Project>
       <Name>Competitions.Models</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Tennis.Common.Blob\Tennis.Common.Blob.csproj">
+      <Project>{00372698-302d-4669-9c62-ef34b62f60fc}</Project>
+      <Name>Tennis.Common.Blob</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Tennis.Common\Tennis.Common.csproj">
       <Project>{2b8389f6-7b35-4f86-959e-c1c6fea3c545}</Project>
       <Name>Tennis.Common</Name>

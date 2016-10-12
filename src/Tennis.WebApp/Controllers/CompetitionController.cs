@@ -8,7 +8,7 @@ using Competitions.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
-
+using Tennis.Common.Blob;
 using Tennis.ViewModels.Competitions;
 using Tennis.WebApp.Mappers;
 using Tennis.WebApp.ServiceContexts;
@@ -178,7 +178,7 @@ namespace Tennis.WebApp.Controllers
         {
             var fixture = await this._context.FixtureService.GetFixtureAsync(fixtureId).ConfigureAwait(false);
 
-            var vm = new FixtureViewModel() { Fixture = fixture };
+            var vm = new FixtureViewModel() { FixtureId = fixtureId, Fixture = fixture };
 
             return View("GetFixture", vm);
         }
@@ -324,6 +324,45 @@ namespace Tennis.WebApp.Controllers
             }
 
             await this._context.PlayerService.SaveMatchesAsync(fixtureId, model.HomePlayers, model.AwayPlayers).ConfigureAwait(false);
+
+            return RedirectToAction("GetFixture", new { competitionId = competitionId, fixtureId = fixtureId });
+        }
+
+        /// <summary>
+        /// Uploads the score sheet.
+        /// </summary>
+        /// <param name="competitionId">Competition Id.</param>
+        /// <param name="fixtureId">Fixture Id.</param>
+        /// <param name="model"><see cref="FixtureViewModel"/> instance.</param>
+        /// <returns>Returns the fixture page.</returns>
+        [Route("{competitionId}/fixtures/{fixtureId}/scoresheets/add")]
+        [Authorize]
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> UploadScoreSheet(Guid competitionId, Guid fixtureId, FixtureViewModel model)
+        {
+            if (competitionId == Guid.Empty)
+            {
+                return NotFound();
+            }
+
+            if (fixtureId == Guid.Empty)
+            {
+                return NotFound();
+            }
+
+            if (model == null)
+            {
+                return BadRequest();
+            }
+
+            var request = this._context.Map<FixtureViewModelToBlobUploadRequestMapper, BlobUploadRequest>(model);
+            var response = await this._context.FixtureService.UploadScoreSheetAsync(request).ConfigureAwait(false);
+
+            var fixture = await this._context.FixtureService.GetFixtureAsync(fixtureId).ConfigureAwait(false);
+            fixture.ScoreSheet = response.Url;
+
+            await this._context.FixtureService.SaveFixtureAsync(fixture).ConfigureAwait(false);
 
             return RedirectToAction("GetFixture", new { competitionId = competitionId, fixtureId = fixtureId });
         }

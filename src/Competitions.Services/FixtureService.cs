@@ -2,13 +2,14 @@
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Data.Entity.Migrations;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 
 using Competitions.EntityModels;
 using Competitions.Mappers;
 using Competitions.Models;
-
+using Tennis.Common.Blob;
 using Tennis.Mappers;
 
 namespace Competitions.Services
@@ -19,6 +20,7 @@ namespace Competitions.Services
     public class FixtureService : IFixtureService
     {
         private readonly ICompetitionDbContext _dbContext;
+        private readonly IBlobContainerContext _blobContext;
         private readonly IMapperFactory _mapperFactory;
 
         private bool _disposed;
@@ -27,10 +29,12 @@ namespace Competitions.Services
         /// Initialises a new instance of the <see cref="FixtureService"/> class.
         /// </summary>
         /// <param name="dbContext"><see cref="ICompetitionDbContext"/> instance.</param>
+        /// <param name="blobContext"><see cref="IBlobContainerContext"/> instance.</param>
         /// <param name="mapperFactory"><see cref="IMapperFactory"/> instance.</param>
         /// <exception cref="ArgumentNullException"><paramref name="dbContext"/> is <see langword="null" />.</exception>
+        /// <exception cref="ArgumentNullException"><paramref name="blobContext"/> is <see langword="null" />.</exception>
         /// <exception cref="ArgumentNullException"><paramref name="mapperFactory"/> is <see langword="null" />.</exception>
-        public FixtureService(ICompetitionDbContext dbContext, IMapperFactory mapperFactory)
+        public FixtureService(ICompetitionDbContext dbContext, IBlobContainerContext blobContext, IMapperFactory mapperFactory)
         {
             if (dbContext == null)
             {
@@ -38,6 +42,13 @@ namespace Competitions.Services
             }
 
             this._dbContext = dbContext;
+
+            if (blobContext == null)
+            {
+                throw new ArgumentNullException(nameof(blobContext));
+            }
+
+            this._blobContext = blobContext;
 
             if (mapperFactory == null)
             {
@@ -139,7 +150,24 @@ namespace Competitions.Services
                 transaction.Rollback();
                 throw;
             }
+        }
 
+        /// <summary>
+        /// Uploads score sheet to Azure Blob Storage.
+        /// </summary>
+        /// <param name="request"><see cref="BlobUploadRequest"/> instance.</param>
+        /// <returns>Returns the <see cref="BlobUploadResponse"/> instance.</returns>
+        /// <exception cref="ArgumentNullException"><paramref name="request"/> is <see langword="null" />.</exception>
+        public async Task<BlobUploadResponse> UploadScoreSheetAsync(BlobUploadRequest request)
+        {
+            if (request == null)
+            {
+                throw new ArgumentNullException(nameof(request));
+            }
+
+            var result = await this._blobContext.UploadAsync(request).ConfigureAwait(false);
+
+            return result;
         }
 
         /// <summary>
@@ -172,6 +200,7 @@ namespace Competitions.Services
             fixture.ClubId = model.ClubId;
             fixture.Week = model.Week;
             fixture.DateScheduled = model.DateScheduled;
+            fixture.ScoreSheet = model.ScoreSheet;
             fixture.DateUpdated = now;
 
             return fixture;
