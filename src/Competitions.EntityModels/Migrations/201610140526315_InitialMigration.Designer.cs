@@ -13,7 +13,7 @@ namespace Competitions.EntityModels.Migrations
         
         string IMigrationMetadata.Id
         {
-            get { return "201610100426481_InitialMigration"; }
+            get { return "201610140526315_InitialMigration"; }
         }
         
         string IMigrationMetadata.Source

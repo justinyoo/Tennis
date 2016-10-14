@@ -155,11 +155,15 @@ namespace Tennis.WebApp.Controllers
 
             var team = await this._context.TeamService.GetTeamAsync(teamId).ConfigureAwait(false);
 
-            var items = await this._context.CompetitionService.GetCompetitionsAsync().ConfigureAwait(false);
-            var competitions = this._context.Map<CompetitionModelToSelectListItemMapper, List<SelectListItem>>(items);
+            var playerItems = await this._context.PlayerService.GetPlayersByClubIdAsync(clubId).ConfigureAwait(false);
+            var players = this._context.Map<PlayerModelToSelectListItemMapper, List<SelectListItem>>(playerItems);
+            players.Insert(0, new SelectListItem() { Text = "Select Player", Value = string.Empty, Selected = true });
+
+            var competitionItems = await this._context.CompetitionService.GetCompetitionsAsync().ConfigureAwait(false);
+            var competitions = this._context.Map<CompetitionModelToSelectListItemMapper, List<SelectListItem>>(competitionItems);
             competitions.Insert(0, new SelectListItem() { Text = "Select Competition", Value = string.Empty, Selected = true });
 
-            var vm = new TeamViewModel() { Team = team, Competitions = competitions };
+            var vm = new TeamViewModel() { Team = team, Players = players, Competitions = competitions };
 
             return View("GetTeam", vm);
         }
@@ -281,13 +285,48 @@ namespace Tennis.WebApp.Controllers
                 return BadRequest();
             }
 
-
             var collection = this._context.Map<PlayersAddViewModelToClubPlayerCollectionModelMapper, ClubPlayerCollectionModel>(model);
             collection.ClubId = clubId;
 
             await this._context.PlayerService.SaveClubPlayersAsync(collection).ConfigureAwait(false);
 
             return RedirectToAction("GetClub", new { clubId = clubId });
+        }
+
+        /// <summary>
+        /// Add players to the team.
+        /// </summary>
+        /// <param name="clubId">Club Id.</param>
+        /// <param name="teamId">Team Id.</param>
+        /// <param name="model"><see cref="TeamViewModel"/> instance.</param>
+        /// <returns>Returns the team details with player allocated.</returns>
+        [Route("{clubId}/teams/{teamId}/players/add")]
+        [Authorize]
+        [HttpPost]
+        public async Task<IActionResult> AddPlayerToTeam(Guid clubId, Guid teamId, TeamViewModel model)
+        {
+            if (clubId == Guid.Empty)
+            {
+                return NotFound();
+            }
+
+            if (teamId == Guid.Empty)
+            {
+                return NotFound();
+            }
+
+            if (model == null)
+            {
+                return BadRequest();
+            }
+
+            var team = this._context.Map<TeamViewModelToTeamModelMapper, TeamModel>(model);
+            team.ClubId = clubId;
+            team.TeamId = teamId;
+
+            await this._context.TeamService.SaveTeamAsync(team).ConfigureAwait(false);
+
+            return RedirectToAction("GetTeam", new { clubId = clubId, teamId = teamId });
         }
 
         /// <summary>

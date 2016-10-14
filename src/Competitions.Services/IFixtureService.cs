@@ -35,6 +35,13 @@ namespace Competitions.Services
         Task<Guid> SaveFixtureAsync(FixtureModel model);
 
         /// <summary>
+        /// Gets the list of matches.
+        /// </summary>
+        /// <param name="fixtureId">Fixture Id.</param>
+        /// <returns>Returns the list of matches.</returns>
+        Task<List<MatchModel>> GetMatchesAsync(Guid fixtureId);
+
+        /// <summary>
         /// Uploads score sheet to Azure Blob Storage.
         /// </summary>
         /// <param name="request"><see cref="BlobUploadRequest"/> instance.</param>

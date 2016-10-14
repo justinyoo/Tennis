@@ -39,8 +39,8 @@
                     <table class="table table-bordered">
                         <tr>
                             <th rowspan="2">Set</th>
-                            <th colspan="3">Home</th>
-                            <th colspan="3">Away</th>
+                            <th colspan="3">Home &ndash; @fixture.HomeTeam.Club.Name</th>
+                            <th colspan="3">Away &ndash; @fixture.AwayTeam.Club.Name</th>
                         </tr>
                         <tr>
                             <th>Player(s)</th>
@@ -92,7 +92,15 @@
         {
             <div class="row">
                 <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-                    <a class="btn btn-primary" asp-controller="Competition" asp-action="AddMatches" asp-route-competitionId="@fixture.CompetitionId" asp-route-fixtureId="@fixture.FixtureId">Add Matches</a>
+                    @if (fixture.Matches.IsNullOrEmpty())
+                    {
+                        <a class="btn btn-primary" asp-controller="Competition" asp-action="AddMatches" asp-route-competitionId="@fixture.CompetitionId" asp-route-fixtureId="@fixture.FixtureId">Add Matches</a>
+                    }
+                    else
+                    {
+                        <a class="btn btn-primary" asp-controller="Competition" asp-action="UpdateMatches" asp-route-competitionId="@fixture.CompetitionId" asp-route-fixtureId="@fixture.FixtureId">Update Matches</a>
+                        <a class="btn btn-primary" asp-controller="Competition" asp-action="UpdateMatchResults" asp-route-competitionId="@fixture.CompetitionId" asp-route-fixtureId="@fixture.FixtureId">Update Match Results</a>
+                    }
                 </div>
             </div>
         }

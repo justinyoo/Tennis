@@ -34,6 +34,16 @@ namespace Competitions.Models
         public DateTimeOffset DateScheduled { get; set; }
 
         /// <summary>
+        /// Gets or sets the home team Id.
+        /// </summary>
+        public Guid HomeTeamId { get; set; }
+
+        /// <summary>
+        /// Gets or sets the away team Id.
+        /// </summary>
+        public Guid AwayTeamId { get; set; }
+
+        /// <summary>
         /// Gets or sets the score sheet image path.
         /// </summary>
         public string ScoreSheet { get; set; }
@@ -42,6 +52,21 @@ namespace Competitions.Models
         /// Gets or sets the venue details.
         /// </summary>
         public ClubModel Club { get; set; }
+
+        /// <summary>
+        /// Gets or sets the competition details.
+        /// </summary>
+        public CompetitionModel Competition { get; set; }
+
+        /// <summary>
+        /// Gets or sets the home team details.
+        /// </summary>
+        public TeamModel HomeTeam { get; set; }
+
+        /// <summary>
+        /// Gets or sets the away team details.
+        /// </summary>
+        public TeamModel AwayTeam { get; set; }
 
         /// <summary>
         /// Gets or sets the list of match details.

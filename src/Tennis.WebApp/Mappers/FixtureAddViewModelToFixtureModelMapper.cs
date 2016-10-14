@@ -22,6 +22,12 @@ namespace Tennis.WebApp.Mappers
                   .ForMember(d => d.ClubId, o => o.MapFrom(s => s.Club))
                   .ForMember(d => d.Club, o => o.Ignore())
                   .ForMember(d => d.Week, o => o.MapFrom(s => s.Round.GetValueOrDefault()))
+                  .ForMember(d => d.HomeTeamId, o => o.MapFrom(s => s.HomeTeam))
+                  .ForMember(d => d.AwayTeamId, o => o.MapFrom(s => s.AwayTeam))
+                  .ForMember(d => d.Competition, o => o.Ignore())
+                  .ForMember(d => d.HomeTeam, o => o.Ignore())
+                  .ForMember(d => d.AwayTeam, o => o.Ignore())
+                  .ForMember(d => d.Matches, o => o.Ignore())
                   ;
         }
     }

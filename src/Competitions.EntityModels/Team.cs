@@ -43,6 +43,15 @@ namespace Competitions.EntityModels
         /// </summary>
         public virtual Club Club { get; set; }
 
+        /// <summary>
+        /// Gets or sets the list of <see cref="Fixture"/> instances for home.
+        /// </summary>
+        public virtual List<Fixture> HomeFixtures { get; set; }
+
+        /// <summary>
+        /// Gets or sets the list of <see cref="Fixture"/> instances for away.
+        /// </summary>
+        public virtual List<Fixture> AwayFixtures { get; set; }
 
         /// <summary>
         /// Gets or sets the list of <see cref="CompetitionTeam"/> instances.

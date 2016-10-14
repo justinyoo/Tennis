@@ -34,6 +34,16 @@ namespace Competitions.EntityModels
         public DateTimeOffset DateScheduled { get; set; }
 
         /// <summary>
+        /// Gets or sets the home team Id.
+        /// </summary>
+        public Guid HomeTeamId { get; set; }
+
+        /// <summary>
+        /// Gets or sets the away team Id.
+        /// </summary>
+        public Guid AwayTeamId { get; set; }
+
+        /// <summary>
         /// Gets or sets the score sheet image path.
         /// </summary>
         public string ScoreSheet { get; set; }
@@ -57,6 +67,16 @@ namespace Competitions.EntityModels
         /// Gets or sets the <see cref="EntityModels.Competition"/> instance.
         /// </summary>
         public virtual Competition Competition { get; set; }
+
+        /// <summary>
+        /// Gets or sets the <see cref="Team"/> instance for home.
+        /// </summary>
+        public virtual Team HomeTeam { get; set; }
+
+        /// <summary>
+        /// Gets or sets the <see cref="Team"/> instance for away.
+        /// </summary>
+        public virtual Team AwayTeam { get; set; }
 
         /// <summary>
         /// Gets or sets the list of <see cref="Match"/> instance.

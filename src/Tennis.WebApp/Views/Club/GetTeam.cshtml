@@ -81,7 +81,13 @@
         {
             <div class="row">
                 <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-                    <a asp-controller="Club" asp-action="AddPlayers" asp-route-clubId="@team.ClubId">Add Players</a>
+                    <form asp-controller="Club" asp-action="AddPlayerToTeam" asp-route-clubId="@team.ClubId" asp-route-teamId="@team.TeamId" method="post">
+                        <div class="form-group">
+                            <select class="form-control" style="display: inline-block !important" asp-for="Player" asp-items="@Model.Players"></select>
+                            <input class="form-control" style="display: inline-block !important" asp-for="PlayerOrder"/>
+                            <button type="submit" class="btn btn-primary" style="display: inline-block !important">Allocate Player</button>
+                        </div>
+                    </form>
                 </div>
             </div>
         }
@@ -119,6 +125,7 @@
                             <input type="hidden" asp-for="Name" value="@team.Name" />
                             <input type="hidden" asp-for="Tag" value="@team.Tag" />
                             <select class="form-control" style="display: inline-block !important" asp-for="Competition" asp-items="@Model.Competitions"></select>
+                            <input class="form-control" style="display: inline-block !important" asp-for="TeamNumber" />
                             <button type="submit" class="btn btn-primary" style="display: inline-block !important">Allocate Competition</button>
                         </div>
                     </form>

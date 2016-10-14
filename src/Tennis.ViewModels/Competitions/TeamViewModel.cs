@@ -13,6 +13,11 @@ namespace Tennis.ViewModels.Competitions
     public class TeamViewModel
     {
         /// <summary>
+        /// Gets or sets the team Id.
+        /// </summary>
+        public Guid TeamId { get; set; }
+
+        /// <summary>
         /// Gets or sets the team details.
         /// </summary>
         public TeamModel Team { get; set; }
@@ -28,6 +33,21 @@ namespace Tennis.ViewModels.Competitions
         public string Tag { get; set; }
 
         /// <summary>
+        /// Gets or sets the list of players.
+        /// </summary>
+        public List<SelectListItem> Players { get; set; }
+
+        /// <summary>
+        /// Gets or sets the player details.
+        /// </summary>
+        public Guid Player { get; set; }
+
+        /// <summary>
+        /// Gets or sets the player order.
+        /// </summary>
+        public int PlayerOrder { get; set; }
+
+        /// <summary>
         /// Gets or sets the list of competitions.
         /// </summary>
         public List<SelectListItem> Competitions { get; set; }
@@ -36,5 +56,10 @@ namespace Tennis.ViewModels.Competitions
         /// Gets or sets the competition details.
         /// </summary>
         public Guid Competition { get; set; }
+
+        /// <summary>
+        /// Gets or sets the team number in the competition.
+        /// </summary>
+        public int TeamNumber { get; set; }
     }
 }

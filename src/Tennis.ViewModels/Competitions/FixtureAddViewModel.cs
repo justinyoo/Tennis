@@ -42,5 +42,20 @@ namespace Tennis.ViewModels.Competitions
         /// </summary>
         [DisplayName("Date Scheduled")]
         public DateTimeOffset DateScheduled { get; set; }
+
+        /// <summary>
+        /// Gets or sets the list of teams.
+        /// </summary>
+        public List<SelectListItem> Teams { get; set; }
+
+        /// <summary>
+        /// Gets or sets the home team details.
+        /// </summary>
+        public Guid HomeTeam { get; set; }
+
+        /// <summary>
+        /// Gets or sets the away team details.
+        /// </summary>
+        public Guid AwayTeam { get; set; }
     }
 }

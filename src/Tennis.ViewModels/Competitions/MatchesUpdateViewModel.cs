@@ -10,12 +10,12 @@ namespace Tennis.ViewModels.Competitions
     /// <summary>
     /// This represents the view model entity for matches.
     /// </summary>
-    public class MatchesAddViewModel
+    public class MatchesUpdateViewModel
     {
         /// <summary>
-        /// Initialises a new instance of the <see cref="MatchesAddViewModel"/> class.
+        /// Initialises a new instance of the <see cref="MatchesUpdateViewModel"/> class.
         /// </summary>
-        public MatchesAddViewModel()
+        public MatchesUpdateViewModel()
         {
             this.HomePlayerIds = new List<Guid>();
             this.AwayPlayerIds = new List<Guid>();

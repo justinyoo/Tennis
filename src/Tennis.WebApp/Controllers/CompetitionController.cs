@@ -200,11 +200,15 @@ namespace Tennis.WebApp.Controllers
 
             var competition = await this._context.CompetitionService.GetCompetitionAsync(competitionId).ConfigureAwait(false);
 
-            var items = await this._context.ClubService.GetClubsAsync().ConfigureAwait(false);
-            var clubs = this._context.Map<ClubModelToSelectListItemMapper, List<SelectListItem>>(items);
-            clubs.Insert(0, new SelectListItem() { Text = "Select Venue", Selected = true });
+            var clubItems = await this._context.ClubService.GetClubsAsync().ConfigureAwait(false);
+            var clubs = this._context.Map<ClubModelToSelectListItemMapper, List<SelectListItem>>(clubItems);
+            clubs.Insert(0, new SelectListItem() { Text = "Select Venue", Value = string.Empty, Selected = true });
 
-            var vm = new FixtureAddViewModel() { CompetitionId = competitionId, CompetitionName = competition.Name, Clubs = clubs };
+            var teamItems = await this._context.TeamService.GetTeamsByCompetitionIdAsync(competitionId).ConfigureAwait(false);
+            var teams = this._context.Map<TeamModelToSelectListItemMapper, List<SelectListItem>>(teamItems);
+            teams.Insert(0, new SelectListItem() { Text = "Select Team", Value = string.Empty, Selected = true });
+
+            var vm = new FixtureAddViewModel() { CompetitionId = competitionId, CompetitionName = competition.Name, Clubs = clubs, Teams = teams };
 
             return View("AddFixture", vm);
         }
@@ -286,11 +290,17 @@ namespace Tennis.WebApp.Controllers
                 return NotFound();
             }
 
-            var items = await this._context.TeamService.GetTeamsByCompetitionIdAsync(competitionId).ConfigureAwait(false);
-            var teams = this._context.Map<TeamModelToSelectListItemMapper, List<SelectListItem>>(items);
-            teams.Insert(0, new SelectListItem() { Text = "Select Team", Value = string.Empty, Selected = true });
+            var fixture = await this._context.FixtureService.GetFixtureAsync(fixtureId).ConfigureAwait(false);
 
-            var vm = new MatchesAddViewModel() { CompetitionId = competitionId, FixtureId = fixtureId, Teams = teams, NumberOfPlayers = 3 };
+            var homePlayerItems = await this._context.PlayerService.GetPlayersByTeamIdAsync(fixture.HomeTeamId).ConfigureAwait(false);
+            var homePlayers = this._context.Map<PlayerModelToSelectListItemMapper, List<SelectListItem>>(homePlayerItems);
+            homePlayers.Insert(0, new SelectListItem() { Text = "Select Home Player", Value = string.Empty, Selected = true });
+
+            var awayPlayerItems = await this._context.PlayerService.GetPlayersByTeamIdAsync(fixture.AwayTeamId).ConfigureAwait(false);
+            var awayPlayers = this._context.Map<PlayerModelToSelectListItemMapper, List<SelectListItem>>(awayPlayerItems);
+            awayPlayers.Insert(0, new SelectListItem() { Text = "Select Away Player", Value = string.Empty, Selected = true });
+
+            var vm = new MatchesAddViewModel() { CompetitionId = competitionId, FixtureId = fixtureId, Fixture = fixture, HomePlayers = homePlayers, AwayPlayers = awayPlayers, NumberOfPlayers = 3 };
 
             return View("AddMatches", vm);
         }
@@ -323,7 +333,140 @@ namespace Tennis.WebApp.Controllers
                 return BadRequest();
             }
 
-            await this._context.PlayerService.SaveMatchesAsync(fixtureId, model.HomePlayers, model.AwayPlayers).ConfigureAwait(false);
+            await this._context.PlayerService.SaveMatchesAsync(fixtureId, model.HomePlayerIds, model.AwayPlayerIds).ConfigureAwait(false);
+
+            return RedirectToAction("GetFixture", new { competitionId = competitionId, fixtureId = fixtureId });
+        }
+
+        /// <summary>
+        /// Adds matches details.
+        /// </summary>
+        /// <param name="competitionId">Competition Id.</param>
+        /// <param name="fixtureId">Fixture Id.</param>
+        /// <returns></returns>
+        [Route("{competitionId}/fixtures/{fixtureId}/matches/update")]
+        [Authorize]
+        [HttpGet]
+        public async Task<IActionResult> UpdateMatches(Guid competitionId, Guid fixtureId)
+        {
+            if (competitionId == Guid.Empty)
+            {
+                return NotFound();
+            }
+
+            if (fixtureId == Guid.Empty)
+            {
+                return NotFound();
+            }
+
+            var fixture = await this._context.FixtureService.GetFixtureAsync(fixtureId).ConfigureAwait(false);
+
+            var homePlayerItems = await this._context.PlayerService.GetPlayersByTeamIdAsync(fixture.HomeTeamId).ConfigureAwait(false);
+            var homePlayers = this._context.Map<PlayerModelToSelectListItemMapper, List<SelectListItem>>(homePlayerItems);
+            homePlayers.Insert(0, new SelectListItem() { Text = "Select Home Player", Value = string.Empty, Selected = true });
+
+            var awayPlayerItems = await this._context.PlayerService.GetPlayersByTeamIdAsync(fixture.AwayTeamId).ConfigureAwait(false);
+            var awayPlayers = this._context.Map<PlayerModelToSelectListItemMapper, List<SelectListItem>>(awayPlayerItems);
+            awayPlayers.Insert(0, new SelectListItem() { Text = "Select Away Player", Value = string.Empty, Selected = true });
+
+            var vm = new MatchesUpdateViewModel() { CompetitionId = competitionId, FixtureId = fixtureId, Fixture = fixture, HomePlayers = homePlayers, AwayPlayers = awayPlayers, NumberOfPlayers = 3 };
+
+            return View("UpdateMatches", vm);
+        }
+
+        /// <summary>
+        /// Adds matches details.
+        /// </summary>
+        /// <param name="competitionId">Competition Id.</param>
+        /// <param name="fixtureId">Fixture Id.</param>
+        /// <param name="model"><see cref="MatchesAddViewModel"/> instance.</param>
+        /// <returns></returns>
+        [Route("{competitionId}/fixtures/{fixtureId}/matches/update")]
+        [Authorize]
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> UpdateMatches(Guid competitionId, Guid fixtureId, MatchesUpdateViewModel model)
+        {
+            if (competitionId == Guid.Empty)
+            {
+                return NotFound();
+            }
+
+            if (fixtureId == Guid.Empty)
+            {
+                return NotFound();
+            }
+
+            if (model == null)
+            {
+                return BadRequest();
+            }
+
+            await this._context.PlayerService.SaveMatchesAsync(fixtureId, model.HomePlayerIds, model.AwayPlayerIds).ConfigureAwait(false);
+
+            return RedirectToAction("GetFixture", new { competitionId = competitionId, fixtureId = fixtureId });
+
+            return RedirectToAction("GetFixture", new { competitionId = competitionId, fixtureId = fixtureId });
+        }
+
+        /// <summary>
+        /// Edits match results.
+        /// </summary>
+        /// <param name="competitionId">Competition Id.</param>
+        /// <param name="fixtureId">Fixture Id.</param>
+        /// <returns>Returns the match result edit input form.</returns>
+        [Route("{competitionId}/fixtures/{fixtureId}/matches/results")]
+        [Authorize]
+        [HttpGet]
+        public async Task<IActionResult> UpdateMatchResults(Guid competitionId, Guid fixtureId)
+        {
+            if (competitionId == Guid.Empty)
+            {
+                return NotFound();
+            }
+
+            if (fixtureId == Guid.Empty)
+            {
+                return NotFound();
+            }
+
+            var fixture = await this._context.FixtureService.GetFixtureAsync(fixtureId).ConfigureAwait(false);
+
+            var vm = new MatchResultsUpdateViewModel() { FixtureId = fixtureId, Fixture = fixture };
+
+            return View("UpdateMatchResults", vm);
+        }
+
+        /// <summary>
+        /// Updates match results.
+        /// </summary>
+        /// <param name="competitionId">Competition Id.</param>
+        /// <param name="fixtureId">Fixture Id.</param>
+        /// <param name="model"><see cref="MatchResultsUpdateViewModel"/> instance.</param>
+        /// <returns>Returns the fixture details page.</returns>
+        [Route("{competitionId}/fixtures/{fixtureId}/matches/results")]
+        [Authorize]
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> UpdateMatchResults(Guid competitionId, Guid fixtureId, MatchResultsUpdateViewModel model)
+        {
+            if (competitionId == Guid.Empty)
+            {
+                return NotFound();
+            }
+
+            if (fixtureId == Guid.Empty)
+            {
+                return NotFound();
+            }
+
+            if (model == null)
+            {
+                return BadRequest();
+            }
+
+            var fixture = this._context.Map<MatchResultsUpdateViewModelToFixtureModelMapper, FixtureModel>(model);
+            await this._context.FixtureService.SaveFixtureAsync(fixture).ConfigureAwait(false);
 
             return RedirectToAction("GetFixture", new { competitionId = competitionId, fixtureId = fixtureId });
         }

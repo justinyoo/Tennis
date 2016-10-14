@@ -48,6 +48,7 @@
     <Compile Include="CompetitionToCompetitionModelMapper.cs" />
     <Compile Include="DistrictToDistrictModelMapper.cs" />
     <Compile Include="FixtureToFixtureModelMapper.cs" />
+    <Compile Include="MatchToMatchModelMapper.cs" />
     <Compile Include="PlayerToPlayerModelMapper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="TeamToTeamModelMapper.cs" />

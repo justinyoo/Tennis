@@ -218,6 +218,18 @@ namespace Competitions.Services
                 team.TeamPlayers = teamPlayers;
             }
 
+            if (!model.CompetitionTeams.IsNullOrEmpty())
+            {
+                var competitionTeams = new List<CompetitionTeam>();
+                foreach (var ct in model.CompetitionTeams)
+                {
+                    var competitionTeam = await this.GetOrCreateCompetitionTeamAsync(ct, team.TeamId).ConfigureAwait(false);
+                    competitionTeams.Add(competitionTeam);
+                }
+
+                team.CompetitionTeams = competitionTeams;
+            }
+
             this._dbContext.Teams.AddOrUpdate(team);
 
             return team;
@@ -246,26 +258,27 @@ namespace Competitions.Services
             return tp;
         }
 
-        private async Task<Player> GetOrCreatePlayerAsync(PlayerModel model)
+        private async Task<CompetitionTeam> GetOrCreateCompetitionTeamAsync(CompetitionTeamModel model, Guid teamId)
         {
-            var player = await this._dbContext.Players
-                                   .SingleOrDefaultAsync(p => p.PlayerId == model.PlayerId)
-                                   .ConfigureAwait(false);
+            var ct = await this._dbContext.CompetitionTeams
+                               .SingleOrDefaultAsync(p => p.CompetitionTeamId == model.CompetitionTeamId)
+                               .ConfigureAwait(false);
 
             var now = DateTimeOffset.Now;
 
-            if (player == null)
+            if (ct == null)
             {
-                player = new Player() { PlayerId = Guid.NewGuid(), DateCreated = now };
+                ct = new CompetitionTeam() { CompetitionTeamId = Guid.NewGuid(), DateCreated = now };
             }
 
-            player.FirstName = model.FirstName;
-            player.LastName = model.LastName;
-            player.DateUpdated = now;
+            ct.TeamId = teamId;
+            ct.CompetitionId = model.CompetitionId;
+            ct.TeamNumber = model.TeamNumber;
+            ct.DateUpdated = now;
 
-            this._dbContext.Players.AddOrUpdate(player);
+            this._dbContext.CompetitionTeams.AddOrUpdate(ct);
 
-            return player;
+            return ct;
         }
     }
 }

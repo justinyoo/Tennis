@@ -10,6 +10,7 @@ using Competitions.EntityModels;
 using Competitions.Mappers;
 using Competitions.Models;
 using Tennis.Common.Blob;
+using Tennis.Common.Extensions;
 using Tennis.Mappers;
 
 namespace Competitions.Services
@@ -106,6 +107,10 @@ namespace Competitions.Services
             var result = await this._dbContext.Fixtures
                                    .Include(p => p.Club)
                                    .Include(p => p.Club.Venue)
+                                   .Include(p => p.HomeTeam)
+                                   .Include(p => p.HomeTeam.Club)
+                                   .Include(p => p.AwayTeam)
+                                   .Include(p => p.AwayTeam.Club)
                                    .Include(p => p.Matches)
                                    .Include(p => p.Matches.Select(q => q.MatchPlayers))
                                    .Include(p => p.Matches.Select(q => q.MatchPlayers.Select(r => r.Player)))
@@ -135,8 +140,6 @@ namespace Competitions.Services
 
             var fixture = await this.GetOrCreateFixtureAsync(model).ConfigureAwait(false);
 
-            this._dbContext.Fixtures.AddOrUpdate(fixture);
-
             var transaction = this._dbContext.Database.BeginTransaction();
             try
             {
@@ -149,6 +152,36 @@ namespace Competitions.Services
             {
                 transaction.Rollback();
                 throw;
+            }
+        }
+
+        /// <summary>
+        /// Gets the list of matches.
+        /// </summary>
+        /// <param name="fixtureId">Fixture Id.</param>
+        /// <returns>Returns the list of matches.</returns>
+        /// <exception cref="ArgumentNullException"><paramref name="fixtureId"/> is <see langword="null" />.</exception>
+        public async Task<List<MatchModel>> GetMatchesAsync(Guid fixtureId)
+        {
+            if (fixtureId == Guid.Empty)
+            {
+                throw new ArgumentNullException(nameof(fixtureId));
+            }
+
+            var results = await this._dbContext.Matches
+                                    .Include(p => p.MatchPlayers)
+                                    .Include(p => p.MatchPlayers.Select(q => q.Player))
+                                    .Where(p => p.FixtureId == fixtureId)
+                                    .OrderBy(p => p.SetNumber)
+                                    .ToListAsync()
+                                    .ConfigureAwait(false);
+
+
+            using (var mapper = this._mapperFactory.Get<MatchToMatchModelMapper>())
+            {
+                var matches = mapper.Map<List<MatchModel>>(results);
+
+                return matches;
             }
         }
 
@@ -196,14 +229,73 @@ namespace Competitions.Services
                 fixture = new Fixture() { FixtureId = Guid.NewGuid(), DateCreated = now };
             }
 
-            fixture.CompetitionId = model.CompetitionId;
-            fixture.ClubId = model.ClubId;
-            fixture.Week = model.Week;
-            fixture.DateScheduled = model.DateScheduled;
-            fixture.ScoreSheet = model.ScoreSheet;
+            if (model.CompetitionId != Guid.Empty)
+            {
+                fixture.CompetitionId = model.CompetitionId;
+            }
+            if (model.ClubId != Guid.Empty)
+            {
+                fixture.ClubId = model.ClubId;
+            }
+            if (model.Week > 0)
+            {
+                fixture.Week = model.Week;
+            }
+            if (model.DateScheduled > DateTimeOffset.MinValue)
+            {
+                fixture.DateScheduled = model.DateScheduled;
+            }
+            if (model.HomeTeamId != Guid.Empty)
+            {
+                fixture.HomeTeamId = model.HomeTeamId;
+            }
+            if (model.AwayTeamId != Guid.Empty)
+            {
+                fixture.AwayTeamId = model.AwayTeamId;
+            }
+            if (!string.IsNullOrWhiteSpace(model.ScoreSheet))
+            {
+                fixture.ScoreSheet = model.ScoreSheet;
+            }
             fixture.DateUpdated = now;
 
+            if (!model.Matches.IsNullOrEmpty())
+            {
+                foreach (var match in model.Matches)
+                {
+                    await this.GetOrCreateMatchAsync(match).ConfigureAwait(false);
+                }
+            }
+
+            this._dbContext.Fixtures.AddOrUpdate(fixture);
+
             return fixture;
+        }
+
+        private async Task<Match> GetOrCreateMatchAsync(MatchModel model)
+        {
+            var match = await this._dbContext.Matches
+                                  .SingleOrDefaultAsync(p => p.MatchId == model.MatchId)
+                                  .ConfigureAwait(false);
+
+            var now = DateTimeOffset.Now;
+
+            if (match == null)
+            {
+                match = new Match() { MatchId = Guid.NewGuid(), DateCreated = now };
+            }
+
+            match.FixtureId = model.FixtureId;
+            match.SetNumber = model.SetNumber;
+            match.HomeSetScore = model.HomeSetScore;
+            match.HomeGameScore = model.HomeGameScore;
+            match.AwayGameScore = model.AwayGameScore;
+            match.AwaySetScore = model.AwaySetScore;
+            match.DateUpdated = now;
+
+            this._dbContext.Matches.AddOrUpdate(match);
+
+            return match;
         }
     }
 }

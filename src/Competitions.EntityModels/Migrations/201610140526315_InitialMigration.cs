@@ -31,6 +31,7 @@ namespace Competitions.EntityModels.Migrations
                         VenueId = c.Guid(nullable: false),
                         Name = c.String(nullable: false, maxLength: 256),
                         Manager = c.String(maxLength: 128),
+                        ClubHousePhone = c.String(maxLength: 16),
                         Phone = c.String(maxLength: 16),
                         Mobile = c.String(maxLength: 16),
                         Email = c.String(maxLength: 256),
@@ -49,15 +50,53 @@ namespace Competitions.EntityModels.Migrations
                         CompetitionId = c.Guid(nullable: false),
                         Week = c.Int(nullable: false),
                         DateScheduled = c.DateTimeOffset(nullable: false, precision: 7),
+                        HomeTeamId = c.Guid(nullable: false),
+                        AwayTeamId = c.Guid(nullable: false),
                         ScoreSheet = c.String(maxLength: 256),
                         DateCreated = c.DateTimeOffset(nullable: false, precision: 7, defaultValueSql: "SYSDATETIMEOFFSET()"),
                         DateUpdated = c.DateTimeOffset(nullable: false, precision: 7, defaultValueSql: "SYSDATETIMEOFFSET()"),
                     })
                 .PrimaryKey(t => t.FixtureId)
+                .ForeignKey("dbo.Team", t => t.AwayTeamId)
                 .ForeignKey("dbo.Club", t => t.ClubId, cascadeDelete: true)
                 .ForeignKey("dbo.Competition", t => t.CompetitionId, cascadeDelete: true)
+                .ForeignKey("dbo.Team", t => t.HomeTeamId)
                 .Index(t => t.ClubId)
-                .Index(t => t.CompetitionId);
+                .Index(t => t.CompetitionId)
+                .Index(t => t.HomeTeamId)
+                .Index(t => t.AwayTeamId);
+            
+            CreateTable(
+                "dbo.Team",
+                c => new
+                    {
+                        TeamId = c.Guid(nullable: false),
+                        ClubId = c.Guid(nullable: false),
+                        Name = c.String(nullable: false, maxLength: 128),
+                        Tag = c.String(maxLength: 16),
+                        DateCreated = c.DateTimeOffset(nullable: false, precision: 7, defaultValueSql: "SYSDATETIMEOFFSET()"),
+                        DateUpdated = c.DateTimeOffset(nullable: false, precision: 7, defaultValueSql: "SYSDATETIMEOFFSET()"),
+                    })
+                .PrimaryKey(t => t.TeamId)
+                .ForeignKey("dbo.Club", t => t.ClubId, cascadeDelete: true)
+                .Index(t => t.ClubId);
+            
+            CreateTable(
+                "dbo.CompetitionTeam",
+                c => new
+                    {
+                        CompetitionTeamId = c.Guid(nullable: false),
+                        CompetitionId = c.Guid(nullable: false),
+                        TeamId = c.Guid(nullable: false),
+                        TeamNumber = c.Int(nullable: false),
+                        DateCreated = c.DateTimeOffset(nullable: false, precision: 7, defaultValueSql: "SYSDATETIMEOFFSET()"),
+                        DateUpdated = c.DateTimeOffset(nullable: false, precision: 7, defaultValueSql: "SYSDATETIMEOFFSET()"),
+                    })
+                .PrimaryKey(t => t.CompetitionTeamId)
+                .ForeignKey("dbo.Competition", t => t.CompetitionId, cascadeDelete: true)
+                .ForeignKey("dbo.Team", t => t.TeamId, cascadeDelete: true)
+                .Index(t => t.CompetitionId)
+                .Index(t => t.TeamId);
             
             CreateTable(
                 "dbo.Competition",
@@ -80,36 +119,17 @@ namespace Competitions.EntityModels.Migrations
                 .Index(t => t.DistrictId);
             
             CreateTable(
-                "dbo.CompetitionTeam",
+                "dbo.District",
                 c => new
                     {
-                        CompetitionTeamId = c.Guid(nullable: false),
-                        CompetitionId = c.Guid(nullable: false),
-                        TeamId = c.Guid(nullable: false),
-                        TeamNumber = c.Int(nullable: false),
-                        DateCreated = c.DateTimeOffset(nullable: false, precision: 7, defaultValueSql: "SYSDATETIMEOFFSET()"),
-                        DateUpdated = c.DateTimeOffset(nullable: false, precision: 7, defaultValueSql: "SYSDATETIMEOFFSET()"),
-                    })
-                .PrimaryKey(t => t.CompetitionTeamId)
-                .ForeignKey("dbo.Competition", t => t.CompetitionId, cascadeDelete: true)
-                .ForeignKey("dbo.Team", t => t.TeamId, cascadeDelete: true)
-                .Index(t => t.CompetitionId)
-                .Index(t => t.TeamId);
-            
-            CreateTable(
-                "dbo.Team",
-                c => new
-                    {
-                        TeamId = c.Guid(nullable: false),
-                        ClubId = c.Guid(nullable: false),
+                        DistrictId = c.Guid(nullable: false),
                         Name = c.String(nullable: false, maxLength: 128),
-                        Tag = c.String(maxLength: 16),
+                        Url = c.String(maxLength: 512),
+                        TrolsUrl = c.String(maxLength: 512),
                         DateCreated = c.DateTimeOffset(nullable: false, precision: 7, defaultValueSql: "SYSDATETIMEOFFSET()"),
                         DateUpdated = c.DateTimeOffset(nullable: false, precision: 7, defaultValueSql: "SYSDATETIMEOFFSET()"),
                     })
-                .PrimaryKey(t => t.TeamId)
-                .ForeignKey("dbo.Club", t => t.ClubId, cascadeDelete: true)
-                .Index(t => t.ClubId);
+                .PrimaryKey(t => t.DistrictId);
             
             CreateTable(
                 "dbo.TeamPlayer",
@@ -177,19 +197,6 @@ namespace Competitions.EntityModels.Migrations
                 .Index(t => t.FixtureId);
             
             CreateTable(
-                "dbo.District",
-                c => new
-                    {
-                        DistrictId = c.Guid(nullable: false),
-                        Name = c.String(nullable: false, maxLength: 128),
-                        Url = c.String(maxLength: 512),
-                        TrolsUrl = c.String(maxLength: 512),
-                        DateCreated = c.DateTimeOffset(nullable: false, precision: 7, defaultValueSql: "SYSDATETIMEOFFSET()"),
-                        DateUpdated = c.DateTimeOffset(nullable: false, precision: 7, defaultValueSql: "SYSDATETIMEOFFSET()"),
-                    })
-                .PrimaryKey(t => t.DistrictId);
-            
-            CreateTable(
                 "dbo.Venue",
                 c => new
                     {
@@ -205,7 +212,7 @@ namespace Competitions.EntityModels.Migrations
                 .PrimaryKey(t => t.VenueId)
                 .ForeignKey("dbo.Club", t => t.VenueId)
                 .Index(t => t.VenueId);
-
+            
             this.SeedDistricts();
         }
         
@@ -214,40 +221,44 @@ namespace Competitions.EntityModels.Migrations
             DropForeignKey("dbo.ClubPlayer", "PlayerId", "dbo.Player");
             DropForeignKey("dbo.ClubPlayer", "ClubId", "dbo.Club");
             DropForeignKey("dbo.Venue", "VenueId", "dbo.Club");
+            DropForeignKey("dbo.Fixture", "HomeTeamId", "dbo.Team");
             DropForeignKey("dbo.Fixture", "CompetitionId", "dbo.Competition");
-            DropForeignKey("dbo.Competition", "DistrictId", "dbo.District");
-            DropForeignKey("dbo.CompetitionTeam", "TeamId", "dbo.Team");
+            DropForeignKey("dbo.Fixture", "ClubId", "dbo.Club");
+            DropForeignKey("dbo.Fixture", "AwayTeamId", "dbo.Team");
             DropForeignKey("dbo.TeamPlayer", "TeamId", "dbo.Team");
             DropForeignKey("dbo.TeamPlayer", "PlayerId", "dbo.Player");
             DropForeignKey("dbo.MatchPlayer", "PlayerId", "dbo.Player");
             DropForeignKey("dbo.MatchPlayer", "MatchId", "dbo.Match");
             DropForeignKey("dbo.Match", "FixtureId", "dbo.Fixture");
-            DropForeignKey("dbo.Team", "ClubId", "dbo.Club");
+            DropForeignKey("dbo.CompetitionTeam", "TeamId", "dbo.Team");
             DropForeignKey("dbo.CompetitionTeam", "CompetitionId", "dbo.Competition");
-            DropForeignKey("dbo.Fixture", "ClubId", "dbo.Club");
+            DropForeignKey("dbo.Competition", "DistrictId", "dbo.District");
+            DropForeignKey("dbo.Team", "ClubId", "dbo.Club");
             DropIndex("dbo.Venue", new[] { "VenueId" });
             DropIndex("dbo.Match", new[] { "FixtureId" });
             DropIndex("dbo.MatchPlayer", new[] { "PlayerId" });
             DropIndex("dbo.MatchPlayer", new[] { "MatchId" });
             DropIndex("dbo.TeamPlayer", new[] { "TeamId" });
             DropIndex("dbo.TeamPlayer", new[] { "PlayerId" });
-            DropIndex("dbo.Team", new[] { "ClubId" });
+            DropIndex("dbo.Competition", new[] { "DistrictId" });
             DropIndex("dbo.CompetitionTeam", new[] { "TeamId" });
             DropIndex("dbo.CompetitionTeam", new[] { "CompetitionId" });
-            DropIndex("dbo.Competition", new[] { "DistrictId" });
+            DropIndex("dbo.Team", new[] { "ClubId" });
+            DropIndex("dbo.Fixture", new[] { "AwayTeamId" });
+            DropIndex("dbo.Fixture", new[] { "HomeTeamId" });
             DropIndex("dbo.Fixture", new[] { "CompetitionId" });
             DropIndex("dbo.Fixture", new[] { "ClubId" });
             DropIndex("dbo.ClubPlayer", new[] { "PlayerId" });
             DropIndex("dbo.ClubPlayer", new[] { "ClubId" });
             DropTable("dbo.Venue");
-            DropTable("dbo.District");
             DropTable("dbo.Match");
             DropTable("dbo.MatchPlayer");
             DropTable("dbo.Player");
             DropTable("dbo.TeamPlayer");
-            DropTable("dbo.Team");
-            DropTable("dbo.CompetitionTeam");
+            DropTable("dbo.District");
             DropTable("dbo.Competition");
+            DropTable("dbo.CompetitionTeam");
+            DropTable("dbo.Team");
             DropTable("dbo.Fixture");
             DropTable("dbo.Club");
             DropTable("dbo.ClubPlayer");

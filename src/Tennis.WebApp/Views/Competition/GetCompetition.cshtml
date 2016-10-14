@@ -127,9 +127,9 @@
                             foreach (var fixture in competition.Fixtures)
                             {
                                 <tr>
-                                    <td>@fixture.Week.ToString("00")</td>
+                                    <td><a asp-controller="Competition" asp-action="GetFixture" asp-route-competitionId="@fixture.CompetitionId" asp-route-fixtureId="@fixture.FixtureId">@fixture.Week.ToString("00")</a></td>
                                     <td>@fixture.DateScheduled.ToString("dd/MM/yyyy HH:mm")</td>
-                                    <td>@fixture.Club.Name &ndash; @fixture.Club.Venue.FullAddress</td>
+                                    <td><strong>@fixture.Club.Name</strong> &ndash; @fixture.Club.Venue.FullAddress</td>
                                     <td><a asp-controller="Competition" asp-action="GetFixture" asp-route-competitionId="@fixture.CompetitionId" asp-route-fixtureId="@fixture.FixtureId">View</a></td>
                                 </tr>
                             }

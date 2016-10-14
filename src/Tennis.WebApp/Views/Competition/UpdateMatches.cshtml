@@ -1,13 +1,13 @@
-﻿@model Tennis.ViewModels.Competitions.MatchesAddViewModel
+﻿@model Tennis.ViewModels.Competitions.MatchesUpdateViewModel
 @{
     ViewData["Title"] = "Matches";
 }
 
 <div class="row">
     <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-        <h2>Add Matches</h2>
+        <h2>Update Matches</h2>
 
-        <form asp-controller="Competition" asp-action="AddMatches" asp-route-competitionId="@Model.CompetitionId" asp-route-fixtureId="@Model.FixtureId" method="post">
+        <form asp-controller="Competition" asp-action="UpdateMatches" asp-route-competitionId="@Model.CompetitionId" asp-route-fixtureId="@Model.FixtureId" method="post">
             <div class="row">
                 <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
                     <h3>Home</h3>
@@ -78,7 +78,7 @@
                 <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
                     <div class="form-group">
                         <div class="col-xs-12 col-sm-offset-3 col-sm-9 col-md-offset-2 col-md-10 col-lg-offset-2 col-lg-10">
-                            <button type="submit" class="btn btn-primary">Add</button>
+                            <button type="submit" class="btn btn-primary">Update</button>
                         </div>
                     </div>
                 </div>

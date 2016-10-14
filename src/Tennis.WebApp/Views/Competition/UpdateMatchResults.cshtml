@@ -1,0 +1,129 @@
+﻿@model Tennis.ViewModels.Competitions.MatchResultsUpdateViewModel
+@{
+    ViewData["Title"] = "Fixture";
+
+    var fixture = Model.Fixture;
+}
+
+@section scripts
+{
+    <script src="~/js/updateMatchResults.js" asp-append-version="true"></script>
+}
+
+<div class="row">
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+        <h2>Round @fixture.Week.ToString("00")</h2>
+
+        <div class="row">
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                <div class="table-responsive">
+                    <table class="table">
+                        <tr>
+                            <th>Schedule</th>
+                            <th>Venue</th>
+                        </tr>
+                        <tr>
+                            <td>@fixture.DateScheduled.ToString("dd/MM/yyyy HH:mm")</td>
+                            <td><strong>@fixture.Club.Name</strong>, @fixture.Club.Venue.FullAddress</td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+        <h2>Matches</h2>
+        
+        <form asp-controller="Competition" asp-action="UpdateMatchResults" asp-route-competitionId="@fixture.CompetitionId" asp-route-fixtureId="@fixture.FixtureId">
+            <div class="row">
+                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                    <div class="table-responsive">
+                        <table class="table table-bordered">
+                            <tr>
+                                <th rowspan="2">Set</th>
+                                <th colspan="3">Home</th>
+                                <th colspan="3">Away</th>
+                            </tr>
+                            <tr>
+                                <th>Player(s)</th>
+                                <th>Set</th>
+                                <th>Game</th>
+                                <th>Game</th>
+                                <th>Set</th>
+                                <th>Player(s)</th>
+                            </tr>
+                            @foreach (var match in fixture.Matches.OrderBy(p => p.SetNumber))
+                            {
+                                var homePlayers = match.MatchPlayers.OrderBy(p => p.PlayerNumber).Where(p => p.HomeOrAway.Equals("home", StringComparison.CurrentCultureIgnoreCase));
+                                var awayPlayers = match.MatchPlayers.OrderBy(p => p.PlayerNumber).Where(p => p.HomeOrAway.Equals("away", StringComparison.CurrentCultureIgnoreCase));
+
+                                <tr>
+                                    <td class="text-center">
+                                        @match.SetNumber
+                                        <input type="hidden" name="MatchIds" value="@match.MatchId"/>
+                                        <input type="hidden" name="SetNumbers" value="@match.SetNumber"/>
+                                    </td>
+                                    <td>
+                                        @Html.Raw(string.Join("<br />", homePlayers.Select(p => p.Player == null ? string.Empty : $"{p.PlayerNumber}. {p.Player.FirstName} {p.Player.LastName}")))
+                                    </td>
+                                    <td class="text-center">
+                                        <input class="form-control text-right home-set-score" name="HomeSetScores" data-set-number="@match.SetNumber" value="@match.HomeSetScore" readonly="readonly" tabindex="-1"/>
+                                    </td>
+                                    <td class="text-center">
+                                        <input class="form-control text-right home-game-score" name="HomeGameScores" data-set-number="@match.SetNumber" value="@match.HomeGameScore"/>
+                                    </td>
+                                    <td class="text-center">
+                                        <input class="form-control text-right away-game-score" name="AwayGameScores" data-set-number="@match.SetNumber" value="@match.AwayGameScore"/>
+                                    </td>
+                                    <td class="text-center">
+                                        <input class="form-control text-right away-set-score" name="AwaySetScores" data-set-number="@match.SetNumber" value="@match.AwaySetScore" readonly="readonly" tabindex="-1"/>
+                                    </td>
+                                    <td>@Html.Raw(string.Join("<br />", awayPlayers.Select(p => p.Player == null ? string.Empty : $"{p.PlayerNumber}. {p.Player.FirstName} {p.Player.LastName}")))</td>
+                                </tr>
+                            }
+                            <tr>
+                                <td class="text-center">Total</td>
+                                <td></td>
+                                <td class="text-center"><input type="text" class="form-control text-right" id="total-home-set-score" value="@fixture.Matches.Sum(p => p.HomeSetScore)" readonly="readonly" tabindex="-1"/></td>
+                                <td class="text-center"><input type="text" class="form-control text-right" id="total-home-game-score" value="@fixture.Matches.Sum(p => p.HomeGameScore)" readonly="readonly" tabindex="-1"/></td>
+                                <td class="text-center"><input type="text" class="form-control text-right" id="total-away-game-score" value="@fixture.Matches.Sum(p => p.AwayGameScore)" readonly="readonly" tabindex="-1"/></td>
+                                <td class="text-center"><input type="text" class="form-control text-right" id="total-away-set-score" value="@fixture.Matches.Sum(p => p.AwaySetScore)" readonly="readonly" tabindex="-1"/></td>
+                                <td></td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="form-group">
+                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                        <button type="submit" class="btn btn-primary">Update</button>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+        <h2>Score Sheet</h2>
+
+        <div class="row">
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                @if (string.IsNullOrWhiteSpace(fixture.ScoreSheet))
+                {
+                    <p>There is no score sheet</p>
+                }
+                else
+                {
+                    <img class="img-responsive center-block" src="@fixture.ScoreSheet" />
+                }
+            </div>
+        </div>
+    </div>
+</div>

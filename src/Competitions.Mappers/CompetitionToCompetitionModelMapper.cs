@@ -38,6 +38,9 @@ namespace Competitions.Mappers
 
             config.CreateMap<Fixture, FixtureModel>()
                   .ForMember(d => d.Club, o => o.MapFrom(s => s.Club))
+                  .ForMember(d => d.Competition, o => o.Ignore())
+                  .ForMember(d => d.HomeTeam, o => o.Ignore())
+                  .ForMember(d => d.AwayTeam, o => o.Ignore())
                   .ForMember(d => d.Matches, o => o.Ignore())
                   ;
 
