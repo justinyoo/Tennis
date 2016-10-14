@@ -405,8 +405,6 @@ namespace Tennis.WebApp.Controllers
             await this._context.PlayerService.SaveMatchesAsync(fixtureId, model.HomePlayerIds, model.AwayPlayerIds).ConfigureAwait(false);
 
             return RedirectToAction("GetFixture", new { competitionId = competitionId, fixtureId = fixtureId });
-
-            return RedirectToAction("GetFixture", new { competitionId = competitionId, fixtureId = fixtureId });
         }
 
         /// <summary>
