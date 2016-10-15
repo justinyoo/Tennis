@@ -2,13 +2,13 @@
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Data.Entity.Migrations;
-using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 
 using Competitions.EntityModels;
 using Competitions.Mappers;
 using Competitions.Models;
+
 using Tennis.Common.Blob;
 using Tennis.Common.Extensions;
 using Tennis.Mappers;
