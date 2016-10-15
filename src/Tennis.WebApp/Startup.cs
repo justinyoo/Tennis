@@ -35,6 +35,10 @@ namespace Tennis.WebApp
     /// </summary>
     public class Startup
     {
+        private const string CompetitionsDbContext = "CompetitionDbContext";
+        private const string TournamentsDbContext = "TournamentDbContext";
+        private const string ScoreSheetsBlobContext = "ScoreSheetBlobContext";
+
         /// <summary>
         /// Initialises a new insatance of the <see cref="Startup"/> class.
         /// </summary>
@@ -84,11 +88,11 @@ namespace Tennis.WebApp
             services.AddAuthentication(o => o.SignInScheme = CookieAuthenticationDefaults.AuthenticationScheme);
 
             // DB Contexts
-            services.AddScoped<ICompetitionDbContext, CompetitionDbContext>(_ => new CompetitionDbContext(connectionStrings.Single(p => p.Name.Equals("CompetitionDbContext")).ConnectionString));
-            services.AddScoped<ITournamentDbContext, TournamentDbContext>(_ => new TournamentDbContext(connectionStrings.Single(p => p.Name.Equals("TournamentDbContext")).ConnectionString));
+            services.AddScoped<ICompetitionDbContext, CompetitionDbContext>(_ => new CompetitionDbContext(connectionStrings.Single(p => p.Name.Equals(CompetitionsDbContext, StringComparison.CurrentCultureIgnoreCase)).ConnectionString));
+            services.AddScoped<ITournamentDbContext, TournamentDbContext>(_ => new TournamentDbContext(connectionStrings.Single(p => p.Name.Equals(TournamentsDbContext, StringComparison.CurrentCultureIgnoreCase)).ConnectionString));
 
             // Blob Contexts
-            var blobConnString = connectionStrings.Single(p => p.Name.Equals("BlobStorageContext", StringComparison.CurrentCultureIgnoreCase));
+            var blobConnString = connectionStrings.Single(p => p.Name.Equals(ScoreSheetsBlobContext, StringComparison.CurrentCultureIgnoreCase));
             services.AddScoped<IBlobContainerConnectionOptions, BlobContainerConnectionOptions>(_ => new BlobContainerConnectionOptions(blobConnString, blobStorage));
             services.AddTransient<IBlobContainerConnection, BlobContainerConnection>();
             services.AddTransient<IBlobContainerContext, BlobContainerContext>();
