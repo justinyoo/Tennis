@@ -26,7 +26,7 @@
         <ul>
             @foreach (var tournament in player.Tournaments.OrderByDescending(p => p.DatePublished).ThenBy(p => p.Title))
             {
-                <li><a href="@string.Format(tournamentUrl, tournament.TournamentKey, tournament.PlayerNumber)" target="_blank">@tournament.Title</a> (Updated: @string.Format("{0:dd/MM/yyyy}", tournament.DatePublished.ToLocalTime()))</li>
+                <li><a href="@string.Format(tournamentUrl, tournament.TournamentKey, tournament.PlayerNumber)" target="_blank">@tournament.Title</a> (Updated: @string.Format("{0:yyyy-MM-dd}", tournament.DatePublished.ToLocalTime()))</li>
             }
         </ul>
     </div>

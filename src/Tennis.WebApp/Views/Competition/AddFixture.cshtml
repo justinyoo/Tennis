@@ -11,13 +11,14 @@
 @section scripts
 {
     <script src="~/lib/moment/min/moment.min.js"></script>
+    <script src="~/lib/moment/locale/en-au.js"></script>
     <script src="~/lib/eonasdan-bootstrap-datetimepicker/build/js/bootstrap-datetimepicker.min.js"></script>
     <script type="text/javascript">
         "use strict";
 
         $(function () {
             $('#date-scheduled').datetimepicker({
-                "format": "DD/MM/YYYY HH:mm",
+                "format": "YYYY-MM-DD HH:mm",
                 "sideBySide": true,
                 "useStrict": true
             });

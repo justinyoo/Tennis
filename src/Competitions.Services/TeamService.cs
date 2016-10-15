@@ -91,13 +91,15 @@ namespace Competitions.Services
                 throw new ArgumentNullException(nameof(competitionId));
             }
 
-            var results = await this._dbContext.Teams
-                                    .Include(p => p.Club)
-                                    .Include(p => p.Club.Venue)
-                                    .Include(p => p.TeamPlayers)
-                                    .Include(p => p.TeamPlayers.Select(q => q.Player))
-                                    //.Where(p => p.CompetitionId == competitionId)
-                                    .OrderBy(p => p.Name)
+            var results = await this._dbContext.CompetitionTeams
+                                    .Include(p => p.Team)
+                                    .Include(p => p.Team.Club)
+                                    .Include(p => p.Team.Club.Venue)
+                                    .Include(p => p.Team.TeamPlayers)
+                                    .Include(p => p.Team.TeamPlayers.Select(q => q.Player))
+                                    .Where(p => p.CompetitionId == competitionId)
+                                    .OrderBy(p => p.Team.Name)
+                                    .Select(p => p.Team)
                                     .ToListAsync()
                                     .ConfigureAwait(false);
 
