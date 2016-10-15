@@ -161,6 +161,7 @@ namespace Competitions.Services
             club.Phone = string.IsNullOrWhiteSpace(model.Phone) ? null : model.Phone.Replace(" ", "");
             club.Mobile = string.IsNullOrWhiteSpace(model.Mobile) ? null : model.Mobile.Replace(" ", "");
             club.Email = model.Email;
+            club.Url = model.Url;
             club.DateUpdated = now;
 
             var venue = await this.GetOrCreateVenueAsync(model.Venue).ConfigureAwait(false);
