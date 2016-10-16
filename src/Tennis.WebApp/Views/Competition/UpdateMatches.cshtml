@@ -17,7 +17,7 @@
                             <div class="form-group">
                                 <label class="col-xs-12 col-sm-3 col-md-2 col-lg-2 control-label">Home</label>
                                 <div class="col-xs-12 col-sm-9 col-md-10 col-lg-10">
-                                    <span>@Model.Fixture.HomeTeam.Club.Name</span>
+                                    <span>@Model.Fixture.HomeTeam.Club.Name @(string.IsNullOrWhiteSpace(Model.Fixture.HomeTeam.Tag) ? string.Empty : $"({Model.Fixture.HomeTeam.Tag})")</span>
                                 </div>
                             </div>
 
@@ -49,7 +49,7 @@
                             <div class="form-group">
                                 <label class="col-xs-12 col-sm-3 col-md-2 col-lg-2 control-label">Away</label>
                                 <div class="col-xs-12 col-sm-9 col-md-10 col-lg-10">
-                                    <span>@Model.Fixture.AwayTeam.Club.Name</span>
+                                    <span>@Model.Fixture.AwayTeam.Club.Name @(string.IsNullOrWhiteSpace(Model.Fixture.AwayTeam.Tag) ? string.Empty : $"({Model.Fixture.AwayTeam.Tag})")</span>
                                 </div>
                             </div>
 

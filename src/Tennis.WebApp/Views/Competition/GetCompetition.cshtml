@@ -71,7 +71,7 @@
                             {
                                 <tr>
                                     <td>@ct.TeamNumber</td>
-                                    <td><a asp-controller="Club" asp-action="GetTeam" asp-route-clubId="@ct.Team.ClubId" asp-route-teamId="@ct.Team.TeamId">@ct.Team.Club.Name @(string.IsNullOrWhiteSpace(ct.Team.Tag) ? string.Empty : $"- {ct.Team.Tag}")</a></td>
+                                    <td><a asp-controller="Club" asp-action="GetTeam" asp-route-clubId="@ct.Team.ClubId" asp-route-teamId="@ct.Team.TeamId">@ct.Team.Club.Name @(string.IsNullOrWhiteSpace(ct.Team.Tag) ? string.Empty : $"({ct.Team.Tag})")</a></td>
                                     <td>@ct.Team.Club.Venue.FullAddress</td>
                                     <td>@ct.Team.Club.Manager (@string.Join(" | ", ct.Team.Club.Contacts))</td>
                                 </tr>
