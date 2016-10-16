@@ -8,7 +8,9 @@ using Competitions.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+
 using Tennis.Common.Blob;
+
 using Tennis.ViewModels.Competitions;
 using Tennis.WebApp.Mappers;
 using Tennis.WebApp.ServiceContexts;
@@ -69,18 +71,17 @@ namespace Tennis.WebApp.Controllers
                 return NotFound();
             }
 
-            var competition = await this._context.CompetitionService
-                                        .GetCompetitionAsync(competitionId)
-                                        .ConfigureAwait(false);
+            var competition = await this._context.CompetitionService.GetCompetitionAsync(competitionId).ConfigureAwait(false);
 
-            var items = await this._context.ClubService
-                                  .GetClubsAsync()
-                                  .ConfigureAwait(false);
-
-            var clubs = this._context.Map<ClubModelToSelectListItemMapper, List<SelectListItem>>(items);
+            var clubItems = await this._context.ClubService.GetClubsAsync().ConfigureAwait(false);
+            var clubs = this._context.Map<ClubModelToSelectListItemMapper, List<SelectListItem>>(clubItems);
             clubs.Insert(0, new SelectListItem() { Text = "Select Club", Value = string.Empty, Selected = true });
 
-            var vm = new CompetitionViewModel() { Competition = competition, Clubs = clubs };
+            var teamItems = await this._context.TeamService.GetTeamsByCompetitionIdAsync(competitionId).ConfigureAwait(false);
+            var teams = this._context.Map<TeamModelToSelectListItemMapper, List<SelectListItem>>(teamItems);
+            teams.Insert(0, new SelectListItem() { Text = "All Teams", Value = Guid.Empty.ToString(), Selected = true });
+
+            var vm = new CompetitionViewModel() { Competition = competition, Clubs = clubs, Teams = teams };
 
             return View("GetCompetition", vm);
         }
@@ -164,6 +165,33 @@ namespace Tennis.WebApp.Controllers
             await this._context.CompetitionService.SaveCompetitionTeamAsync(ct).ConfigureAwait(false);
 
             return RedirectToAction("GetCompetition", new { competitionId = competitionId });
+        }
+
+        /// <summary>
+        /// Gets the list of fixtures belong to the team.
+        /// </summary>
+        /// <param name="competitionId">Competition Id.</param>
+        /// <param name="teamId">Team Id.</param>
+        /// <returns>Returns the list of fixtures belong to the team.</returns>
+        [Route("{competitionId}/teams/{teamId}/fixtures")]
+        [HttpGet]
+        public async Task<IActionResult> GetFixtures(Guid competitionId, Guid teamId)
+        {
+            if (competitionId == Guid.Empty)
+            {
+                return NotFound();
+            }
+
+            var team = teamId == Guid.Empty ? null : await this._context.TeamService.GetTeamAsync(teamId).ConfigureAwait(false);
+            var fixtures = await this._context.FixtureService.GetFixturesByTeamIdAsync(competitionId, teamId).ConfigureAwait(false);
+            var vm = new TeamJsonViewModel()
+                     {
+                         TeamId = team?.TeamId ?? Guid.Empty,
+                         TeamCode = team?.TrolsTeamCode,
+                         Fixtures = this._context.Map<FixtureModelToFixtureJsonViewModelMapper, List<FixtureJsonViewModel>>(fixtures)
+                     };
+
+            return Json(vm);
         }
 
         /// <summary>

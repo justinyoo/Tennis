@@ -8,6 +8,7 @@
 
 @section scripts
 {
+    <script src="~/lib/moment/min/moment.min.js"></script>
     <script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
     <script src="~/js/getCompetition.js" asp-append-version="true"></script>
 }
@@ -38,15 +39,6 @@
                             <td>@competition.Level</td>
                             <td>
                                 <a class="btn btn-default" href="@competition.TrolsUrl" target="_blank">Website</a>
-
-                                <form class="form-inline" style="display: inline-block !important;" action="@($"{competition.TrolsUrl}{competition.TrolsFixture}")" method="post" target="_blank">
-                                    <input type="hidden" name="which" value="2" />
-                                    <input type="hidden" name="style" value="" />
-                                    <input type="hidden" name="daytime" value="@competition.TrolsDaytimeCode" />
-                                    <input type="hidden" name="section" value="@competition.TrolsSectionCode" />
-                                    <input type="hidden" name="team" value="" />
-                                    <button type="submit" class="btn btn-default">Fixture</button>
-                                </form>
 
                                 <form class="form-inline" style="display: inline-block !important;" action="@($"{competition.TrolsUrl}{competition.TrolsResults}")" method="post" target="_blank">
                                     <input type="hidden" name="which" value="1" />
@@ -132,36 +124,52 @@
 
 <div class="row">
     <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-        <h2>Fixtures</h2>
+        <h2>
+            Fixtures for
+            <select class="form-control" style="display: inline-block !important;" id="teams" asp-items="@Model.Teams" data-competition-id="@competition.CompetitionId"></select>
+
+            <form class="form-inline" style="display: none !important;" id="fixture-form" action="@($"{competition.TrolsUrl}{competition.TrolsFixture}")" method="post" target="_blank">
+                <input type="hidden" name="which" value="2" />
+                <input type="hidden" name="style" value="" />
+                <input type="hidden" name="daytime" value="@competition.TrolsDaytimeCode" />
+                <input type="hidden" name="section" value="@competition.TrolsSectionCode" />
+                <input type="hidden" id="team-code" name="team" value="" />
+                <button type="submit" class="btn btn-default">Fixture on TROLS</button>
+            </form>
+        </h2>
 
         <div class="row">
             <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
                 <div class="table-responsive">
                     <table class="table">
-                        <tr>
-                            <th>Round</th>
-                            <th>Date</th>
-                            <th>Venue</th>
-                            <th>Details</th>
-                        </tr>
-                        @if (competition.Fixtures.IsNullOrEmpty())
-                        {
+                        <thead>
                             <tr>
-                                <td colspan="4">There is no fixture</td>
+                                <th>Round</th>
+                                <th>Date</th>
+                                <th>Venue</th>
+                                <th>Details</th>
                             </tr>
-                        }
-                        else
-                        {
-                            foreach (var fixture in competition.Fixtures.OrderBy(p => p.Week))
+                        </thead>
+                        <tbody id="fixtures">
+                            @if (competition.Fixtures.IsNullOrEmpty())
                             {
                                 <tr>
-                                    <td><a asp-controller="Competition" asp-action="GetFixture" asp-route-competitionId="@fixture.CompetitionId" asp-route-fixtureId="@fixture.FixtureId">@fixture.Week.ToString("00")</a></td>
-                                    <td>@fixture.DateScheduled.ToString("yyyy-MM-dd HH:mm")</td>
-                                    <td><strong>@fixture.Club.Name</strong> &ndash; @fixture.Club.Venue.FullAddress</td>
-                                    <td><a asp-controller="Competition" asp-action="GetFixture" asp-route-competitionId="@fixture.CompetitionId" asp-route-fixtureId="@fixture.FixtureId">View</a></td>
+                                    <td colspan="4">There is no fixture</td>
                                 </tr>
                             }
-                        }
+                            else
+                            {
+                                foreach (var fixture in competition.Fixtures.OrderBy(p => p.Week))
+                                {
+                                    <tr>
+                                        <td><a asp-controller="Competition" asp-action="GetFixture" asp-route-competitionId="@fixture.CompetitionId" asp-route-fixtureId="@fixture.FixtureId">@fixture.Week.ToString("00")</a></td>
+                                        <td>@fixture.DateScheduled.ToString("yyyy-MM-dd HH:mm")</td>
+                                        <td><strong>@fixture.Club.Name</strong> &ndash; @fixture.Club.Venue.FullAddress</td>
+                                        <td><a asp-controller="Competition" asp-action="GetFixture" asp-route-competitionId="@fixture.CompetitionId" asp-route-fixtureId="@fixture.FixtureId">View</a></td>
+                                    </tr>
+                                }
+                            }
+                        </tbody>
                     </table>
                 </div>
             </div>

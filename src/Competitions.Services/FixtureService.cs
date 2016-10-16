@@ -85,10 +85,35 @@ namespace Competitions.Services
 
             using (var mapper = this._mapperFactory.Get<FixtureToFixtureModelMapper>())
             {
-                var venues = mapper.Map<List<FixtureModel>>(results);
+                var fixtures = mapper.Map<List<FixtureModel>>(results);
 
-                return venues;
+                return fixtures;
             }
+        }
+
+        /// <summary>
+        /// Gets the list of fixtures by team.
+        /// </summary>
+        /// <param name="competitionId">Competition Id.</param>
+        /// <param name="teamId">Team Id.</param>
+        /// <returns>Returns the list of fixtures by team.</returns>
+        /// <exception cref="ArgumentNullException"><paramref name="competitionId"/> is <see langword="null" />.</exception>
+        /// <exception cref="ArgumentNullException"><paramref name="teamId"/> is <see langword="null" />.</exception>
+        public async Task<List<FixtureModel>> GetFixturesByTeamIdAsync(Guid competitionId, Guid teamId)
+        {
+            if (competitionId == Guid.Empty)
+            {
+                throw new ArgumentNullException(nameof(competitionId));
+            }
+
+            var fixtures = await this.GetFixturesAsync(competitionId).ConfigureAwait(false);
+
+            if (teamId == Guid.Empty)
+            {
+                return fixtures;
+            }
+
+            return fixtures.Where(p => p.HomeTeamId == teamId || p.AwayTeamId == teamId).ToList();
         }
 
         /// <summary>

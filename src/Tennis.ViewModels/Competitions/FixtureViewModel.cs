@@ -1,5 +1,4 @@
 ﻿using System;
-
 using Competitions.Models;
 
 using Microsoft.AspNetCore.Http;

@@ -166,7 +166,7 @@ namespace Competitions.Services
 
             var venue = await this.GetOrCreateVenueAsync(model.Venue).ConfigureAwait(false);
 
-            club.VenueId = venue.VenueId;
+            club.Venue = venue;
 
             this._dbContext.Clubs.AddOrUpdate(club);
 

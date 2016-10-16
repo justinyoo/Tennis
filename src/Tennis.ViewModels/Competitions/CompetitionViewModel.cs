@@ -28,6 +28,11 @@ namespace Tennis.ViewModels.Competitions
         public Guid Club { get; set; }
 
         /// <summary>
+        /// Gets or sets the list of teams.
+        /// </summary>
+        public List<SelectListItem> Teams { get; set; }
+
+        /// <summary>
         /// Gets or sets the team.
         /// </summary>
         public Guid Team { get; set; }

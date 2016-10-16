@@ -21,6 +21,14 @@ namespace Competitions.Services
         Task<List<FixtureModel>> GetFixturesAsync(Guid competitionId);
 
         /// <summary>
+        /// Gets the list of fixtures by team.
+        /// </summary>
+        /// <param name="competitionId">Competition Id.</param>
+        /// <param name="teamId">Team Id.</param>
+        /// <returns>Returns the list of fixtures by team.</returns>
+        Task<List<FixtureModel>> GetFixturesByTeamIdAsync(Guid competitionId, Guid teamId);
+
+        /// <summary>
         /// Gets the fixture details.
         /// </summary>
         /// <param name="fixtureId">Fixture Id.</param>
