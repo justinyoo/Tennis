@@ -21,6 +21,9 @@ namespace Competitions.Mappers
         {
             config.CreateMap<Competition, CompetitionModel>()
                   .ForMember(d => d.TrolsUrl, o => o.MapFrom(s => s.District.TrolsUrl))
+                  .ForMember(d => d.TrolsFixture, o => o.MapFrom(s => s.District.TrolsFixture))
+                  .ForMember(d => d.TrolsResults, o => o.MapFrom(s => s.District.TrolsResults))
+                  .ForMember(d => d.TrolsLadders, o => o.MapFrom(s => s.District.TrolsLadders))
                   .ForMember(d => d.CompetitionTeams, o => o.MapFrom(s => s.CompetitionTeams))
                   .ForMember(d => d.Fixtures, o => o.MapFrom(s => s.Fixtures))
                   ;

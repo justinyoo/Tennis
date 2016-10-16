@@ -54,6 +54,16 @@ namespace Competitions.EntityModels
         public string Level { get; set; }
 
         /// <summary>
+        /// Gets or sets the daytime code from trols.org.au.
+        /// </summary>
+        public string TrolsDaytimeCode { get; set; }
+
+        /// <summary>
+        /// Gets or sets the section code from trols.org.au.
+        /// </summary>
+        public string TrolsSectionCode { get; set; }
+
+        /// <summary>
         /// Gets or sets the date when the record was created.
         /// </summary>
         public DateTimeOffset DateCreated { get; set; }

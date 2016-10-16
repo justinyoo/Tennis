@@ -29,6 +29,11 @@ namespace Competitions.EntityModels
         public string Tag { get; set; }
 
         /// <summary>
+        /// Gets or sets the team code from trols.org.au.
+        /// </summary>
+        public string TrolsTeamCode { get; set; }
+
+        /// <summary>
         /// Gets or sets the date when the record was created.
         /// </summary>
         public DateTimeOffset DateCreated { get; set; }

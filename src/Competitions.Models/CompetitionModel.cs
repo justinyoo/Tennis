@@ -54,9 +54,34 @@ namespace Competitions.Models
         public string Level { get; set; }
 
         /// <summary>
-        /// Gets or sets the official URL at trols.org.au
+        /// Gets or sets the official URL at trols.org.au.
         /// </summary>
         public string TrolsUrl { get; set; }
+
+        /// <summary>
+        /// Gets or sets the fixture page at trols.org.au.
+        /// </summary>
+        public string TrolsFixture { get; set; }
+
+        /// <summary>
+        /// Gets or sets the results page at trols.org.au.
+        /// </summary>
+        public string TrolsResults { get; set; }
+
+        /// <summary>
+        /// Gets or sets the ladders page at trols.org.au.
+        /// </summary>
+        public string TrolsLadders { get; set; }
+
+        /// <summary>
+        /// Gets or sets the daytime code from trols.org.au.
+        /// </summary>
+        public string TrolsDaytimeCode { get; set; }
+
+        /// <summary>
+        /// Gets or sets the section code from trols.org.au.
+        /// </summary>
+        public string TrolsSectionCode { get; set; }
 
         /// <summary>
         /// Gets or sets the team details.

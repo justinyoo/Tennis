@@ -29,6 +29,11 @@ namespace Competitions.Models
         public string Tag { get; set; }
 
         /// <summary>
+        /// Gets or sets the team code from trols.org.au.
+        /// </summary>
+        public string TrolsTeamCode { get; set; }
+
+        /// <summary>
         /// Gets or sets the club details.
         /// </summary>
         public ClubModel Club { get; set; }
