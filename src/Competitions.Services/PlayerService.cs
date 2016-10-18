@@ -261,11 +261,13 @@ namespace Competitions.Services
 
         private async Task<List<ClubPlayer>> GetOrCreateClubPlayersAsync(ClubPlayerCollectionModel model)
         {
+            var playerIds = model.ClubPlayers.Select(p => p.PlayerId);
+
             var cps = await this._dbContext.ClubPlayers
-                                    .Include(p => p.Player)
-                                    .Where(p => p.ClubId == model.ClubId)
-                                    .ToListAsync()
-                                    .ConfigureAwait(false);
+                                .Include(p => p.Player)
+                                .Where(p => p.ClubId == model.ClubId && playerIds.Contains(p.PlayerId))
+                                .ToListAsync()
+                                .ConfigureAwait(false);
 
             var now = DateTimeOffset.Now;
 

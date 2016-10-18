@@ -110,7 +110,7 @@
                         {
                             <div class="col-xs-12 col-sm-4 col-md-4 col-lg-4">
                                 <ul>
-                                    @foreach (var player in club.ClubPlayers.Skip(i * numberOfPlayersPerColumn).Take(numberOfPlayersPerColumn).Select(p => p.Player))
+                                    @foreach (var player in club.ClubPlayers.OrderBy(p => p.Player.FirstName).ThenBy(p => p.Player.LastName).Skip(i * numberOfPlayersPerColumn).Take(numberOfPlayersPerColumn).Select(p => p.Player))
                                     {
                                         <li>@player.FirstName @player.LastName</li>
                                     }
