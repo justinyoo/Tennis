@@ -19,7 +19,27 @@ namespace Tournaments.Mappers
         protected override void ConfigureMap(IMapperConfigurationExpression config)
         {
             config.CreateMap<Player, PlayerModel>()
-                ;
+                  .ForMember(d => d.Name, o => o.MapFrom(s => GetPlayerName(s)))
+                  ;
+        }
+
+        /// <summary>
+        /// Gets the player name.
+        /// </summary>
+        /// <param name="player"><see cref="Player"/> instance.</param>
+        /// <returns>Returns the player name.</returns>
+        public static string GetPlayerName(Player player)
+        {
+            var name = $"{player.FirstName} {GetPlayerMiddleNames(player)} {player.LastName}";
+
+            return name;
+        }
+
+        private static string GetPlayerMiddleNames(Player player)
+        {
+            var name = string.IsNullOrWhiteSpace(player.MiddleNames) ? string.Empty : player.MiddleNames;
+
+            return name;
         }
     }
 }

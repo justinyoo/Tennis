@@ -1,0 +1,93 @@
+﻿@model Tennis.ViewModels.Tournaments.TournamentViewModel
+@{
+    var player = Model.Player;
+}
+
+@section css
+{
+    <link rel="stylesheet" href="~/lib/eonasdan-bootstrap-datetimepicker/build/css/bootstrap-datetimepicker.min.css" />
+}
+
+@section scripts
+{
+    <script src="~/lib/moment/min/moment.min.js"></script>
+    <script src="~/lib/eonasdan-bootstrap-datetimepicker/build/js/bootstrap-datetimepicker.min.js"></script>
+    <script type="text/javascript">
+        "use strict";
+
+        $(function () {
+            $('#date-published').datetimepicker({
+                "format": "YYYY-MM-DD HH:mm",
+                "sideBySide": true,
+                "useStrict": true
+            });
+        });
+    </script>
+}
+
+
+<div class="row">
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+        <h2>Add Tournament for @player.Name</h2>
+
+        <form asp-controller="Tournament" asp-action="AddTournament" asp-route-playerId="@player.PlayerId" method="post">
+            <div class="row">
+                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                    <div class="form-group">
+                        <label class="col-xs-12 col-sm-4 col-md-3 col-lg-2 control-label" asp-for="@Model.TournamentPlayerUrl"></label>
+                        <div class="col-xs-12 col-sm-8 col-md-9 col-lg-10">
+                            <input class="form-control" asp-for="TournamentPlayerUrl" />
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="col-xs-12 col-sm-4 col-md-3 col-lg-2 control-label" asp-for="@Model.Title"></label>
+                        <div class="col-xs-12 col-sm-8 col-md-9 col-lg-10">
+                            <input class="form-control" asp-for="Title" />
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="col-xs-12 col-sm-4 col-md-3 col-lg-2 control-label" asp-for="@Model.Summary"></label>
+                        <div class="col-xs-12 col-sm-8 col-md-9 col-lg-10">
+                            <input class="form-control" asp-for="Summary" />
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="col-xs-12 col-sm-offset-4 col-sm-8 col-md-offset-3 col-md-9 col-lg-offset-2 col-lg-10">
+                            <div class="checkbox">
+                                <label>
+                                    <input asp-for="IsSummarySameAsTitle">
+                                    The summary value is equal to the Title value.
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="col-xs-12 col-sm-4 col-md-3 col-lg-2 control-label" asp-for="@Model.DatePublished"></label>
+                        <div class="col-xs-5 col-sm-5 col-md-3 col-lg-3">
+                            <div class='input-group date' id='date-published'>
+                                <input class="form-control" asp-for="DatePublished" />
+                                <span class="input-group-addon">
+                                    <span class="glyphicon glyphicon-calendar"></span>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                    <div class="form-group">
+                        <div class="col-xs-12 col-sm-offset-4 col-sm-8 col-md-offset-3 col-md-9 col-lg-offset-2 col-lg-10">
+                            <button type="submit" class="btn btn-primary">Add</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>

@@ -1,5 +1,4 @@
-﻿@using Tennis.ViewModels.Tournaments
-@model Tennis.ViewModels.Tournaments.PlayerViewModel
+﻿@model Tennis.ViewModels.Tournaments.PlayerViewModel
 
 @{
 
@@ -14,20 +13,33 @@
 
 <div class="row">
     <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-        <h2>@player.FirstName @player.LastName</h2>
-        
-        <h3>Profile</h3>
-        @(player.ProfileId.HasValue ? string.Format(profileUrl, player.ProfileId.Value) : "N/A")
+        <h2>@player.Name</h2>
 
-        <h3>Australian Ranking</h3>
-        @(player.RankingId.HasValue ? string.Format(rankingUrl, player.RankingId.Value) : "N/A")
+        <div class="row">
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                <h3>Profile</h3>
+                @(player.ProfileId.HasValue ? string.Format(profileUrl, player.ProfileId.Value) : "N/A")
 
-        <h3>Tournaments</h3>
-        <ul>
-            @foreach (var tournament in player.Tournaments.OrderByDescending(p => p.DatePublished).ThenBy(p => p.Title))
-            {
-                <li><a href="@string.Format(tournamentUrl, tournament.TournamentKey, tournament.PlayerNumber)" target="_blank">@tournament.Title</a> (Updated: @string.Format("{0:yyyy-MM-dd}", tournament.DatePublished.ToLocalTime()))</li>
-            }
-        </ul>
+                <h3>Australian Ranking</h3>
+                @(player.RankingId.HasValue ? string.Format(rankingUrl, player.RankingId.Value) : "N/A")
+
+                <h3>Tournaments</h3>
+                <ul>
+                    @foreach (var tournament in player.Tournaments.OrderByDescending(p => p.DatePublished).ThenBy(p => p.Title))
+                    {
+                        <li><a href="@string.Format(tournamentUrl, tournament.TournamentKey, tournament.PlayerNumber)" target="_blank">@tournament.Title</a> (Updated: @string.Format("{0:yyyy-MM-dd}", tournament.DatePublished.ToLocalTime()))</li>
+                    }
+                </ul>
+            </div>
+        </div>
+
+        @if (User.Identity.IsAuthenticated)
+        {
+            <div class="row">
+                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                    <a class="btn btn-primary" asp-controller="Tournament" asp-action="AddTournament" asp-route-playerId="@player.PlayerId">Add Tournament</a>
+                </div>
+            </div>
+        }
     </div>
 </div>

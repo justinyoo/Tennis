@@ -44,6 +44,11 @@ namespace Tournaments.Models
         public string LastName { get; set; }
 
         /// <summary>
+        /// Gets or sets the name.
+        /// </summary>
+        public string Name { get; set; }
+
+        /// <summary>
         /// Gets or sets the list of tournament details.
         /// </summary>
         public List<TournamentModel> Tournaments { get; set; }
