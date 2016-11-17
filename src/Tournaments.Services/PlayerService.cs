@@ -177,6 +177,80 @@ namespace Tournaments.Services
         }
 
         /// <summary>
+        /// Saves player details.
+        /// </summary>
+        /// <param name="model"><see cref="PlayerModel"/> instance.</param>
+        /// <returns>Returns the player Id.</returns>
+        /// <exception cref="ArgumentNullException"><paramref name="model"/> is <see langword="null" />.</exception>
+        public async Task<Guid> SavePlayerAsync(PlayerModel model)
+        {
+            if (model == null)
+            {
+                throw new ArgumentNullException(nameof(model));
+            }
+
+            var player = await this.GetOrCreatePlayerAsync(model).ConfigureAwait(false);
+
+            var transaction = this._dbContext.Database.BeginTransaction();
+            try
+            {
+                await this._dbContext.SaveChangesAsync().ConfigureAwait(false);
+                transaction.Commit();
+
+                return player.PlayerId;
+            }
+            catch
+            {
+                transaction.Rollback();
+                throw;
+            }
+        }
+
+        /// <summary>
+        /// Saves the player-tournament relations to database.
+        /// </summary>
+        /// <param name="playerId">Player Id.</param>
+        /// <param name="tournamentId">Tournament Id.</param>
+        /// <param name="playerNumber">Player number from tennis.com.au</param>
+        /// <returns>Returns player-tournament Id.</returns>
+        /// <exception cref="ArgumentException">Invalid PlayerId.</exception>
+        /// <exception cref="ArgumentException">Invalid TournamentId.</exception>
+        /// <exception cref="ArgumentOutOfRangeException">Player number must be greater than zero.</exception>
+        public async Task<Guid> SavePlayerTournamentAsync(Guid playerId, Guid tournamentId, int playerNumber)
+        {
+            if (playerId == Guid.Empty)
+            {
+                throw new ArgumentException("Invalid PlayerId.");
+            }
+
+            if (tournamentId == Guid.Empty)
+            {
+                throw new ArgumentException("Invalid TournamentId.");
+            }
+
+            if (playerNumber <= 0)
+            {
+                throw new ArgumentOutOfRangeException(nameof(playerNumber));
+            }
+
+            var pt = await this.GetOrCreatePlayerTournamentAsync(playerId, tournamentId, playerNumber).ConfigureAwait(false);
+
+            var transaction = this._dbContext.Database.BeginTransaction();
+            try
+            {
+                await this._dbContext.SaveChangesAsync().ConfigureAwait(false);
+                transaction.Commit();
+
+                return pt.PlayerTournamentId;
+            }
+            catch
+            {
+                transaction.Rollback();
+                throw;
+            }
+        }
+
+        /// <summary>
         /// Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.
         /// </summary>
         public void Dispose()
@@ -189,6 +263,32 @@ namespace Tournaments.Services
             this._disposed = true;
         }
 
+        private async Task<Player> GetOrCreatePlayerAsync(PlayerModel model)
+        {
+            var player = await this._dbContext.Players
+                                   .SingleOrDefaultAsync(p => p.MemberId == model.MemberId)
+                                   .ConfigureAwait(false);
+
+            var now = DateTimeOffset.Now;
+
+            if (player == null)
+            {
+                player = new Player() { PlayerId = Guid.NewGuid(), DateCreated = now };
+            }
+
+            player.MemberId = model.MemberId;
+            player.ProfileId = model.ProfileId;
+            player.RankingId = model.RankingId;
+            player.FirstName = model.FirstName;
+            player.MiddleNames = model.MiddleNames;
+            player.LastName = model.LastName;
+            player.DateUpdated = now;
+
+            this._dbContext.Players.AddOrUpdate(player);
+
+            return player;
+        }
+
         /// <summary>
         /// Gets or creates a <see cref="Player"/> instance corresponding to the member Id.
         /// </summary>
@@ -199,36 +299,22 @@ namespace Tournaments.Services
         /// <exception cref="ArgumentNullException"><paramref name="names"/> is <see langword="null" />.</exception>
         private async Task<Player> GetOrCreatePlayerAsync(long memberId, List<string> names)
         {
-            if (memberId <= 0)
-            {
-                throw new ArgumentOutOfRangeException(nameof(memberId));
-            }
-
             var player = await this._dbContext.Players
-                                   .SingleOrDefaultAsync(p => p.MemberId == memberId).ConfigureAwait(false);
-
-            if (player != null)
-            {
-                return player;
-            }
-
-            if (names.IsNullOrEmpty())
-            {
-                throw new ArgumentNullException(nameof(names));
-            }
+                                   .SingleOrDefaultAsync(p => p.MemberId == memberId)
+                                   .ConfigureAwait(false);
 
             var now = DateTimeOffset.Now;
 
-            player = new Player()
-                     {
-                         PlayerId = Guid.NewGuid(),
-                         MemberId = memberId,
-                         FirstName = names.First(),
-                         MiddleNames = names.Skip(1).First(),
-                         LastName = names.Last(),
-                         DateCreated = now,
-                         DateUpdated = now,
-                     };
+            if (player == null)
+            {
+                player = new Player() { PlayerId = Guid.NewGuid(), DateCreated = now };
+            }
+
+            player.MemberId = memberId;
+            player.FirstName = names.First();
+            player.MiddleNames = names.Skip(1).First();
+            player.LastName = names.Last();
+            player.DateUpdated = now;
 
             this._dbContext.Players.AddOrUpdate(player);
 

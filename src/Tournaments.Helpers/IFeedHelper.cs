@@ -31,7 +31,23 @@ namespace Tournaments.Helpers
         /// <param name="url">Feed URL at tennis.com.au</param>
         /// <returns>Returns the tournament key.</returns>
         /// <exception cref="ArgumentNullException"><paramref name="url"/> is <see langword="null" />.</exception>
+        Guid GetTournamentKeyFromUrl(string url);
+
+        /// <summary>
+        /// Gets the tournament key from the link URL.
+        /// </summary>
+        /// <param name="url">Feed URL at tennis.com.au</param>
+        /// <returns>Returns the tournament key.</returns>
+        /// <exception cref="ArgumentNullException"><paramref name="url"/> is <see langword="null" />.</exception>
         Task<Guid> GetTournamentKeyFromUrlAsync(string url);
+
+        /// <summary>
+        /// Gets the player number from the link URL.
+        /// </summary>
+        /// <param name="url">Feed URL at tennis.com.au</param>
+        /// <returns>Returns the player number.</returns>
+        /// <exception cref="ArgumentNullException"><paramref name="url"/> is <see langword="null" />.</exception>
+        int GetPlayerNumberFromUrl(string url);
 
         /// <summary>
         /// Gets the player number from the link URL.

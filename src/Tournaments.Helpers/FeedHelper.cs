@@ -52,6 +52,23 @@ namespace Tournaments.Helpers
         /// <param name="url">Feed URL at tennis.com.au</param>
         /// <returns>Returns the tournament key.</returns>
         /// <exception cref="ArgumentNullException"><paramref name="url"/> is <see langword="null" />.</exception>
+        public Guid GetTournamentKeyFromUrl(string url)
+        {
+            if (string.IsNullOrWhiteSpace(url))
+            {
+                throw new ArgumentNullException(nameof(url));
+            }
+
+            var tournamentKey = GetQueryValue<Guid>("id", url);
+            return tournamentKey;
+        }
+
+        /// <summary>
+        /// Gets the tournament key from the link URL.
+        /// </summary>
+        /// <param name="url">Feed URL at tennis.com.au</param>
+        /// <returns>Returns the tournament key.</returns>
+        /// <exception cref="ArgumentNullException"><paramref name="url"/> is <see langword="null" />.</exception>
         public async Task<Guid> GetTournamentKeyFromUrlAsync(string url)
         {
             if (string.IsNullOrWhiteSpace(url))
@@ -59,8 +76,25 @@ namespace Tournaments.Helpers
                 throw new ArgumentNullException(nameof(url));
             }
 
-            var tournamentKey = await Task.Factory.StartNew(() => GetQueryValue<Guid>("id", url)).ConfigureAwait(false);
+            var tournamentKey = await Task.Factory.StartNew(() => GetTournamentKeyFromUrl(url)).ConfigureAwait(false);
             return tournamentKey;
+        }
+
+        /// <summary>
+        /// Gets the player number from the link URL.
+        /// </summary>
+        /// <param name="url">Feed URL at tennis.com.au</param>
+        /// <returns>Returns the player number.</returns>
+        /// <exception cref="ArgumentNullException"><paramref name="url"/> is <see langword="null" />.</exception>
+        public int GetPlayerNumberFromUrl(string url)
+        {
+            if (string.IsNullOrWhiteSpace(url))
+            {
+                throw new ArgumentNullException(nameof(url));
+            }
+
+            var playerNumber = GetQueryValue<int>("player", url);
+            return playerNumber;
         }
 
         /// <summary>
@@ -76,7 +110,7 @@ namespace Tournaments.Helpers
                 throw new ArgumentNullException(nameof(url));
             }
 
-            var playerNumber = await Task.Factory.StartNew(() => GetQueryValue<int>("player", url)).ConfigureAwait(false);
+            var playerNumber = await Task.Factory.StartNew(() => GetPlayerNumberFromUrl(url)).ConfigureAwait(false);
             return playerNumber;
         }
 

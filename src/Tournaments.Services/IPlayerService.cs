@@ -39,5 +39,22 @@ namespace Tournaments.Services
         /// <param name="feedUrl">Feed URL at tennis.com.au.</param>
         /// <exception cref="ArgumentNullException"><paramref name="feedUrl"/> is <see langword="null" />.</exception>
         Task<PlayerModel> SaveTournamentsFromFeedAsync(string feedUrl);
+
+        /// <summary>
+        /// Saves player details.
+        /// </summary>
+        /// <param name="model"><see cref="PlayerModel"/> instance.</param>
+        /// <returns>Returns the player Id.</returns>
+        /// <exception cref="ArgumentNullException"><paramref name="model"/> is <see langword="null" />.</exception>
+        Task<Guid> SavePlayerAsync(PlayerModel model);
+
+        /// <summary>
+        /// Saves the player-tournament relations to database.
+        /// </summary>
+        /// <param name="playerId">Player Id.</param>
+        /// <param name="tournamentId">Tournament Id.</param>
+        /// <param name="playerNumber">Player number from tennis.com.au</param>
+        /// <returns>Returns player-tournament Id.</returns>
+        Task<Guid> SavePlayerTournamentAsync(Guid playerId, Guid tournamentId, int playerNumber);
     }
 }

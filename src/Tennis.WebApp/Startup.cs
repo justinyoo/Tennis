@@ -107,6 +107,7 @@ namespace Tennis.WebApp
             services.AddTransient<IClubServiceContext, ClubServiceContext>();
             services.AddTransient<ICompetitionServiceContext, CompetitionServiceContext>();
             services.AddTransient<IFeedContext, FeedContext>();
+            services.AddTransient<ITournamentServiceContext, TournamentServiceContext>();
 
             // Factories
             services.AddTransient<IMapperFactory, MapperFactory>();
@@ -121,6 +122,7 @@ namespace Tennis.WebApp
             services.AddTransient<IVenueService, VenueService>();
 
             services.AddTransient<Tournaments.Services.IPlayerService, Tournaments.Services.PlayerService>();
+            services.AddTransient<ITournamentService, TournamentService>();
         }
 
         /// <summary>

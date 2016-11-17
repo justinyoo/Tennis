@@ -54,9 +54,11 @@
     <Compile Include="IFeedContext.cs" />
     <Compile Include="IPlayerService.cs" />
     <Compile Include="ISyndicationFeedWrapper.cs" />
+    <Compile Include="ITournamentService.cs" />
     <Compile Include="PlayerService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SyndicationFeedWrapper.cs" />
+    <Compile Include="TournamentService.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
