@@ -17,6 +17,7 @@ namespace Tournaments.Services
     public class TournamentService : ITournamentService
     {
         private readonly ITournamentDbContext _dbContext;
+        private readonly IFeedContext _feedContext;
         private readonly IMapperFactory _mapperFactory;
 
         private bool _disposed;
@@ -25,10 +26,11 @@ namespace Tournaments.Services
         /// Initialises a new instance of the <see cref="TournamentService"/> class.
         /// </summary>
         /// <param name="dbContext"><see cref="ITournamentDbContext"/> instance.</param>
+        /// <param name="feedContext"><see cref="IFeedContext"/> instance.</param>
         /// <param name="mapperFactory"><see cref="IMapperFactory"/> instance.</param>
         /// <exception cref="ArgumentNullException"><paramref name="dbContext"/> is <see langword="null" />.</exception>
         /// <exception cref="ArgumentNullException"><paramref name="mapperFactory"/> is <see langword="null" />.</exception>
-        public TournamentService(ITournamentDbContext dbContext, IMapperFactory mapperFactory)
+        public TournamentService(ITournamentDbContext dbContext, IFeedContext feedContext, IMapperFactory mapperFactory)
         {
             if (dbContext == null)
             {
@@ -36,6 +38,13 @@ namespace Tournaments.Services
             }
 
             this._dbContext = dbContext;
+
+            if (feedContext == null)
+            {
+                throw new ArgumentNullException(nameof(feedContext));
+            }
+
+            this._feedContext = feedContext;
 
             if (mapperFactory == null)
             {
@@ -126,6 +135,62 @@ namespace Tournaments.Services
         }
 
         /// <summary>
+        /// Saves the tournament details.
+        /// </summary>
+        /// <param name="tournamentKey">Tournament key.</param>
+        /// <param name="model"><see cref="TournamentFeedItemModel"/> instance.</param>
+        /// <returns>Returns the tournament Id.</returns>
+        /// <exception cref="ArgumentException">Invalid TournamentKey</exception>
+        /// <exception cref="ArgumentNullException"><paramref name="model"/> is <see langword="null" />.</exception>
+        public async Task<Guid> SaveTournamentAsync(Guid tournamentKey, TournamentFeedItemModel model)
+        {
+            if (tournamentKey == Guid.Empty)
+            {
+                throw new ArgumentException("Invalid TournamentKey");
+            }
+
+            if (model == null)
+            {
+                throw new ArgumentNullException(nameof(model));
+            }
+
+            var tournament = await this.GetOrCreateTournamentAsync(tournamentKey, model).ConfigureAwait(false);
+
+            var transaction = this._dbContext.Database.BeginTransaction();
+            try
+            {
+                await this._dbContext.SaveChangesAsync().ConfigureAwait(false);
+                transaction.Commit();
+
+                return tournament.TournamentId;
+            }
+            catch
+            {
+                transaction.Rollback();
+                throw;
+            }
+        }
+
+        /// <summary>
+        /// Saves the tournament details.
+        /// </summary>
+        /// <param name="model"><see cref="PlayerTournamentFeedItemModel"/> instance.</param>
+        /// <returns>Returns the tournament Id.</returns>
+        /// <exception cref="ArgumentNullException"><paramref name="model"/> is <see langword="null" />.</exception>
+        public async Task<Guid> SaveTournamentAsync(PlayerTournamentFeedItemModel model)
+        {
+
+            if (model == null)
+            {
+                throw new ArgumentNullException(nameof(model));
+            }
+
+            var tournamentKey = await this._feedContext.GetTournamentKeyFromFeedAsync(model.Item.ItemId).ConfigureAwait(false);
+
+            return await this.SaveTournamentAsync(tournamentKey, model.Item).ConfigureAwait(false);
+        }
+
+        /// <summary>
         /// Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.
         /// </summary>
         public void Dispose()
@@ -166,5 +231,41 @@ namespace Tournaments.Services
 
             return tournament;
         }
+
+        /// <summary>
+        /// Gets or creates a <see cref="Tournament"/> instance corresponding to the tournament key.
+        /// </summary>
+        /// <param name="tournamentKey">Tournament key from tennis.com.au.</param>
+        /// <param name="model"><see cref="TournamentFeedItemModel"/> instance.</param>
+        /// <returns>Returns the <see cref="Tournament"/> instance.</returns>
+        private async Task<Tournament> GetOrCreateTournamentAsync(Guid tournamentKey, TournamentFeedItemModel model)
+        {
+            var tournament = await this._dbContext.Tournaments
+                                       .SingleOrDefaultAsync(p => p.TournamentKey == tournamentKey)
+                                       .ConfigureAwait(false);
+
+            var now = DateTimeOffset.Now;
+
+            if (tournament == null)
+            {
+                tournament = new Tournament() { TournamentId = Guid.NewGuid(), DateCreated = now };
+            }
+
+            if (tournament.DatePublished == model.DatePublished)
+            {
+                return tournament;
+            }
+
+            tournament.TournamentKey = tournamentKey;
+            tournament.Title = model.Title;
+            tournament.Summary = model.Summary;
+            tournament.DatePublished = model.DatePublished;
+            tournament.DateUpdated = now;
+
+            this._dbContext.Tournaments.AddOrUpdate(tournament);
+
+            return tournament;
+        }
     }
 }
+

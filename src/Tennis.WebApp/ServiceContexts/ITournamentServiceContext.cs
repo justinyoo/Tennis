@@ -8,6 +8,11 @@ namespace Tennis.WebApp.ServiceContexts
     public interface ITournamentServiceContext : IBaseServiceContext
     {
         /// <summary>
+        /// Gets the <see cref="IFeedService"/> instance.
+        /// </summary>
+        IFeedService FeedService { get; }
+
+        /// <summary>
         /// Gets the <see cref="ITournamentService"/> instance.
         /// </summary>
         ITournamentService TournamentService { get; }

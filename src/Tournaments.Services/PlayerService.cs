@@ -5,7 +5,6 @@ using System.Data.Entity.Migrations;
 using System.Linq;
 using System.Threading.Tasks;
 
-using Tennis.Common.Extensions;
 using Tennis.Mappers;
 
 using Tournaments.EntityModels;
@@ -81,6 +80,20 @@ namespace Tournaments.Services
         }
 
         /// <summary>
+        /// Gets the list of player's memberId from tennis.com.au.
+        /// </summary>
+        /// <returns>Returns the list of player's memberId from tennis.com.au.</returns>
+        public async Task<List<long>> GetPlayerMemberIdsAsync()
+        {
+            var players = await this.GetPlayersAsync().ConfigureAwait(false);
+            var memberIds = players.Where(p => p.MemberId.HasValue)
+                                   .Select(p => p.MemberId.Value)
+                                   .ToList();
+
+            return memberIds;
+        }
+
+        /// <summary>
         /// Gets the player details.
         /// </summary>
         /// <param name="playerId">Player Id.</param>
@@ -111,6 +124,24 @@ namespace Tournaments.Services
         }
 
         /// <summary>
+        /// Gets the names from the RSS feed title.
+        /// </summary>
+        /// <param name="feedTitle">Feed title.</param>
+        /// <returns>Returns the names.</returns>
+        /// <exception cref="ArgumentNullException"><paramref name="feedTitle"/> is <see langword="null" />.</exception>
+        public async Task<List<string>> GetPlayerNameFromFeedAsync(string feedTitle)
+        {
+            if (string.IsNullOrWhiteSpace(feedTitle))
+            {
+                throw new ArgumentNullException(nameof(feedTitle));
+            }
+
+            var names = await this._feedContext.GetNamesFromFeedAsync(feedTitle).ConfigureAwait(false);
+
+            return names;
+        }
+
+        /// <summary>
         /// Gets the list of <see cref="TournamentFeedModel"/> instances from RSS feed.
         /// </summary>
         /// <param name="memberId">Member Id at tennis.com.au.</param>
@@ -133,41 +164,78 @@ namespace Tournaments.Services
             }
         }
 
+        ///// <summary>
+        ///// Saves the tournaments details from RSS feed to database.
+        ///// </summary>
+        ///// <param name="feedUrl">Feed URL at tennis.com.au.</param>
+        ///// <returns>Returns the number of state entries written to the underlying database</returns>
+        ///// <exception cref="ArgumentNullException"><paramref name="feedUrl"/> is <see langword="null" />.</exception>
+        //public async Task<PlayerModel> SaveTournamentsFromFeedAsync(string feedUrl)
+        //{
+        //    if (string.IsNullOrWhiteSpace(feedUrl))
+        //    {
+        //        throw new ArgumentNullException(nameof(feedUrl));
+        //    }
+
+        //    var memberId = await this._feedContext.GetMemberIdFromFeedAsync(feedUrl).ConfigureAwait(false);
+        //    var feed = await this.GetTournamentsFromFeedAsync(memberId).ConfigureAwait(false);
+        //    var names = await this._feedContext.GetNamesFromFeedAsync(feed.Title).ConfigureAwait(false);
+
+        //    var player = await this.GetOrCreatePlayerAsync(memberId, names).ConfigureAwait(false);
+
+        //    foreach (var item in feed.Items)
+        //    {
+        //        var tournamentKey = await this._feedContext.GetTournamentKeyFromFeedAsync(item.ItemId).ConfigureAwait(false);
+        //        var playerNumber = await this._feedContext.GetPlayerNumberFromFeedAsync(item.ItemId).ConfigureAwait(false);
+
+        //        var tournament = await this.GetOrCreateTournamentAsync(tournamentKey, item).ConfigureAwait(false);
+        //        await this.GetOrCreatePlayerTournamentAsync(player.PlayerId, tournament.TournamentId, playerNumber).ConfigureAwait(false);
+        //    }
+
+        //    var transaction = this._dbContext.Database.BeginTransaction();
+        //    try
+        //    {
+        //        await this._dbContext.SaveChangesAsync().ConfigureAwait(false);
+        //        transaction.Commit();
+                
+        //        return await this.GetPlayerAsync(player.PlayerId).ConfigureAwait(false);
+        //    }
+        //    catch
+        //    {
+        //        transaction.Rollback();
+        //        throw;
+        //    }
+        //}
+
         /// <summary>
-        /// Saves the tournaments details from RSS feed to database.
+        /// Saves player details.
         /// </summary>
-        /// <param name="feedUrl">Feed URL at tennis.com.au.</param>
-        /// <returns>Returns the number of state entries written to the underlying database</returns>
-        /// <exception cref="ArgumentNullException"><paramref name="feedUrl"/> is <see langword="null" />.</exception>
-        public async Task<PlayerModel> SaveTournamentsFromFeedAsync(string feedUrl)
+        /// <param name="memberId">Member Id.</param>
+        /// <param name="names">Collection of names - first name, middle names, and last name.</param>
+        /// <returns>Returns the player Id.</returns>
+        /// <exception cref="ArgumentOutOfRangeException">Invalid member Id..</exception>
+        /// <exception cref="ArgumentNullException"><paramref name="names"/> is <see langword="null" />.</exception>
+        public async Task<Guid> SavePlayerAsync(long memberId, List<string> names)
         {
-            if (string.IsNullOrWhiteSpace(feedUrl))
+            if (memberId <= 0)
             {
-                throw new ArgumentNullException(nameof(feedUrl));
+                throw new ArgumentOutOfRangeException(nameof(memberId));
             }
 
-            var memberId = await this._feedContext.GetMemberIdFromFeedAsync(feedUrl).ConfigureAwait(false);
-            var feed = await this.GetTournamentsFromFeedAsync(memberId).ConfigureAwait(false);
-            var names = await this._feedContext.GetNamesFromFeedAsync(feed.Title).ConfigureAwait(false);
+            if (names == null || !names.Any())
+            {
+                throw new ArgumentNullException(nameof(names));
+            }
 
             var player = await this.GetOrCreatePlayerAsync(memberId, names).ConfigureAwait(false);
-
-            foreach (var item in feed.Items)
-            {
-                var tournamentKey = await this._feedContext.GetTournamentKeyFromFeedAsync(item.ItemId).ConfigureAwait(false);
-                var playerNumber = await this._feedContext.GetPlayerNumberFromFeedAsync(item.ItemId).ConfigureAwait(false);
-
-                var tournament = await this.GetOrCreateTournamentAsync(tournamentKey, item).ConfigureAwait(false);
-                await this.GetOrCreatePlayerTournamentAsync(player.PlayerId, tournament.TournamentId, playerNumber).ConfigureAwait(false);
-            }
 
             var transaction = this._dbContext.Database.BeginTransaction();
             try
             {
                 await this._dbContext.SaveChangesAsync().ConfigureAwait(false);
                 transaction.Commit();
-                
-                return await this.GetPlayerAsync(player.PlayerId).ConfigureAwait(false);
+
+                return player.PlayerId;
             }
             catch
             {
@@ -248,6 +316,31 @@ namespace Tournaments.Services
                 transaction.Rollback();
                 throw;
             }
+        }
+
+        /// <summary>
+        /// Saves the player-tournament relations to database.
+        /// </summary>
+        /// <param name="tournamentId">Tournament Id.</param>
+        /// <param name="model"><see cref="PlayerTournamentFeedItemModel"/> instance.</param>
+        /// <returns>Returns player-tournament Id.</returns>
+        /// <exception cref="ArgumentException">Invalid TournamentId.</exception>
+        /// <exception cref="ArgumentNullException"><paramref name="model"/> is <see langword="null" />.</exception>
+        public async Task<Guid> SavePlayerTournamentAsync(Guid tournamentId, PlayerTournamentFeedItemModel model)
+        {
+            if (tournamentId == Guid.Empty)
+            {
+                throw new ArgumentException("Invalid TournamentId.");
+            }
+
+            if (model == null)
+            {
+                throw new ArgumentNullException(nameof(model));
+            }
+
+            var playerNumber = await this._feedContext.GetPlayerNumberFromFeedAsync(model.Item.ItemId).ConfigureAwait(false);
+
+            return await this.SavePlayerTournamentAsync(model.PlayerId, tournamentId, playerNumber).ConfigureAwait(false);
         }
 
         /// <summary>

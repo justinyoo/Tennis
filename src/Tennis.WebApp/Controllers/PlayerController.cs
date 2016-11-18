@@ -5,7 +5,9 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 using Tennis.ViewModels.Tournaments;
-using Tournaments.Services;
+using Tennis.WebApp.ServiceContexts;
+
+using Tournaments.Models;
 
 namespace Tennis.WebApp.Controllers
 {
@@ -15,21 +17,21 @@ namespace Tennis.WebApp.Controllers
     [Route("players")]
     public class PlayerController : Controller
     {
-        private readonly IPlayerService _service;
+        private readonly ITournamentServiceContext _context;
 
         /// <summary>
         /// Initialises a new instance of the <see cref="PlayerController"/> class.
         /// </summary>
-        /// <param name="service"><see cref="IPlayerService"/> instance.</param>
-        /// <exception cref="ArgumentNullException"><paramref name="service"/> is <see langword="null" />.</exception>
-        public PlayerController(IPlayerService service)
+        /// <param name="context"><see cref="ITournamentServiceContext"/> instance.</param>
+        /// <exception cref="ArgumentNullException"><paramref name="context"/> is <see langword="null" />.</exception>
+        public PlayerController(ITournamentServiceContext context)
         {
-            if (service == null)
+            if (context == null)
             {
-                throw new ArgumentNullException(nameof(service));
+                throw new ArgumentNullException(nameof(context));
             }
 
-            this._service = service;
+            this._context = context;
         }
 
         /// <summary>
@@ -40,7 +42,7 @@ namespace Tennis.WebApp.Controllers
         [HttpGet]
         public async Task<IActionResult> GetPlayers()
         {
-            var players = await this._service.GetPlayersAsync().ConfigureAwait(false);
+            var players = await this._context.PlayerService.GetPlayersAsync().ConfigureAwait(false);
             var vm = new PlayerCollectionViewModel() { Players = players };
 
             return View("Index", vm);
@@ -55,7 +57,12 @@ namespace Tennis.WebApp.Controllers
         [HttpGet]
         public async Task<IActionResult> GetPlayer(Guid playerId)
         {
-            var player = await this._service.GetPlayerAsync(playerId).ConfigureAwait(false);
+            if (playerId == Guid.Empty)
+            {
+                return NotFound();
+            }
+
+            var player = await this._context.PlayerService.GetPlayerAsync(playerId).ConfigureAwait(false);
             var vm = new PlayerViewModel() { Player = player };
 
             return View("GetPlayer", vm);
@@ -85,10 +92,25 @@ namespace Tennis.WebApp.Controllers
         [HttpPost]
         public async Task<IActionResult> AddPlayer(PlayerCollectionViewModel model)
         {
-            var player = await this._service.SaveTournamentsFromFeedAsync(model.TournamentFeedUrl).ConfigureAwait(false);
-            var vm = new PlayerViewModel() { Player = player };
+            if (model == null)
+            {
+                return BadRequest();
+            }
 
-            return View("AddPlayer", vm);
+            var memberId = await this._context.FeedService.GetMemberIdFromFeedUrlAsync(model.TournamentFeedUrl).ConfigureAwait(false);
+            var feed = await this._context.FeedService.GetTournamentFeedByMemberIdAsync(memberId).ConfigureAwait(false);
+            var names = await this._context.PlayerService.GetPlayerNameFromFeedAsync(feed.Title).ConfigureAwait(false);
+
+            var playerId = await this._context.PlayerService.SavePlayerAsync(memberId, names).ConfigureAwait(false);
+
+            foreach (var item in feed.Items)
+            {
+                var ptfim = new PlayerTournamentFeedItemModel() {PlayerId = playerId, Item = item };
+                var tournamentId = await this._context.TournamentService.SaveTournamentAsync(ptfim).ConfigureAwait(false);
+                var ptId = await this._context.PlayerService.SavePlayerTournamentAsync(tournamentId, ptfim).ConfigureAwait(false);
+            }
+
+            return RedirectToAction("GetPlayer", new { playerId = playerId });
         }
     }
 }

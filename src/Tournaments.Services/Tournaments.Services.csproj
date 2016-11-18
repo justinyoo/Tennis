@@ -51,7 +51,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="FeedContext.cs" />
+    <Compile Include="FeedService.cs" />
     <Compile Include="IFeedContext.cs" />
+    <Compile Include="IFeedService.cs" />
     <Compile Include="IPlayerService.cs" />
     <Compile Include="ISyndicationFeedWrapper.cs" />
     <Compile Include="ITournamentService.cs" />
