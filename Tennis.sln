@@ -58,6 +58,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tennis.Common", "src\Tennis
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tennis.Common.Blob", "src\Tennis.Common.Blob\Tennis.Common.Blob.csproj", "{00372698-302D-4669-9C62-EF34B62F60FC}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tennis.Common.IoC", "src\Tennis.Common.IoC\Tennis.Common.IoC.csproj", "{E98AEA62-DABD-4464-87CE-571DF2B18A2C}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -128,6 +130,10 @@ Global
 		{00372698-302D-4669-9C62-EF34B62F60FC}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{00372698-302D-4669-9C62-EF34B62F60FC}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{00372698-302D-4669-9C62-EF34B62F60FC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E98AEA62-DABD-4464-87CE-571DF2B18A2C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E98AEA62-DABD-4464-87CE-571DF2B18A2C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E98AEA62-DABD-4464-87CE-571DF2B18A2C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E98AEA62-DABD-4464-87CE-571DF2B18A2C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -153,5 +159,6 @@ Global
 		{F42F9620-4EAC-4E38-B890-A78C4C5DC616} = {B1C14642-C4CC-4E3F-B1E3-0FEDC165E92E}
 		{2B8389F6-7B35-4F86-959E-C1C6FEA3C545} = {B1C14642-C4CC-4E3F-B1E3-0FEDC165E92E}
 		{00372698-302D-4669-9C62-EF34B62F60FC} = {B1C14642-C4CC-4E3F-B1E3-0FEDC165E92E}
+		{E98AEA62-DABD-4464-87CE-571DF2B18A2C} = {B1C14642-C4CC-4E3F-B1E3-0FEDC165E92E}
 	EndGlobalSection
 EndGlobal
