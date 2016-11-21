@@ -45,7 +45,7 @@ namespace Tennis.Common.IoC
         /// <param name="func">The delegate to register.</param>
         public void Register<TImplementer, TService>(Func<IComponentContext, TImplementer> func)
         {
-            this._builder.Register(func).As<TService>().InstancePerLifetimeScope();
+            this._builder.Register(func).As<TService>().InstancePerDependency();
         }
 
         /// <summary>
@@ -55,7 +55,7 @@ namespace Tennis.Common.IoC
         /// <typeparam name="TService">Type to be used.</typeparam>
         public void RegisterType<TImplementer, TService>()
         {
-            this._builder.RegisterType<TImplementer>().As<TService>().InstancePerLifetimeScope();
+            this._builder.RegisterType<TImplementer>().As<TService>().InstancePerDependency();
         }
 
         /// <summary>
@@ -105,6 +105,8 @@ namespace Tennis.Common.IoC
             var connString = ConfigurationManager.ConnectionStrings["TournamentDbContext"].ConnectionString;
             this.Register<TournamentDbContext, ITournamentDbContext>(p => new TournamentDbContext(connString));
             this.RegisterType<FeedContext, IFeedContext>();
+
+            this.Build();
         }
 
         /// <summary>
