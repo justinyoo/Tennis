@@ -20,6 +20,7 @@ namespace Tournaments.Mappers
         {
             config.CreateMap<Player, PlayerModel>()
                   .ForMember(d => d.Name, o => o.MapFrom(s => GetPlayerName(s)))
+                  .ForMember(d => d.Tournaments, o => o.Ignore())
                   ;
         }
 

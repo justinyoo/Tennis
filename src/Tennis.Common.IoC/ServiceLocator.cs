@@ -2,6 +2,7 @@
 using System.Configuration;
 
 using Autofac;
+using Autofac.Extras.CommonServiceLocator;
 
 using Tennis.Mappers;
 
@@ -17,7 +18,7 @@ namespace Tennis.Common.IoC
     public class ServiceLocator : IServiceLocator
     {
         private ContainerBuilder _builder;
-        private IContainer _container;
+        private Microsoft.Practices.ServiceLocation.IServiceLocator _locator;
         private bool _disposed;
 
         /// <summary>
@@ -62,7 +63,12 @@ namespace Tennis.Common.IoC
         /// </summary>
         public void Build()
         {
-            this._container = this._builder.Build();
+            var container = this._builder.Build();
+
+            var csl = new AutofacServiceLocator(container);
+            Microsoft.Practices.ServiceLocation.ServiceLocator.SetLocatorProvider(() => csl);
+
+            this._locator = Microsoft.Practices.ServiceLocation.ServiceLocator.Current;
         }
 
         /// <summary>
@@ -72,11 +78,8 @@ namespace Tennis.Common.IoC
         /// <returns>Returns the service instance resolved.</returns>
         public TService GetService<TService>()
         {
-            using (var scope = this._container.BeginLifetimeScope())
-            {
-                var service = scope.Resolve<TService>();
-                return service;
-            }
+            var service = this._locator.GetInstance<TService>();
+            return service;
         }
 
         /// <summary>
@@ -114,7 +117,7 @@ namespace Tennis.Common.IoC
                 return;
             }
 
-            this._container.Dispose();
+            this._locator = null;
             this._builder = null;
 
             this._disposed = true;

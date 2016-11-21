@@ -34,9 +34,6 @@
       <HintPath>..\..\packages\AutoMapper.5.1.1\lib\net45\AutoMapper.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="Microsoft.AspNetCore.Mvc.ViewFeatures">
-      <HintPath>..\..\..\..\..\Users\Justin\.nuget\packages\Microsoft.AspNetCore.Mvc.ViewFeatures\1.0.1\lib\net451\Microsoft.AspNetCore.Mvc.ViewFeatures.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.ServiceModel" />
