@@ -119,19 +119,9 @@ namespace Tournaments.Services
 
             var tournament = await this.GetOrCreateTournamentAsync(model).ConfigureAwait(false);
 
-            var transaction = this._dbContext.Database.BeginTransaction();
-            try
-            {
-                await this._dbContext.SaveChangesAsync().ConfigureAwait(false);
-                transaction.Commit();
+            await this._dbContext.SaveChangesAsync().ConfigureAwait(false);
 
-                return tournament.TournamentId;
-            }
-            catch
-            {
-                transaction.Rollback();
-                throw;
-            }
+            return tournament.TournamentId;
         }
 
         /// <summary>
@@ -156,19 +146,9 @@ namespace Tournaments.Services
 
             var tournament = await this.GetOrCreateTournamentAsync(tournamentKey, model).ConfigureAwait(false);
 
-            var transaction = this._dbContext.Database.BeginTransaction();
-            try
-            {
-                await this._dbContext.SaveChangesAsync().ConfigureAwait(false);
-                transaction.Commit();
+            await this._dbContext.SaveChangesAsync().ConfigureAwait(false);
 
-                return tournament.TournamentId;
-            }
-            catch
-            {
-                transaction.Rollback();
-                throw;
-            }
+            return tournament.TournamentId;
         }
 
         /// <summary>
@@ -179,7 +159,6 @@ namespace Tournaments.Services
         /// <exception cref="ArgumentNullException"><paramref name="model"/> is <see langword="null" />.</exception>
         public async Task<Guid> SaveTournamentAsync(PlayerTournamentFeedItemModel model)
         {
-
             if (model == null)
             {
                 throw new ArgumentNullException(nameof(model));

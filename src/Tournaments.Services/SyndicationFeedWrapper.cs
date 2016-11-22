@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Net.Http;
 using System.ServiceModel.Syndication;
 using System.Threading.Tasks;
 using System.Xml;
@@ -20,46 +21,6 @@ namespace Tournaments.Services
         /// <param name="url">Feed URL at tennis.com.au.</param>
         /// <returns>Returns the <see cref="SyndicationFeed"/> instance.</returns>
         /// <exception cref="ArgumentNullException"><paramref name="url"/> is <see langword="null" />.</exception>
-        public SyndicationFeed Load(string url)
-        {
-            if (string.IsNullOrWhiteSpace(url))
-            {
-                throw new ArgumentNullException(nameof(url));
-            }
-
-            using (var reader = XmlReader.Create(url))
-            {
-                var feed = SyndicationFeed.Load(reader);
-
-                return feed;
-            }
-        }
-
-        /// <summary>
-        /// Loads the feed for the member Id of tennis.com.au
-        /// </summary>
-        /// <param name="memberId">Member Id of tennis.com.au</param>
-        /// <returns>Returns the <see cref="SyndicationFeed"/> instance.</returns>
-        /// <exception cref="ArgumentOutOfRangeException">MemberId is less than or equal to zero.</exception>
-        public SyndicationFeed Load(long memberId)
-        {
-            if (memberId <= 0)
-            {
-                throw new ArgumentOutOfRangeException();
-            }
-
-            var url = string.Format(FeedUrl, memberId);
-            var feed = this.Load(url);
-
-            return feed;
-        }
-
-        /// <summary>
-        /// Loads the feed for the member Id of tennis.com.au
-        /// </summary>
-        /// <param name="url">Feed URL at tennis.com.au.</param>
-        /// <returns>Returns the <see cref="SyndicationFeed"/> instance.</returns>
-        /// <exception cref="ArgumentNullException"><paramref name="url"/> is <see langword="null" />.</exception>
         public async Task<SyndicationFeed> LoadAsync(string url)
         {
             if (string.IsNullOrWhiteSpace(url))
@@ -67,9 +28,14 @@ namespace Tournaments.Services
                 throw new ArgumentNullException(nameof(url));
             }
 
-            var feed = await Task.Factory.StartNew(() => this.Load(url)).ConfigureAwait(false);
+            using (var client = new HttpClient() { Timeout = TimeSpan.FromSeconds(60) })
+            using (var stream = await client.GetStreamAsync(url).ConfigureAwait(false))
+            using (var reader = XmlReader.Create(stream))
+            {
+                var feed = SyndicationFeed.Load(reader);
 
-            return feed;
+                return feed;
+            }
         }
 
         /// <summary>
@@ -85,7 +51,8 @@ namespace Tournaments.Services
                 throw new ArgumentOutOfRangeException();
             }
 
-            var feed = await Task.Factory.StartNew(() => this.Load(memberId)).ConfigureAwait(false);
+            var url = string.Format(FeedUrl, memberId);
+            var feed = await this.LoadAsync(url).ConfigureAwait(false);
 
             return feed;
         }

@@ -229,19 +229,9 @@ namespace Tournaments.Services
 
             var player = await this.GetOrCreatePlayerAsync(memberId, names).ConfigureAwait(false);
 
-            var transaction = this._dbContext.Database.BeginTransaction();
-            try
-            {
-                await this._dbContext.SaveChangesAsync().ConfigureAwait(false);
-                transaction.Commit();
+            await this._dbContext.SaveChangesAsync().ConfigureAwait(false);
 
-                return player.PlayerId;
-            }
-            catch
-            {
-                transaction.Rollback();
-                throw;
-            }
+            return player.PlayerId;
         }
 
         /// <summary>
@@ -259,19 +249,9 @@ namespace Tournaments.Services
 
             var player = await this.GetOrCreatePlayerAsync(model).ConfigureAwait(false);
 
-            var transaction = this._dbContext.Database.BeginTransaction();
-            try
-            {
-                await this._dbContext.SaveChangesAsync().ConfigureAwait(false);
-                transaction.Commit();
+            await this._dbContext.SaveChangesAsync().ConfigureAwait(false);
 
-                return player.PlayerId;
-            }
-            catch
-            {
-                transaction.Rollback();
-                throw;
-            }
+            return player.PlayerId;
         }
 
         /// <summary>
@@ -303,19 +283,9 @@ namespace Tournaments.Services
 
             var pt = await this.GetOrCreatePlayerTournamentAsync(playerId, tournamentId, playerNumber).ConfigureAwait(false);
 
-            var transaction = this._dbContext.Database.BeginTransaction();
-            try
-            {
-                await this._dbContext.SaveChangesAsync().ConfigureAwait(false);
-                transaction.Commit();
+            await this._dbContext.SaveChangesAsync().ConfigureAwait(false);
 
-                return pt.PlayerTournamentId;
-            }
-            catch
-            {
-                transaction.Rollback();
-                throw;
-            }
+            return pt.PlayerTournamentId;
         }
 
         /// <summary>
