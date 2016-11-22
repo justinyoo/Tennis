@@ -1,0 +1,12 @@
+{
+  "bindings": [
+    {
+      "name": "queueItem",
+      "type": "queueTrigger",
+      "direction": "in",
+      "queueName": "feed-item-queue",
+      "connection": "StorageQueue"
+    }
+  ],
+  "disabled": false
+}

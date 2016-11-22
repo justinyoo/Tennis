@@ -1,0 +1,19 @@
+{
+  "bindings": [
+    {
+      "name": "queueItem",
+      "type": "queueTrigger",
+      "direction": "in",
+      "queueName": "player-queue",
+      "connection": "StorageQueue"
+    },
+    {
+      "type": "queue",
+      "name": "outputQueues",
+      "queueName": "feed-item-queue",
+      "connection": "StorageQueue",
+      "direction": "out"
+    }
+  ],
+  "disabled": false
+}

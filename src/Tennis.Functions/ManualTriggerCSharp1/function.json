@@ -1,0 +1,17 @@
+{
+  "bindings": [
+    {
+      "type": "manualTrigger",
+      "direction": "in",
+      "name": "input"
+    },
+    {
+      "type": "queue",
+      "name": "outputQueues",
+      "queueName": "player-queue",
+      "connection": "StorageQueue",
+      "direction": "out"
+    }
+  ],
+  "disabled": false
+}

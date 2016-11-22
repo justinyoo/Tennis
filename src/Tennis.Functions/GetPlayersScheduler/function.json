@@ -1,0 +1,18 @@
+{
+  "bindings": [
+    {
+      "name": "timer",
+      "type": "timerTrigger",
+      "direction": "in",
+      "schedule": "0 0 0 * * *"
+    },
+    {
+      "type": "queue",
+      "name": "outputQueues",
+      "queueName": "player-queue",
+      "connection": "StorageQueue",
+      "direction": "out"
+    }
+  ],
+  "disabled": false
+}
