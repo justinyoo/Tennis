@@ -15,8 +15,6 @@ public static async Task Run(string queueItem, IAsyncCollector<string> outputQue
 
     var player = JsonConvert.DeserializeObject<PlayerModel>(queueItem);
 
-    log.Info($"Player: {player.Name}");
-
     var service = locator.GetService<IFeedService>();
 
     var feed = await service.GetTournamentFeedByMemberIdAsync(player.MemberId.Value).ConfigureAwait(false);
@@ -28,5 +26,5 @@ public static async Task Run(string queueItem, IAsyncCollector<string> outputQue
         await outputQueues.AddAsync(serialised);
     }
 
-    log.Info("All feed items queued.");
+    log.Info($"All feed items for {player.Name} queued.");
 }
